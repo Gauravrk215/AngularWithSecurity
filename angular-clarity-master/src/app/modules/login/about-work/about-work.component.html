@@ -1,0 +1,261 @@
+<!-- <div *ngIf="data1 else showThis"> -->
+  <!-- <div *ngIf="editMode === 'data1';then basic_property"> -->
+
+
+    <div class="container center">
+      <h2 class="text-center"><b>Welcome to <strong>cloudnsure!</strong></b></h2>
+      <h5 *ngIf="!companyForm" class="text-center" style="margin-top: 10px;">Tell Us More About You <img src="../../../../assets/images/icon/handshakeicon.png" ></h5>
+      <h5 *ngIf="companyForm" class="text-center" style="margin-top: 10px;">Tell Us About Your Work!</h5>
+      <!-- <h5 class="text-center">You're signing up as <strong style="font-size: 20px;">{{ email }}</strong></h5> -->
+      <div class="display_msg">
+      <form [formGroup]="custentryForm" class="form" style="text-align: center;" *ngIf="!companyForm">
+        <br>
+        <div class="center">
+          <!-- <label for="controllerName"><strong>First Name</strong><span class="required-field">*</span></label><br/> -->
+          <input class="form__field" type="text" formControlName="first_name"  placeholder="First Name" >
+          <div *ngIf="custsubmitted && custentryForm.controls.first_name.errors" class="error_mess">
+            <div *ngIf="custsubmitted && custentryForm.controls.first_name.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div>
+        <br>
+        <div class="center">
+          <!-- <label for="controllerName"><strong>Last Name</strong><span class="required-field">*</span></label><br/> -->
+          <input class="form__field" type="text" id="name" formControlName="last_name"  placeholder="Last Name" >
+          <div *ngIf="custsubmitted && custentryForm.controls.last_name.errors" class="error_mess">
+            <div *ngIf="custsubmitted && custentryForm.controls.last_name.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div>
+        <br>
+        <div class="center">
+          <!-- <label for="controllerName"><strong>Mobile</strong><span class="required-field">*</span></label><br/> -->
+          <input formControlName="mob_no" class="form__field" type="number"  placeholder="Mobile Number"  ng2TelInput/>
+          <div *ngIf="custsubmitted && custentryForm.controls.mob_no.errors" class="error_mess">
+            <div *ngIf="custsubmitted && custentryForm.controls.mob_no.errors.required" class="error_mess">*This field is Required</div>
+            <div *ngIf="custsubmitted && custentryForm.controls.mob_no.errors.minlength" class="error_mess">*Number must be 10 digit.</div>
+            <div *ngIf="custsubmitted && custentryForm.controls.mob_no.errors.pattern" class="error_mess">*Invalid mobile number</div>
+          </div>
+        </div>
+        <br>
+        <div class="center">
+          <!-- <label for="controllerName"><strong>Date Of Birth</strong><span class="required-field">*</span></label><br/> -->
+          <input class="form__field"  type="date" formControlName="date_of_birth" >
+          <div *ngIf="custsubmitted && custentryForm.controls.date_of_birth.errors" class="error_mess">
+            <div *ngIf="custsubmitted && custentryForm.controls.date_of_birth.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div>
+        <br>
+        <div class="center">
+          <!-- <label for="controllerName"><strong>Gender</strong><span class="required-field">*</span></label><br> -->
+          <select formControlName="gender" class="form__field">
+              <option [value]="null">Choose Gender</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+          </select>
+          <div *ngIf="custsubmitted && custentryForm.controls.gender.errors" class="error_mess">
+              <div *ngIf="custsubmitted && custentryForm.controls.gender.errors.required" class="error_mess">*This field is Required</div>
+            </div>
+        </div>
+        <br>
+        <div class="center">
+          <!-- <label for="controllerName"><strong>Password</strong><span class="required-field">*</span></label><br/> -->
+         <input [type]="newpHide ? 'password': 'text'" class="form__field" placeholder="Password" formControlName="new_password" minlenght="6" maxlength="40" style="width: 89%;" [autocomplete]="true">
+            <clr-icon [attr.shape]="newIcon" (click)="newShapeChanger()"></clr-icon>
+          <div *ngIf="custsubmitted && custentryForm.controls.new_password.errors" class="error_mess">
+            <div *ngIf="custsubmitted && custentryForm.controls.new_password.errors.required" class="error_mess">*This field is Required</div>
+            <div *ngIf="custsubmitted && custentryForm.controls.new_password.errors.minlength" class="error_mess">*Password must be 6 characters or longer.</div>
+          </div>
+        </div>
+        <br>
+        <div class="center">
+          <!-- <label for="controllerName"><strong>Re-enter Password</strong><span class="required-field">*</span></label><br/> -->
+           <input type="password" class="form__field" formControlName="confirm_password" placeholder="Re-enter Password">
+          <div *ngIf="custsubmitted && custentryForm.controls.confirm_password.errors" class="error_mess">
+            <div *ngIf="custsubmitted && custentryForm.controls.confirm_password.errors.required" class="error_mess">*This field is Required</div>
+            <div *ngIf="custentryForm.controls.confirm_password.errors.confirmedValidator" class="error_mess">* Password and Confirm Password must be match.</div>
+          </div>
+        </div>
+        <br>
+        <div class="center text-center">
+          <button type="submit"  class="btn btn--primary uppercase" (click)="oncustSubmit()">Submit</button>
+        </div>
+  
+      </form>
+         <p *ngIf="!companyForm"> Wrong account? <a routerLink="/login">Log in</a> instead.</p>
+      </div>
+      <div class="display_msg">
+      <form [formGroup]="entryForm" class="form" style="text-align: center;" *ngIf="companyForm" >
+  
+        <!-- <div class="clr-col-md-4 clr-col-sm-12 center">
+          <label for="controllerName"><strong>Name</strong><span class="required-field">*</span></label><br/>
+          <input class="clr-input" type="text" id="name" formControlName="name"  placeholder="Enter Name" >
+          <div *ngIf="submitted && entryForm.controls.name.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.name.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div> -->
+        <br>
+        <div class="center">
+          <!-- <label for="controllerName"><strong>Company Name</strong><span class="required-field">*</span></label><br/> -->
+          <input class="form__field" type="text" id="name" formControlName="companyName"  placeholder="Company Name" >
+          <div *ngIf="submitted && entryForm.controls.companyName.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.companyName.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div>
+        <br>
+        <div class="center">
+          <!-- <label for="controllerName"><strong>Workspace</strong><span class="required-field">*</span></label><br/> -->
+          <input class="form__field" type="text" placeholder="Workspace" formControlName="workspace" >
+          <div *ngIf="submitted && entryForm.controls.workspace.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.workspace.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div>
+        <br>
+        <div class="center">
+          <!-- <label for="controllerName"><strong>GST Number</strong><span class="required-field">*</span></label><br/> -->
+          <input class="form__field" type="text" placeholder="GST Number" formControlName="gstNumber"
+          [(ngModel)]="entryForm.value.gstNumber" (ngModelChange)="entryForm.value.gstNumber = $event?.toUpperCase()">
+          <div *ngIf="submitted && entryForm.controls.gstNumber.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.gstNumber.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div>
+  
+  
+  
+        <!-- <div class="clr-col-md-4 clr-col-sm-12 center">
+          <label for="controllerName"><strong>Password</strong><span class="required-field">*</span></label><br/>
+          <input class="clr-input" type="password" id="password" formControlName="password">
+          <div *ngIf="submitted && entryForm.controls.password.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.password.errors.required" class="error_mess">*This field is Required</div>
+            <div *ngIf="submitted && entryForm.controls.password.errors.minlength" class="error_mess">*Password must be 8 characters or longer.</div>
+          </div>
+        </div>
+        <br/>
+        <div class="clr-col-md-4 clr-col-sm-12 center">
+          <label for="controllerName"><strong>Re-enter Password</strong><span class="required-field">*</span></label><br/>
+          <input class="clr-input" type="password" id="confirm_password" formControlName="confirm_password">
+          <div *ngIf="submitted && entryForm.controls.confirm_password.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.confirm_password.errors.required" class="error_mess">*This field is Required</div>
+            <div *ngIf="entryForm.controls.confirm_password.errors.confirmedValidator" class="error_mess">* Password and Confirm Password must be match.</div>
+          </div>
+        </div> -->
+        <!-- <br>
+        <div class="clr-col-md-4 clr-col-sm-12 center">
+          <label for="controllerName"><strong>Mobile</strong><span class="required-field">*</span></label><br/>
+          <input formControlName="mobile" class="clr-input" type="number"  placeholder="Enter Mobile No"  ng2TelInput/>
+          <div *ngIf="submitted && entryForm.controls.mobile.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.mobile.errors.required" class="error_mess">*This field is Required</div>
+            <div *ngIf="submitted && entryForm.controls.mobile.errors.minlength" class="error_mess">*Number must be 10 digit.</div>
+            <div *ngIf="submitted && entryForm.controls.mobile.errors.pattern" class="error_mess">*Invalid mobile number</div>
+          </div>
+        </div> -->
+  
+        <!-- <br>
+        <div class="clr-col-md-4 clr-col-sm-12 center">
+          <label for="controllerName"><strong>Email</strong><span class="required-field">*</span></label><br/>
+          <input class="clr-input" type="text" id="email" name="email" formControlName="email"  placeholder="Enter Email"  required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+          <div *ngIf="submitted && entryForm.controls.email.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.email.errors.required" class="error_mess">*This field is Required</div>
+            <div *ngIf="submitted && entryForm.controls.email.errors.pattern" class="error_mess">*Email must be a valid email address</div>
+          </div>
+        </div> -->
+  <br>
+        <div class="center">
+          <!-- <label for="controllerName"><strong>Pancard</strong><span class="required-field">*</span></label><br/> -->
+          <input class="form__field" type="text" placeholder="Pancard Number" formControlName="pancard"  [(ngModel)]="entryForm.value.pancard" (ngModelChange)="entryForm.value.pancard = $event?.toUpperCase()">
+          <div *ngIf="submitted && entryForm.controls.pancard.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.pancard.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div>
+        
+  
+        <br>
+        <div class="center">
+          <!-- <label for="country"><strong>Country</strong><span class="required-field">*</span></label><br/> -->
+          <input class="form__field" type="text" id="country" formControlName="country"  placeholder="Country Name" >
+          <div *ngIf="submitted && entryForm.controls.country.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.country.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div>
+        <br>
+        <div class="center">
+          <!-- <label for="state"><strong>State/Province</strong><span class="required-field">*</span></label><br/> -->
+          <input class="form__field" type="text" id="state" formControlName="state"  placeholder="State/Province Name" >
+          <div *ngIf="submitted && entryForm.controls.state.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.state.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div>
+        <br>
+        <div class="center">
+          <!-- <label for="city"><strong>City</strong></label><br/> -->
+          <input class="form__field" type="text" id="city" formControlName="city"  placeholder="City Name" >
+          <div *ngIf="submitted && entryForm.controls.city.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.city.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div>
+        <br>
+        <div class="center">
+          <!-- <label for="street_address"><strong>Street Address</strong></label><br/> -->
+          <textarea col="10" row="2" id="street_address"  class="form__field" formControlName="street_address" placeholder="Address" [autocomplete]="true"></textarea>
+          <div *ngIf="submitted && entryForm.controls.street_address.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.street_address.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div>
+        <br>
+        <div class="center">
+          <!-- <label for="street_address2"><strong>Street Address 2</strong></label><br/> -->
+          <textarea col="10" row="2" id="street_address2"  class="form__field" formControlName="street_address2" placeholder="Address 2" [autocomplete]="true"></textarea>
+          <div *ngIf="submitted && entryForm.controls.street_address2.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.street_address2.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div>
+  
+        <!-- <div class="clr-col-md-4 clr-col-sm-12 center">
+          <label for="controllerName"><strong>Working</strong><span class="required-field">*</span></label><br/>
+          <input class="clr-input" type="text" placeholder="Enter Working" formControlName="working" >
+          <div *ngIf="submitted && entryForm.controls.working.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.working.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+        </div>
+        <br> -->
+  
+        <br>
+        <div class="center text-center">
+          <button type="submit"  class="btn btn--primary uppercase" (click)="onSubmit()" >continue</button>
+        </div>
+  
+      </form>
+      <p *ngIf="companyForm"> Wrong account? <a routerLink="/login">Log in</a> instead.</p>
+    </div>
+      <!-- <h4>Wrong account? <a href="">Log in</a> instead.</h4> -->
+  
+    </div>
+  
+  <!-- </div> -->
+  
+  
+  <!-- <div *ngIf="data1==false">
+    <h2>error page</h2>
+  </div> -->
+  <!-- <ng-template #showThis>
+    <h2 style="text-align: center; color: red;"><strong><b>This is error page</b></strong></h2> -->
+  
+  
+  <!-- <a routerLink="/error-page"></a> -->
+  <!-- <a [routerLink]="['/error-page']"> -->
+  <!-- link to user component -->
+  <!-- </a> -->
+  
+  <!-- <button (click)="back()"></button> -->
+  <!--
+  </ng-template> -->
+  
+  <!-- <ng-template #showThis>
+    <h2 style="text-align: center; color: red;"><strong><b>This is error page</b></strong></h2>
+  
+  
+  </ng-template> -->
+  
+  <!-- <ng-template #basic_property>
+    hjshfj
+  </ng-template> -->
+  
