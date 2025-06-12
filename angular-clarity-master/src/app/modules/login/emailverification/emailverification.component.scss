@@ -1,0 +1,153 @@
+.header-6 {
+	background-color: #0072a3;
+}
+
+.recaptcha-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.recaptcha-box {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 5px;
+}
+
+.recaptcha-input {
+	width: 100%;
+	max-width: 300px;
+	padding: 8px;
+	text-align: center;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+}
+
+.error_mess {
+	color: red;
+	font-size: 12px;
+	margin-top: 5px;
+}
+
+//** variables
+$background: #f5f6fa;
+$text: #9c9c9c;
+$input-bg-color: #fff;
+$input-text-color: #626161;
+$button-bg-color: #7f8ff4;
+$button-text-color: #fff;
+
+//** root
+:root {
+	background: $background;
+	color: $text;
+	font: 1rem "PT Sans", sans-serif;
+}
+
+html,
+body,
+.container {
+	height: 100%;
+}
+
+a {
+	color: inherit;
+
+	&:hover {
+		color: $button-bg-color;
+	}
+}
+
+//** helper
+.email_check {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+//** button
+.new {
+	display: inline-block;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	border: 0;
+	outline: 0;
+	padding: 0;
+	transition: all 200ms ease-in;
+	cursor: pointer;
+
+	&--newprimary {
+		background: $button-bg-color;
+		color: $button-text-color;
+		box-shadow: 0 0 10px 2px rgba(0, 0, 0, .1);
+		border-radius: 2px;
+		//padding: 12px 36px;
+		//padding: 7px 158px;
+		width: 100%;
+
+
+		&:hover {
+			background: darken($button-bg-color, 4%);
+		}
+
+		&:active {
+			background: $button-bg-color;
+			box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, .2);
+		}
+	}
+
+	&--primary1 {
+		background: #4CAF50;
+		color: $button-text-color;
+		box-shadow: 0 0 10px 2px rgba(0, 0, 0, .1);
+		border-radius: 2px;
+		//padding: 12px 36px;
+		//padding: 7px 158px;
+		width: 100%;
+
+
+		&:hover {
+			background: darken($button-bg-color, 4%);
+		}
+
+		&:active {
+			background: $button-bg-color;
+			box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, .2);
+		}
+	}
+}
+
+/* &--inside {
+		margin-left: -96px;
+	} */
+
+
+//** form
+.form {
+
+	/* margin-left: auto;
+	margin-right: auto; */
+	&__field {
+		width: 360px;
+		//width: 450px;
+		background: #fff;
+		color: $input-text-color;
+		font: inherit;
+		box-shadow: 0 6px 10px 0 rgba(0, 0, 0, .1);
+		border: 0;
+		outline: 0;
+		padding: 10px 18px;
+	}
+}
+
+.form__field {
+	border: 2px solid #7f8ff4;
+}
