@@ -1,0 +1,146 @@
+<!-- <router-outlet></router-outlet> -->
+
+<!-- <div class="login-wrapper" *ngIf="showLogin2 && loginEnvironment.templateNo == 'Template 1'" [style.backgroundImage]="'url(' + loginEnvironment.imagePath + ')'">
+    <form class="login">
+      <section class="title">
+        <h3 class="welcome">Welcome to</h3>
+        {{ loginEnvironment.companyName }}
+        <h5 class="hint">Use your  ID to sign in OR  <a [routerLink]="['/email-verification']" class="signup">create one now </a> </h5>
+      </section>
+      <div class="login-group">
+        <clr-input-container>
+          <label class="clr-sr-only">Username</label>
+          <input type="text" name="username" clrInput autocomplete="off" [(ngModel)]="model.email"
+          placeholder="Username (sysadmin)"/>
+      </clr-input-container>
+      <clr-password-container>
+          <label class="clr-sr-only">Password</label>
+          <input type="password" name="password" clrPassword id="login_password" autocomplete="off" [(ngModel)]="model.password"
+          placeholder="Password (test3)"/>
+      </clr-password-container>
+        <clr-checkbox-wrapper>
+          <input clrCheckbox type="checkbox" id="rememberme">
+          <label for="rememberme"> Remember me </label>
+        </clr-checkbox-wrapper>
+  
+        <div class="error active" *ngIf="isError">
+          Invalid user name or password
+        </div>
+        
+        <button  [disabled]="!model.email || !model.password" type="submit" class="btn btn-primary"
+          (click)="onLogin()">Login</button>
+        <a (click)="goforgotpass()" class="signup">{{ loginEnvironment.forgotpassword }}</a>
+      </div>
+    </form>
+  </div> -->
+
+  <div [class]="getWrapperClass()" *ngIf="showLogin2 && loginEnvironment.templateNo == '<templateNo>'" [style.backgroundImage]="'url(' + ('../../../../assets/images/new.png') + ')'">
+    <form class="login">
+      <section class="title">
+        <h3 class="welcome">{{ loginEnvironment.loginHeading | sanitize}}</h3>
+        {{ loginEnvironment.loginHeading2 | sanitize }}
+        <h5 class="hint" *ngIf="loginEnvironment.isSignup === 'true'">{{ loginEnvironment.loginSignup | sanitize}} <a [routerLink]="['/email-verification']" class="signup">{{ loginEnvironment.loginSignup2 | sanitize}}  </a> </h5>
+      </section>
+      <div class="login-group">
+  
+        <clr-input-container>
+          <label class="clr-sr-only">Username</label>
+          <input type="text" name="username" clrInput autocomplete="off" [(ngModel)]="model.email"
+          placeholder="Username (sysadmin)"/>
+      </clr-input-container>
+      <clr-password-container>
+          <label class="clr-sr-only">Password</label>
+          <input type="password" name="password" clrPassword id="login_password" autocomplete="off" [(ngModel)]="model.password"
+          placeholder="Password (test3)"/>
+      </clr-password-container>
+        <clr-checkbox-wrapper>
+          <input clrCheckbox type="checkbox" id="rememberme">
+          <label for="rememberme"> Remember me </label>
+        </clr-checkbox-wrapper>
+  
+        <div class="error active" *ngIf="isError">
+          Invalid user name or password
+        </div>
+        
+        <button  [disabled]="!model.email || !model.password" type="submit" class="btn btn-primary"
+          (click)="onLogin()">Login</button>
+          <a (click)="goforgotpass()" class="signup">{{ loginEnvironment.loginForgotpass | sanitize}}</a>
+      </div>
+    </form>
+</div>
+
+
+  
+  <div [class]="getWrapperClass()" *ngIf="showLogin2 && loginEnvironment.templateNo == 'Template 1'" [style.backgroundImage]="'url(' + (loginEnvironment.loginImageURL !== 'null' || null ? loginEnvironment.loginImageURL : '../../../../assets/images/new.png') + ')'">
+    <form class="login">
+      <section class="title">
+        <h3 class="welcome">{{ loginEnvironment.loginHeading | sanitize}}</h3>
+        {{ loginEnvironment.loginHeading2 | sanitize }}
+        <h5 class="hint" *ngIf="loginEnvironment.isSignup === 'true'">{{ loginEnvironment.loginSignup | sanitize}} <a [routerLink]="['/email-verification']" class="signup">{{ loginEnvironment.loginSignup2 | sanitize}}  </a> </h5>
+      </section>
+      <div class="login-group">
+  
+        <clr-input-container>
+          <label class="clr-sr-only">Username</label>
+          <input type="text" name="username" clrInput autocomplete="off" [(ngModel)]="model.email"
+          placeholder="Username (sysadmin)"/>
+      </clr-input-container>
+      <clr-password-container>
+          <label class="clr-sr-only">Password</label>
+          <input type="password" name="password" clrPassword id="login_password" autocomplete="off" [(ngModel)]="model.password"
+          placeholder="Password (test3)"/>
+      </clr-password-container>
+        <clr-checkbox-wrapper>
+          <input clrCheckbox type="checkbox" id="rememberme">
+          <label for="rememberme"> Remember me </label>
+        </clr-checkbox-wrapper>
+  
+        <div class="error active" *ngIf="isError">
+          Invalid user name or password
+        </div>
+        
+        <button  [disabled]="!model.email || !model.password" type="submit" class="btn btn-primary"
+          (click)="onLogin()">Login</button>
+          <a (click)="goforgotpass()" class="signup">{{ loginEnvironment.loginForgotpass | sanitize}}</a>
+      </div>
+    </form>
+</div>
+
+  
+
+  <!-- <div class="login-wrapper"> -->
+    <div [class]="getWrapperClass()" *ngIf="showLogin2 && loginEnvironment.templateNo == 'Template 2'" [style.backgroundImage]="'url(' + (loginEnvironment.loginImageURL !== 'null' || null ? loginEnvironment.loginImageURL : '../../../../assets/images/new.png') + ')'">
+        <form class="login">
+          <section class="title">
+            <h3 class="welcome">{{ loginEnvironment.loginHeading | sanitize}}</h3>
+            {{ loginEnvironment.loginHeading2 | sanitize}}
+            <h5 class="hint" *ngIf="loginEnvironment.isSignup === 'true'">{{ loginEnvironment.loginSignup | sanitize}} <a [routerLink]="['/email-verification']" class="signup">{{ loginEnvironment.loginSignup2 | sanitize}}  </a> </h5>
+          </section>
+          <div class="login-group">
+      
+            <clr-input-container>
+              <label class="clr-sr-only">Username</label>
+              <input type="text" name="username" clrInput autocomplete="off" [(ngModel)]="model.email"
+              placeholder="Username (sysadmin)"/>
+          </clr-input-container>
+          <clr-password-container>
+              <label class="clr-sr-only">Password</label>
+              <input type="password" name="password" clrPassword id="login_password" autocomplete="off" [(ngModel)]="model.password"
+              placeholder="Password (test3)"/>
+          </clr-password-container>
+            <clr-checkbox-wrapper>
+              <input clrCheckbox type="checkbox" id="rememberme">
+              <label for="rememberme"> Remember me </label>
+            </clr-checkbox-wrapper>
+      
+            <div class="error active" *ngIf="isError">
+              Invalid user name or password
+            </div>
+            
+            <button  [disabled]="!model.email || !model.password" type="submit" class="btn btn-primary"
+              (click)="onLogin()">Login</button>
+              <a (click)="goforgotpass()" class="signup">{{ loginEnvironment.loginForgotpass | sanitize}}</a>
+          </div>
+        </form>
+    </div>
+      
