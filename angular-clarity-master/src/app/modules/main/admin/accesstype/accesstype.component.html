@@ -1,0 +1,204 @@
+
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"><clr-icon shape="home"></clr-icon></a></li>
+  <li><a href="javascript://"><clr-icon shape="lock"></clr-icon>{{'SECURITY' | translate}}</a></li>
+  <li><a href="javascript://">{{'accessType' | translate}}</a></li>
+</ol>
+
+
+
+  <div class="clr-row">
+    <div class="clr-col-8">
+      <h3>{{'accessType' | translate}}</h3>
+  </div>
+    <div class="clr-col-4" style="text-align: right;">
+      <button id="add"   class="btn btn-primary" (click)="goToAdd()">
+        <clr-icon shape="plus"></clr-icon>{{'ADD' | translate}}
+      </button>
+      <button id="add"   class="btn btn-primary" (click)="goTomodules()">
+        <clr-icon shape="plus"></clr-icon>{{'modules' | translate}}
+      </button>
+    </div>
+  </div>
+
+
+  <clr-datagrid [clrDgLoading]="loading"  [(clrDgSelected)]="selected">
+    <clr-dg-placeholder><ng-template #loadingSpinner><clr-spinner>Loading ... </clr-spinner></ng-template>
+      <div *ngIf="error;else loadingSpinner">{{error}}</div></clr-dg-placeholder>
+
+      <clr-dg-column><ng-container *clrDgHideableColumn="{hidden: false}">{{'name' | translate}}</ng-container></clr-dg-column>
+      <clr-dg-column><ng-container *clrDgHideableColumn="{hidden: false}">{{'default' | translate}}</ng-container></clr-dg-column>
+      <clr-dg-column><ng-container *clrDgHideableColumn="{hidden: false}">{{'description' | translate}}</ng-container></clr-dg-column>
+
+
+
+    <clr-dg-row *clrDgItems="let user of data;let i = index" [clrDgItem]="user">
+      <clr-dg-cell >{{user.name}}</clr-dg-cell>
+      <clr-dg-cell><input type="checkbox"  [checked]="selected1 ===user.defaultvalue"></clr-dg-cell>
+      <clr-dg-cell >{{user.description}}</clr-dg-cell>
+
+
+      <clr-dg-action-overflow>
+        <button class="action-item" (click)="gomodules(user)">{{'addModules' | translate}} <clr-icon shape="edit" class="is-error"></clr-icon></button>
+        <button class="action-item" (click)="goToEdit(user)">{{'edit' | translate}} <clr-icon shape="edit" class="is-error"></clr-icon></button>
+        <button class="action-item" (click)="onDelete(user)">{{'delete' | translate}} <clr-icon shape="trash" class="is-error"></clr-icon></button>
+      </clr-dg-action-overflow>
+
+    </clr-dg-row>
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">{{'usersPerPage' | translate}}</clr-dg-page-size>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        {{'of' | translate}} {{pagination.totalItems}} {{'users' | translate}}
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+
+  <clr-modal [(clrModalOpen)]="modalAdd" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title">{{'addAccessType' | translate}}</h3>
+    <div class="modal-body">
+          <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+        <div class="clr-row">
+
+          <div class="clr-col-sm-12">
+            <label for="name">{{'name' | translate}}<span class="required-field">*</span></label>
+           <input type="text" class="clr-input" formControlName="name" name="menuId">
+           <div *ngIf="submitted && entryForm.controls.name.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.name.errors.required" class="error_mess">*This field is Required</div>
+        </div>
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="name">{{'default' | translate}}<span class="required-field">*</span></label>
+           <input type="checkbox" clrCheckbox name="mvisible" formControlName="defaultvalue">
+           <div *ngIf="submitted && entryForm.controls.defaultvalue.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.defaultvalue.errors.required" class="error_mess">*This field is Required</div>
+        </div>
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="tags">{{'description' | translate}}</label>
+            <input type="text" class="clr-input" formControlName="description">
+            <div *ngIf="submitted && entryForm.controls.description.errors" class="error_mess">
+              <div *ngIf="submitted && entryForm.controls.description.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+            </div>
+        </div>
+        <br>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" (click)="modalAdd = false">{{'cancel' | translate}}</button>
+          <button type="submit" class="btn btn-primary" >{{'ADD' | translate}}</button>
+          </div>
+  </form>
+    </div>
+
+  </clr-modal>
+
+  <clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+    <div class="modal-body" *ngIf="rowSelected.id">
+      <h1 class="delete">{{'areYouSureDelete' | translate}}</h1>
+      <h2 class="heading">{{rowSelected.id}}</h2>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modaldelete = false">{{'cancel' | translate}}</button>
+      <button type="submit" (click)="delete(rowSelected.id)" class="btn btn-primary" >{{'delete' | translate}}</button>
+      </div>
+    </div>
+  </clr-modal>
+
+
+  <clr-modal [(clrModalOpen)]="modaledit" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title">{{'updateAccessType' | translate}}</h3>
+    <div class="modal-body" *ngIf="rowSelected.id">
+      <h2 class="heading">{{rowSelected.id}}</h2>
+          <form (ngSubmit)="onUpdate(rowSelected.id)">
+        <div class="clr-row">
+
+          <div class="clr-col-sm-12">
+            <label for="name">{{'name' | translate}}<span class="required-field">*</span></label>
+           <input type="text" class="clr-input" name="menuId" [(ngModel)]="rowSelected.name">
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="name">{{'default' | translate}}<span class="required-field">*</span></label>
+           <input type="checkbox" clrCheckbox name="is_default" [(ngModel)]="rowSelected.defaultvalue">
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="tags">{{'description' | translate}}</label>
+            <input type="text" class="clr-input" name="description" [(ngModel)]="rowSelected.description">
+            </div>
+
+        </div>
+        <br>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" (click)="modaledit = false">{{'cancel' | translate}}</button>
+          <button type="submit" class="btn btn-primary" >{{'update' | translate}}</button>
+          </div>
+  </form>
+    </div>
+
+  </clr-modal>
+
+
+  <clr-modal [(clrModalOpen)]="moduleAdd" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title"> Add Module</h3>
+    <div class="modal-body" *ngIf="rowSelected.id">
+      <h2 class="heading">{{rowSelected.id}}</h2>
+          <form [formGroup]="mentryForm">
+        <div class="clr-row">
+          <div class="clr-col-sm-12">
+
+            <select name="" id="" style="width: 100%;padding: 5px 5px;border: 1px solid #ccc;border-radius: 4px;"  formControlName="modulename">
+              <option *ngFor="let sub of moduledata" [value]="sub.modules">{{sub.modules}}</option>
+            </select>          </div>
+          <div class="clr-col-sm-12" >
+
+            <button type="submit" class="btn btn-primary"style="margin-top: -5px;" (click)="addmodules(rowSelected.id)">ADD</button>
+          </div>
+
+        </div>
+        <clr-datagrid [clrDgLoading]="loading"  >
+          <clr-dg-placeholder> <ng-template #loadingSpinner><clr-spinner [clrMedium]="true">Loading ... </clr-spinner></ng-template>
+            <div *ngIf="error;else loadingSpinner">{{error}}</div></clr-dg-placeholder>
+
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            No
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+           Modules
+          </ng-container></clr-dg-column>
+          <clr-dg-row *clrDgItems="let user of moduledata1;let i = index" [clrDgItem]="user">
+            <clr-dg-cell >{{i+1}}</clr-dg-cell>
+            <clr-dg-cell>{{user.modulename}}</clr-dg-cell>
+            </clr-dg-row>
+
+          <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="5">
+              <clr-dg-page-size [clrPageSizeOptions]="[5,10,20,50,100]">Users per page</clr-dg-page-size>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+              of {{pagination.totalItems}} users
+            </clr-dg-pagination>
+          </clr-dg-footer>
+        </clr-datagrid>
+        <br>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" (click)="moduleAdd = false">{{'cancel' | translate}}</button>
+          </div>
+  </form>
+    </div>
+
+  </clr-modal>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
