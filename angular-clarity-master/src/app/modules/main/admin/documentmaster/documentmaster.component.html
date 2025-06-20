@@ -1,0 +1,128 @@
+
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/']">Home</a></li>
+  <li><a href="javascript://">Document Master</a></li>
+
+</ol>
+
+
+<div class="dg-wrapper">
+  <div class="clr-row">
+
+    <div class="clr-col-12" style="text-align: right;">
+      <button class="btn btn-outline" (click)="onExport()">
+        <clr-icon shape="export"></clr-icon> xlsx
+      </button>
+      <button id="add" class="btn btn-primary" (click)="goToAdd()">
+        <clr-icon shape="plus"></clr-icon>ADD
+      </button>
+    </div>
+  </div>
+
+
+
+
+
+
+
+  <clr-datagrid [clrDgLoading]="loading">
+    <clr-dg-placeholder> data not found!</clr-dg-placeholder>
+
+    <clr-dg-column [clrDgField]="'no'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+    NO
+    </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'StructureID'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      Structure ID
+    </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'StructureName'"><ng-container *clrDgHideableColumn="{hidden: false}">
+      Structure Name
+      </ng-container></clr-dg-column >
+    <clr-dg-column [clrDgField]="'StructureSeq'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      Structure Seq
+    </ng-container></clr-dg-column>
+
+
+
+    <clr-dg-row *clrDgItems="let user of givendata;let i = index" [clrDgItem]="user">
+      <clr-dg-cell>{{i+1}}</clr-dg-cell>
+      <clr-dg-cell>{{user.StructureID}}</clr-dg-cell>
+      <clr-dg-cell >{{user.StructureName}}</clr-dg-cell>
+      <clr-dg-cell>{{user.StructureSeq}}</clr-dg-cell>
+
+
+      <clr-dg-action-overflow>
+
+        <button class="action-item" (click)="goToEdit(user)">Edit</button>
+
+      </clr-dg-action-overflow>
+
+      <clr-dg-row-detail *clrIfExpanded>
+        <table class="table">
+          <tr>
+            <td class="td-title">StructureName</td>
+            <td class="td-content">{{user.StructureName}}</td>
+          </tr>
+
+
+        </table>
+      </clr-dg-row-detail>
+    </clr-dg-row>
+
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Record per page</clr-dg-page-size>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{pagination.totalItems}} Records
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+</div>
+
+<clr-modal [(clrModalOpen)]="modalAdd" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">Document Master Add Mode</h3>
+  <div class="modal-body">
+        <form>
+      <div class="clr-row">
+        <div class="clr-col-md-6 clr-col-sm-12">
+          <label for="name">Structure Name<span class="required-field">*</span></label>
+         <input type="text" class="clr-input" >
+        </div>
+      </div>
+      <br>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modalAdd = false">Cancel</button>
+        <button type="submit" class="btn btn-primary" >ADD</button>
+        </div>
+</form>
+  </div>
+
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="modaledit" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">Document Master Edit Mode</h3>
+
+
+  <div class="modal-body" *ngIf="rowSelected.usrGrp">
+    <h2 class="heading">{{rowSelected.usrGrp}}</h2>
+        <form>
+      <div class="clr-row">
+        <div class="clr-col-md-6 clr-col-sm-12">
+          <label for="name">Structure ID<span class="required-field">*</span></label>
+         <input type="text" class="clr-input" name="stid">
+        </div>
+        <div class="clr-col-md-6 clr-col-sm-12">
+          <label for="name">Structure Name<span class="required-field">*</span></label>
+         <input type="text" class="clr-input"  name="stname">
+        </div>
+
+
+      </div>
+      <br>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modaledit = false">Cancel</button>
+        <button type="submit" class="btn btn-primary" >Update</button>
+        </div>
+</form>
+  </div>
+
+</clr-modal>
