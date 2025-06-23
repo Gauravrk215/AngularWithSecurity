@@ -1,0 +1,65 @@
+// // @import '../../../../assets/scss/var';
+// .s-info-bar {
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: space-between;
+//     button {
+//         outline: none;
+//     }
+// }
+
+// .grid-pg {
+//     width:750px;
+// }
+
+
+// #add {
+//     position: absolute;
+//     //position: fixed;
+//     transition: .5s ease;
+//     top: 16%;
+//     left: 79%; 
+// }
+
+input[type=text],[type=date], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  .required-field{
+    color: red;
+  
+  }
+  .horizontal{
+    width: 50%;
+    padding: 10px;
+  }
+  
+  .td-title {
+    text-align: center;
+  color: white;
+    font-weight: bold;
+    background-color: rgba(63, 122, 231, 0.863);
+    //color: rgb(24, 13, 13);
+  }
+  th{
+    background-color:rgb(170, 169, 169);
+    font-weight: bold;
+  }
+  .td-content{
+    text-align: left;
+  }
+  .delete,.heading{
+    text-align: center;
+    color: red;
+  }
+  .section p {
+  background-color: rgb(206, 201, 201);
+    padding: 10px;
+    font-size: 18px;
+  }
+  

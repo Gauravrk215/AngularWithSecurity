@@ -1,0 +1,1057 @@
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+    <li><a href="javascript://" [routerLink]="['/']">Home</a></li>
+    <li><a href="javascript://">university</a></li>
+</ol>
+
+<div class="dg-wrapper">
+    <div class="clr-row">
+        <div class="clr-col-8">
+            <h3>User list </h3>
+        </div>
+        <div class="clr-col-4" style="text-align: right;">
+
+            <button class="btn btn-outline" (click)="onExport()">
+                <clr-icon shape="export"></clr-icon> xlsx
+            </button>
+            <button id="add" class="btn btn-primary" (click)="goToAdd(university)">
+                <clr-icon shape="plus"></clr-icon>ADD
+            </button>
+        </div>
+    </div>
+    <clr-datagrid [clrDgLoading]="loading" [(clrDgSelected)]="selected">
+
+        <clr-dg-placeholder>user not found!</clr-dg-placeholder>
+        <clr-dg-column [clrDgField]="'menu_name'">
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                Menu Name
+            </ng-container>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'description'">
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                Description
+            </ng-container>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'active'">
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                Enabled
+            </ng-container>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'start_date_1'">
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                Start Date
+            </ng-container>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'end_date_1'">
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                End Date
+            </ng-container>
+        </clr-dg-column>
+
+
+        <clr-dg-row *clrDgItems="let user of university" [clrDgItem]="user">
+            <clr-dg-cell>{{user.menu_name}}</clr-dg-cell>
+            <clr-dg-cell>{{user.description}}</clr-dg-cell>
+            <clr-dg-cell>{{user.active}}</clr-dg-cell>
+            <clr-dg-cell>{{user.start_date_1}}</clr-dg-cell>
+            <clr-dg-cell>{{user.end_date_1}}</clr-dg-cell>
+
+            <clr-dg-action-overflow>
+
+                <button class="action-item" (click)="onEdit(user)">Edit</button>
+                <button class="action-item" (click)="onDelete(user)">Delete</button>
+            </clr-dg-action-overflow>
+
+            <clr-dg-row-detail *clrIfExpanded>
+                <table class="table">
+                    <tr>
+                        <td class="td-title"><span dir="ltr">Menu Name:</span> <span dir="rtl">{{user.menu_name}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-title"> Description: {{user.description}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-title"> Enabled: {{user.active}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-title" *ngIf="!user.start_date_1"> Default End Date: 10/03/2001</td>
+                        <td class="td-title" *ngIf="user.start_date_1"> Start Date: {{user.start_date_1}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-title" *ngIf="!user.end_date_1"> Default End Date: 10/03/2001</td>
+                        <td class="td-title" *ngIf="user.end_date_1"> End Date: {{user.end_date_1}}</td>
+                    </tr>
+
+                    <table id="lines" class="table" *ngIf="user.menu_group_lines.length > 0">
+                        <thead>
+                            <tr>
+                                <th class="left">Sr. No</th>
+                                <th class="left">Name</th>
+                                <th class="left">Type</th>
+                                <th class="left">Menu Name</th>
+                                <th class="left">Active</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let line of user.menu_group_lines; let i=index;">
+                                <td class="left"> {{ i + 1 }}</td>
+                                <td class="left">{{ line.name }}</td>
+                                <td class="left">{{ line.type }} </td>
+                                <td class="left">{{ line.menu_name }}</td>
+                                <td class="left"> {{ line.active }}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </table>
+
+            </clr-dg-row-detail>
+        </clr-dg-row>
+
+        <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+                {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                of {{pagination.totalItems}} users
+            </clr-dg-pagination>
+        </clr-dg-footer>
+    </clr-datagrid>
+</div>
+
+<clr-modal [(clrModalOpen)]="modalEdit" [clrModalSize]="'xl'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title">User Edit</h3>
+    <div class="modal-body" *ngIf="rowSelected.id">
+        <h2 class="heading">{{rowSelected.id}}</h2>
+        <div class="section">
+            <p> Header </p>
+        </div>
+        <form (ngSubmit)="onUpdate(rowSelected.id)">
+            <div class="clr-row">
+
+
+                <div class="clr-col-md-3 clr-col-sm-12" style="margin-bottom: 20px;">
+                    <label>Menu Name: </label>
+
+                    <input class="clr-input" style="width:fit-content;" type="text" name="menu_name"
+                        [(ngModel)]="rowSelected.menu_name" placeholder="Enter name">
+                </div>
+                <div class="clr-col-md-3 clr-col-sm-12" style="margin-bottom: 20px;">
+                    <label>Description: </label>
+
+                    <input class="clr-input" style="width:fit-content;" type="text" name="description"
+                        [(ngModel)]="rowSelected.description" placeholder="Enter email">
+                </div>
+
+                <div class="clr-col-md-3 clr-col-sm-12" style="margin-bottom: 20px;">
+                    <label>Start Date: </label>
+
+                    <input class="clr-input" style="width:fit-content;" type="text" name="start_date_1"
+                        [(ngModel)]="rowSelected.start_date_1" placeholder="Enter subject">
+                </div>
+
+                <div class="clr-col-md-3 clr-col-sm-12" style="margin-bottom: 20px;">
+                    <label> End Date:</label>
+                    <input type="text" class="clr-input" style="width:fit-content;" [(ngModel)]="rowSelected.end_date_1"
+                        name="end_date_1" placeholder=" Enter phone" />
+                </div>
+
+                <div class="clr-col-md-3 clr-col-sm-12" style="margin-bottom: 20px;">
+                    <label>Enabled</label>
+                    <!-- <input type="text" class="clr-input" style="width:fit-content;" [(ngModel)]="rowSelected.phone"
+                        name="phone" placeholder=" Enter phone" /> -->
+                    <select class="clr-dropdown" name="active" [(ngModel)]="rowSelected.active">
+                        <option value="null">Choose ...</option>
+                        <option value="true">True</option>
+                        <option value="false">False</option>
+                    </select>
+                </div>
+
+
+            </div>
+            <br>
+
+
+            <div class="section">
+                <p>Menu Group Lines Details</p>
+            </div>
+
+            <!-----H-L LINE part(FormArray For Multiple Lines)---->
+
+            <div class="clr-row">
+                <div class="clr-col-lg-12">
+                    <table id="lines" class="table" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th class="left" style="width:125px;">Name</th>
+                                <th class="left" style="width:125px;">Type</th>
+                                <th class="left" style="width:125px;">Menu Name</th>
+                                <th class="left" style="width:125px;">Active</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let person of rowSelected.menu_group_lines">
+                                <td class="left">
+
+                                    <select class="clr-dropdown" [(ngModel)]="person.name" name="name">
+                                        <option value="null">Choose ...</option>
+                                        <option *ngFor="let val of booktype" value={{val}}>{{val}}</option>
+                                    </select>
+
+                                    <!-- <input type="text" class="clr-input" style="width:fit-content;"
+                                        [(ngModel)]="person.name" name="name" placeholder=" Enter phone" /> -->
+
+
+                                </td>
+                                <td class="left">
+
+                                    <select class="clr-dropdown" [(ngModel)]="person.type" name="type">
+                                        <option value="null">Choose ...</option>
+                                        <option *ngFor="let val of bookname" value={{val}}>{{val}}</option>
+                                    </select>
+
+                                </td>
+                                <td class="left">
+
+
+                                    <select class="clr-dropdown" [(ngModel)]="person.menu_name" name="menu_name">
+                                        <option value="null">Choose ...</option>
+                                        <option *ngFor="let val of price" value={{val}}>{{val}}</option>
+                                    </select>
+
+                                </td>
+                                <td class="left">
+
+                                    <select class="clr-dropdown" [(ngModel)]="person.active" name="active">
+                                        <option value="null">Choose ...</option>
+                                        <option *ngFor="let v of writer" value={{v}}>{{v}}</option>
+                                    </select>
+
+                                </td>
+
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-outline" (click)="modalEdit = false">Cancel</button>
+                <button type="submit" class="btn btn-primary">UPDATE</button>
+            </div>
+
+
+        </form>
+
+    </div>
+</clr-modal>
+
+
+
+<clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+    <div class="modal-body" *ngIf="rowSelected.id">
+        <h1 class="delete">Are You Sure Want to delete?</h1>
+        <h2 class="heading">{{rowSelected.id}}</h2>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" (click)="modaldelete = false">Cancel</button>
+            <button type="button" (click)="delete(rowSelected.id)" class="btn btn-primary">Delete</button>
+        </div>
+    </div>
+</clr-modal>
+
+
+<clr-modal [(clrModalOpen)]="modalAdd" [clrModalSize]="'xl'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title"> ENTRY FORM</h3>
+    <div class="modal-body">
+        <div class="section">
+            <p> Header </p>
+        </div>
+        <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+
+            <div class="clr-row" style="height: fit-content;">
+
+
+                <div class="clr-col-md-3 clr-col-sm-12">
+                    <label for="name">Menu Name</label>
+                    <select id="name" formControlName="menu_name" selecteed="null" class="clr-dropdown">
+                        <option value="null">Choose name</option>
+                        <option *ngFor="let ts of hname" [value]="ts">{{ ts }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="clr-col-md-3 clr-col-sm-12">
+                    <label for="email">Description</label>
+                    <select id="email" formControlName="description" selecteed="null" class="clr-dropdown">
+                        <option value="null">Choose email</option>
+                        <option *ngFor="let ot of email" [value]="ot">{{ ot | uppercase }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="clr-col-md-3 clr-col-sm-12">
+                    <label for="subject">Start Date</label>
+                    <!-- <select id="subject" formControlName="start_date_1" selecteed="null" class="clr-dropdown">
+                        <option value="null">Choose Subject Type</option>
+                        <option *ngFor="let sot of subject" [value]="sot">{{ sot | uppercase }}
+                        </option>
+                    </select> -->
+                    <input type="date" clrCheckbox formControlName="start_date_1" value="phone" />
+
+                </div>
+
+                <div class="clr-col-md-3 clr-col-sm-12" style="margin-bottom: 20px;">
+                    <label> End Date:</label>
+                    <input type="date" clrCheckbox formControlName="end_date_1" value="phone" />
+                </div>
+                <div class="clr-col-md-3 clr-col-sm-12" style="margin-bottom: 20px;">
+                    <clr-toggle-container>
+                        <label>Enabled</label>
+                        <clr-toggle-wrapper>
+                            <input type="checkbox" clrToggle formControlName="active" required />
+                        </clr-toggle-wrapper>
+                    </clr-toggle-container>
+                </div>
+
+            </div>
+
+            <div class="section">
+                <p> Lines Details</p>
+            </div>
+
+
+            <div class="clr-row">
+                <div class="clr-col-lg-12">
+                    <table class="table" style="width:100%;" formArrayName="menu_group_lines">
+                        <thead>
+                            <tr>
+
+                                <th class="left" style="width:125px;">Name</th>
+                                <th class="left" style="width:125px;">Type</th>
+                                <th class="left" style="width:125px;">Menu Name</th>
+                                <th class="left" style="width:125px;">Enable</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of controls; let i=index" [formGroupName]="i">
+
+                                <td class="left">
+
+                                    <select class="clr-dropdown" formControlName="name">
+                                        <option value="null">Choose ...</option>
+                                        <option *ngFor="let val of booktype" value={{val}}>{{val}}</option>
+                                    </select>
+                                </td>
+                                <td class="left">
+
+                                    <select class="clr-dropdown" formControlName="type">
+                                        <option value="null">Choose ...</option>
+                                        <option *ngFor="let val of bookname" value={{val}}>{{val}}</option>
+                                    </select>
+                                </td>
+                                <td class="left">
+
+                                    <select class="clr-dropdown" formControlName="menu_name">
+                                        <option value="null">Choose ...</option>
+                                        <option *ngFor="let val of price" value={{val}}>{{val}}</option>
+                                    </select>
+                                </td>
+                                <td class="left">
+
+                                    <select class="clr-dropdown" formControlName="active">
+                                        <option value="null">Choose ...</option>
+                                        <option *ngFor="let val of writer" value={{val}}>{{val}}</option>
+                                    </select>
+                                </td>
+
+                                <td style="width:40px;">
+                                    <a *ngIf="controls.length > 1" (click)="onRemoveLines(i)">
+                                        <clr-icon shape="trash" class="is-error"></clr-icon>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <button type="button" class="btn btn-primary button1" (click)="onAddLines()">
+                            <clr-icon shape="plus"></clr-icon>
+                        </button>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-outline" (click)="modalAdd = false">Cancel</button>
+                <button type="submit" class="btn btn-primary">ADD</button>
+            </div>
+
+        </form>
+    </div>
+
+</clr-modal>
+
+
+
+<!-- <ol class="breadcrumb breadcrumb-arrow font-trirong">
+    <li><a href="javascript://" [routerLink]="['/']">Home</a></li>
+    <li><a href="javascript://">Menu Groups</a></li>
+</ol>
+
+<div class="dg-wrapper">
+    <div class="clr-row">
+        <div class="clr-col-8">
+            <h3 style="text-transform: uppercase;">menu group grid view </h3>
+        </div>
+        <div class="clr-col-4" style="text-align: right;">
+            <button class="btn btn-outline">
+                <clr-icon shape="export"></clr-icon> xlsx
+            </button>
+            <button id="add" class="btn btn-primary" (click)="openAdd=true">
+                <clr-icon shape="plus"></clr-icon>ADD
+            </button>
+        </div>
+    </div>
+    <clr-datagrid [clrDgLoading]="loading">
+        <clr-dg-placeholder>user not found!</clr-dg-placeholder>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                Menu Name
+            </ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                Description
+            </ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                Enabled
+            </ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                Start Date
+            </ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                End Date
+            </ng-container>
+        </clr-dg-column>
+
+        <clr-dg-row *clrDgItems="let user of mgdata.items" [clrDgItem]="user">
+            <clr-dg-cell>{{user.menu_name}}</clr-dg-cell>
+            <clr-dg-cell>{{user.description}}</clr-dg-cell>
+            <clr-dg-cell>{{user.active}}</clr-dg-cell>
+            <clr-dg-cell>{{user.start_date_1}}</clr-dg-cell>
+            <clr-dg-cell>{{user.end_date_1}}</clr-dg-cell>
+            <clr-dg-action-overflow>
+                <button class="action-item" (click)="openEditGroup(user.id)">Edit</button>
+                <button class="action-item">Delete</button>
+            </clr-dg-action-overflow>
+            <clr-dg-row-detail *clrIfExpanded>
+                <div style="text-align: right;">
+                    <button class="btn" (click)="openAddLinef(user.id)">Add</button>
+                </div>
+                <table class="table" *ngIf="user.menu_group_lines.length > 0">
+                    <tr>
+                        <th>Sr. No</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Menu Name</th>
+                        <th>Active</th>
+                    </tr>
+                    <tr *ngFor="let line of user.menu_group_lines; let i=index;">
+                        <td> {{ i + 1 }} </td>
+                        <td> {{ line.name }} </td>
+                        <td class="td-title"> {{ line.type }} </td>
+                        <td class="td-content"> {{ line.menu_name }} </td>
+                        <td> {{ line.active }} </td>
+                    </tr>
+
+                </table>
+            </clr-dg-row-detail>
+        </clr-dg-row>
+
+        <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+                {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                of {{pagination.totalItems}} users
+            </clr-dg-pagination>
+        </clr-dg-footer>
+    </clr-datagrid>
+</div>
+
+<clr-modal [(clrModalOpen)]="openEdit" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title">Edit Menu Group</h3>
+    <div class="modal-body">
+        <form clrForm>
+            <div class="clr-row">
+                <h4 style="margin-left: 20px;">Menu Group Header</h4>
+                <div class="clr-col-12">
+
+                    <clr-input-container>
+                        <label>Menu Name</label>
+                        <input [(ngModel)]="updata.menu_name" style="width: 100%;" clrInput type="text"
+                            name="menu_name" />
+                    </clr-input-container>
+                    <clr-input-container>
+                        <label>Description</label>
+                        <input [(ngModel)]="updata.description" style="width: 100%;" clrInput type="text"
+                            name="description" />
+                    </clr-input-container>
+
+                    <clr-input-container>
+                        <label>Start Date</label>
+                        <input [(ngModel)]="updata.start_date_1" style="width: 100%;" clrInput type="date"
+                            name="start_date_1" />
+                    </clr-input-container>
+
+                </div>
+            </div>
+            <div class="clr-row">
+                <div class="clr-col-12">
+
+                    <clr-input-container>
+                        <label>End Date</label>
+                        <input [(ngModel)]="updata.end_date_1" style="width: 100%;" clrInput type="date"
+                            name="end_date_1" />
+                    </clr-input-container>
+
+                    <clr-toggle-container>
+                        <label>Enabled</label>
+                        <clr-toggle-wrapper>
+                            <input [(ngModel)]="updata.active" type="checkbox" clrToggle name="active" required />
+                        </clr-toggle-wrapper>
+                    </clr-toggle-container>
+
+                </div>
+            </div>
+
+            <div class="clr-row">
+                <h4 style="margin-left: 20px;">Menu Group Lines</h4>
+                <div class="clr-col-12">
+
+                    <table class="table">
+
+                        <thead *ngIf="lines">
+                            <tr>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Menu Name</th>
+                                <th>Active</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let val of lines">
+                                <td>
+                                    <input [(ngModel)]="val.name" style="width: 100%;" clrInput type="text"
+                                        name="name" />
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="val.type" style="width: 100%;" clrInput type="text"
+                                        name="type" />
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="val.menu_name" style="width: 100%;" clrInput type="text"
+                                        name="menu_name" />
+                                </td>
+                                <td>
+                                    <input [(ngModel)]="val.active" type="checkbox" clrToggle name="active" required />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="closeM()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="perfUpdate()">Update</button>
+    </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="openAdd" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title">Add Menu Group Header</h3>
+    <div class="modal-body">
+        <h2></h2>
+        <form clrForm>
+            <div class="clr-row">
+                <div class="clr-col-12">
+                    <clr-input-container>
+                        <label>Menu Name</label>
+                        <input [(ngModel)]="headerAdd.menu_name" style="width: 100%;" clrInput type="text"
+                            name="menu_name" />
+                    </clr-input-container>
+                    <clr-input-container>
+                        <label>Description</label>
+                        <input [(ngModel)]="headerAdd.description" style="width: 100%;" clrInput type="text"
+                            name="description" />
+                    </clr-input-container>
+                    <clr-toggle-container>
+                        <label>Enabled</label>
+                        <clr-toggle-wrapper>
+                            <input [(ngModel)]="headerAdd.active" type="checkbox" clrToggle name="options" required />
+                            <label>Current Status</label>
+                        </clr-toggle-wrapper>
+                    </clr-toggle-container>
+
+                    <clr-input-container>
+                        <label>Start Date</label>
+                        <input [(ngModel)]="headerAdd.start_date_1" style="width: 100%;" clrInput type="date"
+                            name="start_date_1" />
+                    </clr-input-container>
+                    <clr-input-container>
+                        <label>End Date</label>
+                        <input [(ngModel)]="headerAdd.end_date_1" style="width: 100%;" clrInput type="date"
+                            name="end_date_1" />
+                    </clr-input-container>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="openAdd = false">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="addData()">Save</button>
+    </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="openAddLine" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title">Add Menu Group Line</h3>
+    <div class="modal-body">
+        <form clrForm>
+            <div class="clr-row">
+                <div class="clr-col-12">
+                    <clr-input-container>
+                        <label>Name</label>
+                        <input [(ngModel)]="lineAdd.name" style="width: 100%;" clrInput type="text" name="name" />
+                    </clr-input-container>
+                    <label style="margin-right: 100px;">Type</label>
+                    <select name="type" [(ngModel)]="lineAdd.type" style="width: 70%; margin-top: 30px;">
+                        <option value="Admin">Admin</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Manager">MAnager</option>
+                        <option value="HR">HR</option>
+                    </select><br>
+
+                    <label style="margin-right: 50px;">Menu Name</label>
+                    <select name="menu_name" [(ngModel)]="lineAdd.menu_name" style="width: 70%; margin-top: 30px;">
+                        <option value="Admin">Admin</option>
+                        <option value="Normal">Normal</option>
+                        <option value="Manager">MAnager</option>
+                        <option value="HR">HR</option>
+                    </select>
+                    <clr-toggle-container>
+                        <label>Active</label>
+                        <clr-toggle-wrapper>
+                            <input [(ngModel)]="lineAdd.active" type="checkbox" clrToggle name="active" required />
+                            <label>Current Status</label>
+                        </clr-toggle-wrapper>
+                    </clr-toggle-container>
+
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="openAddLine = false">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveD()">Save</button>
+    </div>
+</clr-modal> -->
+
+<!-- <ol class="breadcrumb breadcrumb-arrow font-trirong">
+    <li><a href="javascript://" [routerLink]="['/']">Home</a></li>
+    <li><a href="javascript://">Menu Group</a></li>
+</ol>
+
+<div class="dg-wrapper">
+    <div class="clr-row">
+        <div class="clr-col-8">
+            <h3>Menu Group Grid View</h3>
+        </div>
+        <div class="clr-col-4" style="text-align: right;">
+
+            <button class="btn btn-outline">
+                <clr-icon shape="export"></clr-icon> xlsx
+            </button>
+            <button id="add" class="btn btn-primary" (click)="openAdd=true">
+                <clr-icon shape="plus"></clr-icon>ADD
+            </button>
+        </div>
+    </div>
+    <clr-datagrid [clrDgLoading]="loading">
+
+        <clr-dg-placeholder>user not found!</clr-dg-placeholder>
+        <clr-dg-column [clrDgField]="'id'">
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                Menu Name
+            </ng-container>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'name'">
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                Description
+            </ng-container>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'email'">
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                Enabled
+            </ng-container>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'subject'">
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                Start Date
+            </ng-container>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'phone'">
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+                End Date
+            </ng-container>
+        </clr-dg-column>
+
+
+        <clr-dg-row *clrDgItems="let user of mgdata.items" [clrDgItem]="user">
+            <clr-dg-cell>{{user.menu_name}}</clr-dg-cell>
+            <clr-dg-cell>{{user.description}}</clr-dg-cell>
+            <clr-dg-cell>{{user.active}}</clr-dg-cell>
+            <clr-dg-cell>{{user.start_date_1}}</clr-dg-cell>
+            <clr-dg-cell>{{user.end_date_1}}</clr-dg-cell>
+
+            <clr-dg-action-overflow>
+                <button class="action-item" (click)="openEditGroup(user.id)">Edit</button>
+                <button class="action-item">Delete</button>
+            </clr-dg-action-overflow>
+
+            <clr-dg-row-detail *clrIfExpanded>
+                <table class="table">
+                    <tr>
+                        <td class="td-title">Menu Name: {{user.menu_name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-title"> Description: {{user.description}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-title"> Enabled: {{user.active}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-title" *ngIf="!user.start_date_1"> Default End Date: 10/03/2001</td>
+                        <td class="td-title" *ngIf="user.start_date_1"> Start Date: {{user.start_date_1}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-title" *ngIf="!user.end_date_1"> Default End Date: 10/03/2001</td>
+                        <td class="td-title" *ngIf="user.end_date_1"> End Date: {{user.end_date_1}}</td>
+                    </tr>
+
+                    <table id="lines" class="table" *ngIf="user.menu_group_lines.length > 0">
+                        <thead>
+                            <tr>
+                                <th class="left">Sr. No</th>
+                                <th class="left">Name</th>
+                                <th class="left">Type</th>
+                                <th class="left">Menu Name</th>
+                                <th class="left">Active</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let line of user.menu_group_lines; let i=index;">
+                                <td class="left"> {{ i + 1 }}</td>
+                                <td class="left">{{ line.name }}</td>
+                                <td class="left">{{ line.type }} </td>
+                                <td class="left">{{ line.menu_name }}</td>
+                                <td class="left"> {{ line.active }}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </table>
+
+            </clr-dg-row-detail>
+        </clr-dg-row>
+
+        <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+                <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+                {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+                of {{pagination.totalItems}} users
+            </clr-dg-pagination>
+        </clr-dg-footer>
+    </clr-datagrid>
+</div>
+
+<clr-modal [(clrModalOpen)]="openEdit" [clrModalSize]="'xl'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title">Edit Menu Group</h3>
+    <div class="modal-body">
+        <div class="section">
+            <p> Header </p>
+        </div>
+        <form>
+            <div class="clr-row">
+
+
+                <div class="clr-col-md-3 clr-col-sm-12" style="margin-bottom: 20px;">
+                    <label>Menu Name: </label>
+
+                    <input class="clr-input" style="width:fit-content;" type="text" name="menu_name"
+                        [(ngModel)]="updata.menu_name" placeholder="Enter name">
+                </div>
+                <div class="clr-col-md-3 clr-col-sm-12" style="margin-bottom: 20px;">
+                    <label>Description: </label>
+
+                    <input class="clr-input" style="width:fit-content;" type="text" name="description"
+                        [(ngModel)]="updata.description" placeholder="Enter email">
+                </div>
+
+                <div class="clr-col-md-3 clr-col-sm-12" style="margin-bottom: 20px;">
+                    <label>Start Date: </label>
+
+                    <input class="clr-input" style="width:fit-content;" type="date" name="start_date_1"
+                        [(ngModel)]="updata.start_date_1" placeholder="Enter subject">
+                </div>
+
+                <div class="clr-col-md-3 clr-col-sm-12" style="margin-bottom: 20px;">
+                    <label> End Date:</label>
+                    <input type="date" class="clr-input" style="width:fit-content;" [(ngModel)]="updata.end_date_1"
+                        name="end_date_1" placeholder=" Enter phone" />
+                </div>
+
+                <div class="clr-col-md-3 clr-col-sm-12" style="margin-bottom: 20px;">
+                    <clr-toggle-container>
+                        <label>Enabled</label>
+                        <clr-toggle-wrapper>
+                            <input [(ngModel)]="updata.active" type="checkbox" clrToggle name="active" required />
+                        </clr-toggle-wrapper>
+                    </clr-toggle-container>
+                </div>
+
+            </div>
+            <br>
+
+
+            <div class="section">
+                <p>Menu Group Lines Details</p>
+            </div>
+
+
+            <div class="clr-row">
+                <div class="clr-col-lg-12">
+                    <table id="lines" class="table" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th class="left" style="width:125px;">Name</th>
+                                <th class="left" style="width:125px;">Type</th>
+                                <th class="left" style="width:125px;">Menu Name</th>
+                                <th class="left" style="width:125px;">Active</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let val of lines">
+                                <td class="left">
+
+                                    <select class="clr-dropdown" [(ngModel)]="val.name" name="name">
+                                        <option value="null">Choose ...</option>
+                                        <option value="Val 1">Val 1</option>
+                                        <option value="Val 2">Val 2</option>
+                                        <option value="Val 3">Val 3</option>
+                                    </select>
+
+
+                                </td>
+                                <td class="left">
+
+                                    <select class="clr-dropdown" [(ngModel)]="val.type" name="type">
+                                        <option value="null">Choose ...</option>
+                                        <option value="Val 1">Val 1</option>
+                                        <option value="Val 2">Val 2</option>
+                                        <option value="Val 3">Val 3</option>
+                                    </select>
+
+                                </td>
+                                <td class="left">
+
+
+                                    <select class="clr-dropdown" [(ngModel)]="val.menu_name" name="menu_name">
+                                        <option value="null">Choose ...</option>
+                                        <option value="null">Choose ...</option>
+                                        <option value="Val 1">Val 1</option>
+                                        <option value="Val 2">Val 2</option>
+                                        <option value="Val 3">Val 3</option>
+                                    </select>
+
+                                </td>
+                                <td class="left">
+
+
+
+                                    <input [(ngModel)]="val.active" type="checkbox" clrToggle name="active" required />
+
+                                </td>
+
+
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-outline" (click)="closeM()">Cancel</button>
+                <button type="submit" class="btn btn-primary" (click)="perfUpdate()">UPDATE</button>
+            </div>
+
+
+        </form>
+
+    </div>
+</clr-modal> -->
+
+
+
+<!-- <clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+    <div class="modal-body" *ngIf="rowSelected.id">
+        <h1 class="delete">Are You Sure Want to delete?</h1>
+        <h2 class="heading">{{rowSelected.id}}</h2>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" (click)="modaldelete = false">Cancel</button>
+            <button type="button" (click)="delete(rowSelected.id)" class="btn btn-primary">Delete</button>
+        </div>
+    </div>
+</clr-modal> -->
+
+
+<!-- <clr-modal [(clrModalOpen)]="modalAdd" [clrModalSize]="'xl'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title"> Add Menu Group Header</h3>
+    <div class="modal-body">
+        <div class="section">
+            <p> Header </p>
+        </div>
+        <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+
+            <div class="clr-row" style="height: fit-content;">
+
+
+                <div class="clr-col-md-3 clr-col-sm-12">
+                    <label for="name">Name</label>
+                    <select id="name" formControlName="name" selecteed="null" class="clr-dropdown">
+                        <option value="null">Choose name</option>
+                        <option *ngFor="let ts of name" [value]="ts">{{ ts }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="clr-col-md-3 clr-col-sm-12">
+                    <label for="email">EmailID</label>
+                    <select id="email" formControlName="email" selecteed="null" class="clr-dropdown">
+                        <option value="null">Choose email</option>
+                        <option *ngFor="let ot of email" [value]="ot">{{ ot | uppercase }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="clr-col-md-3 clr-col-sm-12">
+                    <label for="subject">Subject</label>
+                    <select id="subject" formControlName="subject" selecteed="null" class="clr-dropdown">
+                        <option value="null">Choose Subject Type</option>
+                        <option *ngFor="let sot of subject" [value]="sot">{{ sot | uppercase }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="clr-col-md-3 clr-col-sm-12" style="margin-bottom: 20px;">
+                    <label> phone:</label>
+                    <input type="text" clrCheckbox formControlName="phone" value="phone" />
+                </div>
+
+            </div>
+
+            <div class="section">
+                <p> Lines Details</p>
+            </div>
+
+
+            <div class="clr-row">
+                <div class="clr-col-lg-12">
+                    <table class="table" style="width:100%;" formArrayName="book">
+                        <thead>
+                            <tr>
+
+                                <th class="left" style="width:125px;">booktype</th>
+                                <th class="left" style="width:125px;">bookname</th>
+                                <th class="left" style="width:125px;">price</th>
+                                <th class="left" style="width:125px;">writer</th>
+                                <th class="left" style="width:125px;">code</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of controls; let i=index" [formGroupName]="i">
+
+                                <td class="left">
+
+                                    <select class="clr-dropdown" formControlName="booktype">
+                                        <option value="null">Choose ...</option>
+                                        <option *ngFor="let val of booktype" value={{val}}>{{val}}</option>
+                                    </select>
+                                </td>
+                                <td class="left">
+
+                                    <select class="clr-dropdown" formControlName="bookname">
+                                        <option value="null">Choose ...</option>
+                                        <option *ngFor="let val of bookname" value={{val}}>{{val}}</option>
+                                    </select>
+                                </td>
+                                <td class="left">
+
+                                    <select class="clr-dropdown" formControlName="price">
+                                        <option value="null">Choose ...</option>
+                                        <option *ngFor="let val of price" value={{val}}>{{val}}</option>
+                                    </select>
+                                </td>
+                                <td class="left">
+
+                                    <select class="clr-dropdown" formControlName="writer">
+                                        <option value="null">Choose ...</option>
+                                        <option *ngFor="let val of writer" value={{val}}>{{val}}</option>
+                                    </select>
+                                </td>
+                                <td class="left">
+                                    <textarea rows="3" cols="40" style="width:fit-content;" colspan="2" type="text"
+                                        formControlName="code" placeholder="Enter code"></textarea>
+                                </td>
+
+
+                                <td style="width:40px;">
+                                    <a *ngIf="controls.length > 1" (click)="onRemoveLines(i)">
+                                        <clr-icon shape="trash" class="is-error"></clr-icon>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <button type="button" class="btn btn-primary button1" (click)="onAddLines()">
+                            <clr-icon shape="plus"></clr-icon>
+                        </button>
+                    </table>
+                </div>
+            </div>
+            <br>
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-outline" (click)="modalAdd = false">Cancel</button>
+                <button type="submit" class="btn btn-primary">ADD</button>
+            </div>
+
+        </form>
+    </div>
+
+</clr-modal> -->

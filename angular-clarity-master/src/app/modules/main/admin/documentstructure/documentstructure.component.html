@@ -1,0 +1,56 @@
+<h3 class="modal-title">Document Structure-Edit Mode</h3>
+<hr>
+<div class="dg-wrapper">
+  <div class="clr-row">
+
+    <div class="clr-col-12" style="text-align: right;">
+      For Structure ID <select  id="" style="height: 30px;">
+        <option >N/A</option>
+        <option >Running Sequence Number</option>
+
+      </select>
+      <button id="add" class="btn btn-primary" style="margin-left: 20px;">Reload </button>
+    </div>
+  </div>
+
+  <!--<div >
+    <table class="table" >
+        <thead>
+         <tr>
+         <th>No</th>
+          <th>Menu Item Name</th>
+           <th>Create <input type="checkbox"></th>
+           <th>View <input type="checkbox"></th>
+           <th>Edit <input type="checkbox"></th>
+           <th>Query <input type="checkbox" ></th>
+           <th>Delete <input type="checkbox" ></th>
+            </tr>
+          </thead>
+             <tbody >
+              <tr >
+                <td></td>
+                <td ></td>
+                <td>
+                </td>
+              </tr>
+          </tbody>
+        </table> </div>-->
+
+        <clr-datagrid [clrDgLoading]="loading">
+
+          <clr-dg-placeholder> No Result Found</clr-dg-placeholder>
+          <clr-dg-column>No</clr-dg-column>
+          <clr-dg-column>Seq</clr-dg-column>
+          <clr-dg-column>Prefix <input type="checkbox"></clr-dg-column>
+          <clr-dg-column>Type <input type="checkbox"></clr-dg-column>
+          <clr-dg-column>Delete <input type="checkbox"></clr-dg-column>
+
+          <clr-dg-row *clrDgItems="" [clrDgItem]="user" >
+            <clr-dg-cell></clr-dg-cell>
+            <clr-dg-cell></clr-dg-cell>
+            <clr-dg-cell></clr-dg-cell>
+            <clr-dg-cell></clr-dg-cell>
+          </clr-dg-row>
+
+          <clr-dg-footer> users</clr-dg-footer>
+        </clr-datagrid>
