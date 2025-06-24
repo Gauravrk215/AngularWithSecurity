@@ -1,0 +1,99 @@
+<!-- <div class="container">
+    <h3 class="center"><b>Menu Group Edit Form</b></h3>
+    <br />
+
+    <div class="section">
+        <p> Menu Group Header </p>
+    </div>
+    <form (ngSubmit)="onSubmit()">
+        <div class="clr-row">
+            <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="menu_name">Menu Name</label>
+                <input id="menu_name" type="text" name="menu_name" placeholder="Enter Menu Name"
+                    [(ngModel)]="rn_menu_group_header.menu_name" class="clr-input">
+            </div>
+
+
+            <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="description">Menu Description</label>
+                <input id="description" type="text" name="description" [(ngModel)]="rn_menu_group_header.description"
+                    placeholder="Enter Menu Description" class="clr-input">
+            </div>
+            <div class="clr-col-md-4 clr-col-sm-12">
+                <div class="toggle-switch">
+                    <input type="checkbox" id="active" name="active" [(ngModel)]="rn_menu_group_header.active" />
+                    <label for="active">Status</label>
+                </div>
+            </div>
+            <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="start_date">Start Date</label>
+                <input id="start_date" type="text" name="start_date" [(ngModel)]="rn_menu_group_header.start_date"
+                    clrDate class="clr-input">
+            </div>
+            <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="end_date">End Date</label>
+                <input id="end_date" type="date" name="end_date" [(ngModel)]="rn_menu_group_header.end_date" clrDate
+                    class="clr-input">
+            </div>
+        </div>
+        <br>
+        <div class="section">
+            <p>Menu Group Lines Details</p>
+        </div>
+        <div class="clr-row">
+            <div class="clr-col-lg-12">
+                <table id="lines" class="table" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th class="left" style="width:125px;">Name</th>
+                            <th class="left" style="width:125px;">Type</th>
+                            <th class="left" style="width:125px;">Menu Name</th>
+                            <th class="left" style="width:125px;">Active</th>
+                            <th class="left" style="width:125px;">Start Date</th>
+                            <th class="left" style="width:125px;">End Date</th>
+                            <th class="left" style="width:125px;">Order</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let line of rn_menu_group_line">
+                            <td class="left">
+                                <input type="text" [name]="line.name" [(ngModel)]="line.name"
+                                    [ngModelOptions]="{standalone: true}" placeholder="Enter Name" class="clr-input">
+                            </td>
+                            <td class="left">
+                                <select [name]="line.type" [(ngModel)]="line.type" [ngModelOptions]="{standalone: true}"
+                                    class="clr-dropdown">
+                                    <option value="null">Choose Type</option>
+                                    <option *ngFor="let type of types" [ngValue]="type">{{ type }}</option>
+                                </select>
+                            </td>
+                            <td class="left">
+                                <select [name]="line.menu_id" [(ngModel)]="line.menu_id"
+                                    [ngModelOptions]="{standalone: true}" class="clr-dropdown">
+                                    <option value="null">Choose Menu</option>
+                                    <option *ngFor="let menu of menuDropDown" [ngValue]="menu.id">{{ menu.name }}
+                                    </option>
+                                </select>
+                            </td>
+                            <td class="left">
+                                <div class="toggle-switch">
+                                    <input type="checkbox" [attr.id]="line.active" [name]="line.active"
+                                        [(ngModel)]="line.active" [ngModelOptions]="{standalone: true}" />
+                                    <label [attr.for]="line.active"></label>
+                                </div>
+                                
+                            </td>
+                            
+
+                            <td class="left">
+                                <input type="date" [attr.name]="line.seq" [(ngModel)]="line.seq"
+                                    [ngModelOptions]="{standalone: true}" class="clr-input" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button type="submit" form-control class="btn btn-primary">UPDATE</button>
+    </form>
+</div> -->

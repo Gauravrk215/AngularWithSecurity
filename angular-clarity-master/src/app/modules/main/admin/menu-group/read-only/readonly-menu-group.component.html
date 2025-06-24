@@ -1,0 +1,94 @@
+<!-- <div class="read-only-pg pad-16">
+    <h3>READ ONLY FORM <a (click)="goToWhoColumns()">
+        <clr-icon shape="help"  class="is-solid" size="32"></clr-icon>
+    </a></h3>
+    
+
+    <clr-modal [(clrModalOpen)]="basic">
+        <h3 class="modal-title"><b>Transaction History</b></h3>
+        <div class="modal-body">
+            <table s-header>
+                <tr>
+                    <td><b>Account Id: </b></td>
+                    <td> {{ rn_menu_group_header.accountId }} </td>
+                </tr>
+                <tr>
+                    <td><b>Created By: </b></td>
+                    <td> {{ rn_menu_group_header.createdBy }} </td>
+                </tr>
+                <tr>
+                    <td><b>Created At: </b></td>
+                    <td> {{ rn_menu_group_header.createdAt | date:'medium' }} </td>
+                </tr>
+                <tr>
+                    <td><b>Updated At: </b></td>
+                    <td> {{ rn_menu_group_header.updatedAt | date:'medium' }} </td>
+                </tr>
+                <tr>
+                    <td><b>Updated By: </b></td>
+                    <td> {{ rn_menu_group_header.updatedBy }} </td>
+                </tr>
+            </table>
+            
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" (click)="basic = false">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="basic = false">Ok</button>
+        </div>
+    </clr-modal>
+    <br/>
+    <table class="s-header">
+        <tr>
+            <td>Form Name </td>
+            <td> {{ rn_menu_group_header.menu_name }} </td>
+        </tr>
+        <tr>
+            <td>Form Description </td>
+            <td> {{ rn_menu_group_header.description }} </td>
+        </tr>
+        <tr>
+            <td>Related To </td>
+            <td> {{ rn_menu_group_header.active }} </td>
+        </tr>
+        <tr>
+            <td>Page Event </td>
+            <td> {{ rn_menu_group_header.start_date }} </td>
+        </tr>
+        <tr>
+            <td>Button Caption </td>
+            <td> {{ rn_menu_group_header.end_date }} </td>
+        </tr>
+    </table>
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="s-order-line table" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th class="left" style="width:200px;">Line Name</th>
+                        <th class="left" style="width:200px;">Line Active</th>
+                        
+                        <th class="left" style="width:200px;">Menu Id</th>
+                        <th class="left" style="width:200px;">Order</th>
+                        <th class="left" style="width:200px;">Type</th>
+                        
+                    </tr>
+                </thead>
+                <tbody *ngIf="rn_menu_group_header.menu_group_lines">
+                    <tr *ngFor="let rn_menu_group_line of rn_menu_group_header.menu_group_lines">
+                        <td class="left">{{ rn_menu_group_line.name }}</td>
+                        <td class="left">{{ rn_menu_group_line.active }}</td>
+                        
+                        <td class="left">{{ rn_menu_group_line.menu_id }}</td>
+                        <td class="left">{{ rn_menu_group_line.seq }}</td>
+                        <td class="left">{{ rn_menu_group_line.type }}</td>
+
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button (click)="back()" class="btn btn-primary">
+            <clr-icon shape="caret left"></clr-icon>Back
+        </button>
+    </div>
+</div> -->
