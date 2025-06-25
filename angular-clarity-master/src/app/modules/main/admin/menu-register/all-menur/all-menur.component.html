@@ -1,0 +1,203 @@
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/']">Home</a></li>
+  <li><a href="javascript://">Menu Groups</a></li>
+</ol>
+
+<div class="dg-wrapper">
+  <div class="clr-row">
+      <div class="clr-col-8">
+          <h3 style="text-transform: uppercase;">menu register </h3>
+      </div>
+      <div class="clr-col-4" style="text-align: right;">
+          <button class="btn btn-outline">
+              <clr-icon shape="export"></clr-icon> xlsx
+          </button>
+          <button id="add" class="btn btn-primary" (click)="openAdd=true">
+              <clr-icon shape="plus"></clr-icon>ADD
+          </button>
+      </div>
+  </div>
+  <clr-datagrid [clrDgLoading]="loading" [(clrDgSelected)]="selected">
+      <clr-dg-placeholder>user not found!</clr-dg-placeholder>
+      <clr-dg-column [clrDgField]="'id'">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+              Sr. No
+          </ng-container>
+      </clr-dg-column>
+      <clr-dg-column [clrDgField]="'main_menu_name'">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+              Menu Name
+          </ng-container>
+      </clr-dg-column>
+      <clr-dg-column [clrDgField]="'main_menu_action_name'">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+              Action Link
+          </ng-container>
+      </clr-dg-column>
+      <clr-dg-column [clrDgField]="'main_menu_icon'">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+              Menu Icon
+          </ng-container>
+      </clr-dg-column>
+      <clr-dg-column [clrDgField]="'enable_flag'">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+              Flag
+          </ng-container>
+      </clr-dg-column>
+      <clr-dg-column [clrDgField]="'end_date_1'">
+          <ng-container *clrDgHideableColumn="{hidden: false}">
+              End Date
+          </ng-container>
+      </clr-dg-column>
+
+      <clr-dg-row *clrDgItems="let user of regData; let i=index;" [clrDgItem]="user">
+          <clr-dg-cell>{{i + 1}}</clr-dg-cell>
+          <clr-dg-cell>{{user.main_menu_name}}</clr-dg-cell>
+          <clr-dg-cell>{{user.main_menu_action_name}}</clr-dg-cell>
+          <clr-dg-cell>{{user.main_menu_icon}}</clr-dg-cell>
+          <clr-dg-cell>{{user.enable_flag}}</clr-dg-cell>
+          <clr-dg-cell>{{user.end_date_1}}</clr-dg-cell>
+          <clr-dg-action-overflow>
+              <button class="action-item" (click)="editReg(user.id)">Edit</button>
+              <button class="action-item" (click)="delete(user.id)">Delete</button>
+          </clr-dg-action-overflow>˝
+          <!-- <clr-dg-row-detail *clrIfExpanded>
+              <table class="table">
+                  <tr>
+                      <td class="td-title">picture</td>
+                      <td class="td-content"><img class="img-class" src="../../../../assets/images/default.jpg"></td>
+                  </tr>
+                  <tr>
+                      <td class="td-title">id</td>
+                      <td class="td-content">{{user.user_id}}</td>
+                  </tr>
+                  <tr>
+                      <td class="td-title">location</td>
+                      <td class="td-content">{{user.address1}}, {{user.country}} -
+                          {{user.postal}} </td>
+                  </tr>
+                  <tr>
+                      <td class="td-title">register</td>
+                      <td class="td-content">{{user.created_at}}</td>
+                  </tr>
+                  <tr>
+                      <td class="td-title">tel</td>
+                      <td class="td-content">phone: {{user.phone}}</td>
+                  </tr>
+              </table>
+          </clr-dg-row-detail> -->
+      </clr-dg-row>
+
+      <clr-dg-footer>
+          <clr-dg-pagination #pagination [clrDgPageSize]="10">
+              <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+              of {{pagination.totalItems}} users
+          </clr-dg-pagination>
+      </clr-dg-footer>
+  </clr-datagrid>
+</div>
+
+<clr-modal [(clrModalOpen)]="openAdd" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">Add Menu Register</h3>
+  <div class="modal-body">
+      <h2></h2>
+      <form clrForm>
+          <div class="clr-row">
+              <div class="clr-col-12">
+                  <!-- {{addReg | json}} -->
+                  <clr-input-container>
+                      <label>Menu Name</label>
+                      <input [(ngModel)]="addReg.main_menu_name" style="width: 100%;" clrInput type="text" name="main_menu_name" />
+                  </clr-input-container>
+                  <clr-input-container>
+                      <label>Action Link</label>
+                      <input [(ngModel)]="addReg.main_menu_action_name" style="width: 100%;" clrInput type="text" name="main_menu_action_name" />
+                  </clr-input-container>
+                  <clr-input-container>
+                      <label>Menu Icon</label>
+                      <input [(ngModel)]="addReg.main_menu_icon" style="width: 100%;" clrInput type="text" name="main_menu_icon" />
+                  </clr-input-container>
+                  <clr-toggle-container>
+                      <label>Flag</label>
+                      <clr-toggle-wrapper>
+                        <input [(ngModel)]="addReg.enable_flag" type="checkbox" clrToggle name="enable_flag" required value="option1" />
+                        <label>Current Status</label>
+                      </clr-toggle-wrapper>
+                      <!-- <clr-control-helper>Click on it to make change.</clr-control-helper> -->
+                    </clr-toggle-container>
+
+
+                  <clr-input-container>
+                      <label>End Date</label>
+                      <input [(ngModel)]="addReg.end_date_1" style="width: 100%;" clrInput type="date" name="end_date_1" />
+                  </clr-input-container>
+              </div>
+          </div>
+      </form>
+
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="openAdd = false">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="saveData()">Save</button>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="openEdit" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">Edit Menu Register</h3>
+  <div class="modal-body">
+      <h2></h2>
+      <form clrForm>
+          <div class="clr-row">
+              <div class="clr-col-12">
+                  <clr-input-container>
+                      <label>ID</label>
+                      <input [(ngModel)]="upReg.id" style="width: 100%;" clrInput type="text" name="id" readonly/>
+                  </clr-input-container>
+                  <clr-input-container>
+                      <label>Menu Name</label>
+                      <input [(ngModel)]="upReg.main_menu_name" style="width: 100%;" clrInput type="text" name="email" />
+                  </clr-input-container>
+                  <clr-input-container>
+                      <label>Action Link</label>
+                      <input [(ngModel)]="upReg.main_menu_action_name" style="width: 100%;" clrInput type="text" name="main_menu_action_name" />
+                  </clr-input-container>
+                  <clr-input-container>
+                      <label>Menu Icon</label>
+                      <input [(ngModel)]="upReg.main_menu_icon" style="width: 100%;" clrInput type="text" name="main_menu_icon" />
+                  </clr-input-container>
+                  <clr-toggle-container>
+                      <label>Flag</label>
+                      <clr-toggle-wrapper>
+                        <input [(ngModel)]="upReg.enable_flag" type="checkbox" clrToggle name="enable_flag" required/>
+                        <label>Current Status: {{ upReg.enable_flag }}</label>
+                      </clr-toggle-wrapper>
+                    </clr-toggle-container>
+
+
+                  <clr-input-container>
+                      <label>End Date</label>
+                      <input [(ngModel)]="upReg.end_date_1" style="width: 100%;" clrInput type="date" name="end_date_1" />
+                  </clr-input-container>
+              </div>
+          </div>
+      </form>
+
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="openEdit = false">Cancel</button>
+      <button type="button" class="btn btn-primary" (click)="performup()">Update</button>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+  <div class="modal-body">
+      <h1 class="delete">Are You Sure Want to delete?</h1>
+      <h2 class="heading">{{tempid}}</h2>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-outline" (click)="modaldelete = false">Cancel</button>
+          <button type="button" (click)="del()" class="btn btn-primary">Delete</button>
+      </div>
+  </div>
+</clr-modal>
