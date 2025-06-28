@@ -1,0 +1,279 @@
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"><clr-icon shape="home"></clr-icon></a></li>
+  <li><a href="javascript://"><clr-icon shape="lock"></clr-icon>{{'SECURITY' | translate}}</a></li>
+  <li><a href="javascript://">{{ 'MENU_ACCESS_CONTROL' | translate }}</a></li>
+</ol>
+
+<div class="clr-row">
+  <div class="clr-col-6" style="display:flex ;">
+    <div style="margin-right: 25px;">
+      <h4 style="font-weight:300;">{{ 'MENU_ACCESS_CONTROL' | translate }} </h4>
+    </div>
+    <div style="margin-top:27px ; position: relative;">
+      <span class="label label-light-blue" style="display: inline;">{{ 'EDIT_MODE' | translate }}</span>
+    </div>
+  </div>
+  <div class="clr-col-6" style="text-align: right;">
+    {{ 'FOR' | translate }} <select id="" style="height: 30px;" (change)="idofselected($event.target.value)">
+      <option *ngFor="let sub of givendata" [value]="sub.usrGrp" [selected]="sub.usrGrp== 40">{{sub.groupName}}</option>
+    </select>
+    <button id="add" class="btn btn-primary" style="margin-left: 20px;" (click)="getbyuseriddata()"> {{ 'RELOAD' |
+      translate }} </button>
+    <span *ngIf="!toggle">{{ 'SHOW_ALL' | translate }} </span><span *ngIf="toggle">{{ 'ONLY_MAIN_MENU' | translate
+      }}</span>
+    <label class="switch">
+      <input type="checkbox" ([ngModel])="toggle" checked (click)="toggleCheckbox()">
+      <span class="slider round"></span>
+    </label>
+  </div>
+</div>
+<hr>
+
+<div class="dg-wrapper">
+  <div class="clr-row">
+
+    <div class="clr-col-12" style="text-align: right;">
+
+      <button id="add" class="btn btn-primary" style="margin-left: 20px;" (click)="modaladd()" [disabled]="!toggle">
+        <clr-icon shape="plus"></clr-icon>{{ 'ADD' | translate }} </button>
+      <div *ngIf="!toggle" class="error-message" style="color: red; font-size: 14px; margin-top: 5px;">
+        {{ ' Close toggle to activate Add button. ' | translate }}
+      </div>
+    </div>
+  </div>
+
+
+  <clr-datagrid [clrDgLoading]="loading" *ngIf="!toggle">
+    <clr-dg-placeholder>
+      <ng-template #loadingSpinner><clr-spinner>Loading ... </clr-spinner></ng-template>
+      <div *ngIf="alldata?.length === 0;else loadingSpinner">{{ 'NO_DATA_AVAILABLE' | translate }}</div>
+    </clr-dg-placeholder>
+
+    <clr-dg-column [clrDgField]="'no'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        {{ 'NO' | translate }}
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'menuname'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        {{ 'MENU_ITEM_NAME' | translate }}
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'mvisible'"><ng-container *clrDgHideableColumn="{hidden: false}">
+        {{ 'VIEW' | translate }}
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'mcreate'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        {{ 'CREATE' | translate }}
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'medit'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        {{ 'EDIT' | translate }}
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'mdelete'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        {{ 'DELETE' | translate }}
+        <!-- <input type="checkbox" clrCheckbox name="mdelete" [checked]="colvalue" (change)="changedelete($event.target.checked)"> -->
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'mquery'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        {{ 'QUERY' | translate }}
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'mexport'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        {{ 'EXPORT' | translate }}
+      </ng-container></clr-dg-column>
+
+    <clr-dg-row *ngFor="let all of alldata;let i=index">
+      <clr-dg-cell>{{i+1}}</clr-dg-cell>
+      <clr-dg-cell *ngIf="all.menuId==0"><b>{{all.menuItemDesc}}</b></clr-dg-cell>
+      <clr-dg-cell *ngIf="all.menuId!==0">&nbsp;&nbsp;&nbsp;{{all.menuItemDesc}}</clr-dg-cell>
+      <clr-dg-cell><input type="checkbox" [checked]="selected ===all.mvisible"></clr-dg-cell>
+      <clr-dg-cell><input type="checkbox" [checked]="selected ===all.mcreate"></clr-dg-cell>
+      <clr-dg-cell> <input type="checkbox" [checked]="selected ===all.medit"></clr-dg-cell>
+      <clr-dg-cell><input type="checkbox" [checked]="selected ===all.mdelete"></clr-dg-cell>
+      <clr-dg-cell><input type="checkbox" [checked]="selected ===all.mquery"></clr-dg-cell>
+      <clr-dg-cell><input type="checkbox" [checked]="selected ===all.mexport"></clr-dg-cell>
+
+      <clr-dg-action-overflow>
+        <button class="action-item" (click)="modalEdit(all)">{{ 'EDIT' | translate }} <clr-icon shape="edit"
+            class="is-error"></clr-icon></button>
+        <button class="action-item" *ngIf="all.menuId!==0" (click)="modalDelete(all)">{{ 'DELETE' | translate }}
+          <clr-icon shape="trash" class="is-error"></clr-icon></button>
+        <button class="action-item" *ngIf="all.menuId==0" (click)="modaldeletemainmenu(all)">{{ 'DELETE_MENU_SUBMENU' |
+          translate }}
+          <clr-icon shape="edit" class="is-error"></clr-icon></button>
+
+      </clr-dg-action-overflow>
+
+      <clr-dg-row-detail *clrIfExpanded>
+        <table class="table">
+          <tr>
+            <td class="td-title">Menuname</td>
+            <td class="td-content"></td>
+          </tr>
+
+
+        </table>
+      </clr-dg-row-detail>
+    </clr-dg-row>
+
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Record per page</clr-dg-page-size>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{pagination.totalItems}} Records
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+
+  <clr-datagrid [clrDgLoading]="loading" *ngIf="toggle">
+    <clr-dg-placeholder>
+      <ng-template #loadingSpinner><clr-spinner>Loading ... </clr-spinner></ng-template>
+      <div *ngIf="alldata?.length === 0;else loadingSpinner">No data available</div>
+    </clr-dg-placeholder>
+
+    <clr-dg-column [clrDgField]="'no'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        NO
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'menuname'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        Menu Item Name
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'mvisible'"><ng-container *clrDgHideableColumn="{hidden: false}">
+        View
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'mcreate'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        Create
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'medit'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        Edit
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'mdelete'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        Delete
+        <!-- <input type="checkbox" clrCheckbox name="mdelete" [checked]="colvalue" (change)="changedelete($event.target.checked)"> -->
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'mquery'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        Query
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'mexport'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        Export
+      </ng-container></clr-dg-column>
+    <ng-container *ngFor="let all of alldata;let i=index">
+      <clr-dg-row *ngIf="all.menuId==0">
+        <clr-dg-cell>{{i+1}}</clr-dg-cell>
+        <clr-dg-cell><b>{{all.menuItemDesc}}</b></clr-dg-cell>
+        <clr-dg-cell><input type="checkbox" [checked]="selected ===all.mvisible"></clr-dg-cell>
+        <clr-dg-cell><input type="checkbox" [checked]="selected ===all.mcreate"></clr-dg-cell>
+        <clr-dg-cell> <input type="checkbox" [checked]="selected ===all.medit"></clr-dg-cell>
+        <clr-dg-cell><input type="checkbox" [checked]="selected ===all.mdelete"></clr-dg-cell>
+        <clr-dg-cell><input type="checkbox" [checked]="selected ===all.mquery"></clr-dg-cell>
+        <clr-dg-cell><input type="checkbox" [checked]="selected ===all.mexport"></clr-dg-cell>
+        <clr-dg-action-overflow>
+          <button class="action-item" (click)="Sync(all.menuItemId?.menuItemId,all)">Sync <clr-icon shape="shrink"
+              class="is-error"></clr-icon> </button>
+        </clr-dg-action-overflow>
+        <clr-dg-row-detail *clrIfExpanded>
+          <table class="table">
+            <tr>
+              <td class="td-title">Menuname</td>
+              <td class="td-content"></td>
+            </tr>
+          </table>
+        </clr-dg-row-detail>
+      </clr-dg-row>
+    </ng-container>
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Record per page</clr-dg-page-size>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{pagination.totalItems}} Records
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+
+  <clr-modal [(clrModalOpen)]="modalAdd" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title">Add Menu Access Control</h3>
+    <div class="modal-body">
+      <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+        <div class="clr-row">
+          <div class="clr-col-sm-12">
+            <label for="name">Menu Name<span class="required-field">*</span></label>
+            <select name="" id="" style="width: 100%;padding: 5px 5px;border: 1px solid #ccc;border-radius: 4px;"
+              (change)="idselected($event.target.value)">
+              <option *ngFor="let sub of menus" [value]="sub.menuItemId">{{sub.menuItemDesc}}</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" (click)="modalAdd = false">Cancel</button>
+          <button type="submit" class="btn btn-primary">ADD</button>
+        </div>
+      </form>
+    </div>
+
+  </clr-modal>
+
+  <clr-modal [(clrModalOpen)]="modaledit" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title">Update Menu Access Control</h3>
+    <div class="modal-body" *ngIf="rowSelected.menuItemId">
+      <h2 class="heading">{{rowSelected.menuItemId.menuItemId}}</h2>
+      <form (ngSubmit)="onUpdate(rowSelected.menuItemId.menuItemId,rowSelected.usrGrp.usrGrp)">
+        <div class="clr-row">
+          <div class="clr-col-md-3 clr-col-sm-12">
+            <label for="tags">View</label>
+            <input type="checkbox" clrCheckbox name="mvisible" [(ngModel)]="selected ===rowSelected.mvisible"
+              (change)="rowSelected.mvisible === $event.target.checked ? 'y' : 'n'">
+          </div>
+          <div class="clr-col-md-3 clr-col-sm-12">
+            <label for="name">Create</label>
+            <input type="checkbox" clrCheckbox name="mcreate" name="mcreate"
+              [(ngModel)]="selected ===rowSelected.mcreate"
+              (change)="rowSelected.mcreate === $event.target.checked ? 'y' : 'n'">
+          </div>
+          <div class="clr-col-md-3 clr-col-sm-12">
+            <label for="tags">Edit</label>
+            <input type="checkbox" clrCheckbox name="medit" [(ngModel)]="selected ===rowSelected.medit"
+              (change)="rowSelected.medit === $event.target.checked ? 'y' : 'n'">
+          </div>
+          <div class="clr-col-md-3 clr-col-sm-12">
+            <label for="tags">Delete</label>
+            <input type="checkbox" clrCheckbox name="mdelete" [(ngModel)]="selected ===rowSelected.mdelete"
+              (change)="rowSelected.mdelete === $event.target.checked ? 'y' : 'n'">
+          </div>
+          <div class="clr-col-md-3 clr-col-sm-12">
+            <label for="tags">Query</label>
+            <input type="checkbox" clrCheckbox name="mquery" [(ngModel)]="selected ===rowSelected.mquery"
+              (change)="rowSelected.mquery === $event.target.checked ? 'y' : 'n'">
+          </div>
+          <div class="clr-col-md-3 clr-col-sm-12">
+            <label for="tags">Export</label>
+            <input type="checkbox" clrCheckbox name="mexport" [(ngModel)]="selected ===rowSelected.mexport"
+              (change)="rowSelected.mexport === $event.target.checked ? 'y' : 'n'">
+          </div>
+
+        </div>
+        <br>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" (click)="modaledit = false">Cancel</button>
+          <button type="submit" class="btn btn-primary">UPDATE</button>
+        </div>
+      </form>
+    </div>
+  </clr-modal>
+
+  <clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+    <div class="modal-body" *ngIf="rowSelected.menuItemId">
+      <h1 class="delete">Are You Sure Want to delete?</h1>
+      <h2 class="heading">{{rowSelected.menuItemId.menuItemId}}</h2>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modaldelete = false">Cancel</button>
+        <button type="submit" (click)="delete(rowSelected.menuItemId.menuItemId,rowSelected.usrGrp.usrGrp)"
+          class="btn btn-primary">Delete</button>
+      </div>
+    </div>
+  </clr-modal>
+  <clr-modal [(clrModalOpen)]="modaldelete1" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+    <div class="modal-body" *ngIf="rowSelected.menuItemId">
+      <h1 class="delete">Are You Sure Want to delete Main menu with submenu?</h1>
+      <h2 class="heading">{{rowSelected.menuItemId.menuItemId}}</h2>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modaldelete1 = false">Cancel</button>
+        <button type="submit" (click)="delete1(rowSelected.menuItemId.menuItemId,rowSelected.usrGrp.usrGrp)"
+          class="btn btn-primary">Delete</button>
+      </div>
+    </div>
+  </clr-modal>
