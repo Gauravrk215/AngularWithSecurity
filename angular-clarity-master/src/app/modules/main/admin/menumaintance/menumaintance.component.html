@@ -1,0 +1,441 @@
+
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"><clr-icon shape="home"></clr-icon></a></li>
+  <li><a href="javascript://"><clr-icon shape="lock"></clr-icon>{{ 'SECURITY' | translate }}</a></li>
+  <li><a href="javascript://">{{ 'MENU_MAINTENANCE' | translate }}</a></li>
+</ol>
+
+
+  <!-- <div class="clr-row">
+    <div class="clr-col-12" style="text-align: right;">
+      <button id="add" *ngIf="mcreate == 'true'"  class="btn btn-primary" (click)="goToAdd()">
+        <clr-icon shape="plus"></clr-icon>ADD New
+      </button>
+    </div>
+  </div> -->
+  <div class="clr-row" style="margin-top: 15px;">
+    <div class="clr-col">
+      <h3 style="font-weight: 300;display: inline;">{{ 'MENU_MAINTENANCE' | translate }} </h3>
+    <span class="label label-light-blue" style="display: inline;margin-left: 30px;">{{ 'MAIN_MENU' | translate }}</span><br>
+
+    </div>
+
+    <div class="clr-col" style="text-align: right;">
+      <div class="btn-group">
+        <button class="btn text-dark" (click)="downloadFiles()"><b>{{ 'DOWNLOAD_TEMPLATE' | translate }}</b></button>
+
+    </div>
+    
+    <button class="btn btn-primary" (click)="csvImport()">{{ 'IMPORT' | translate }}</button>
+
+    <button class="btn btn-outline" (click)="onExport()">
+      <clr-icon shape="export"></clr-icon> {{ 'EXPORT_XLSX' | translate }}
+    </button>
+        <button id="add"  class="btn btn-primary"  (click)="goToAdd()">
+            <clr-icon shape="plus"></clr-icon> {{ 'ADD' | translate }}
+        </button>
+    </div>
+</div>
+  <!-- <table class="table">
+    <thead>
+      <tr>
+        <th>NO.</th>
+        <th>Menu Item Name</th>
+        <th>ID</th>
+        <th >Sequence</th>
+        <th>Module Name</th>
+        <th>Orignal Menu</th>
+        <th>Status</th>
+        <th>Submenu</th>
+      </tr>
+    </thead>
+    <tbody>
+      <TR align=middle bgColor=#ffffff vAlign=top>
+        <TD class="x1l x4x" align=right>1. </TD>
+        <TD class="x1l x4x" nowrap>
+          <A href="viewmode">
+     Home</A>
+       </TD>
+        <TD class="x1l x4x" align=left>500</TD>
+        <TD class="x1l x4x">0</TD>
+        <TD class="x1l x4x" align=left>main</TD>
+        <TD class="x1l x4x">Home Menu</TD>
+        <TD class="x1l x4x">E</TD>
+        <TD class="x1l x4x" nowrap>
+        <A href="MenuList.jsp?menu_item_id=500">
+          <clr-icon shape="bullet-list"></clr-icon></A>
+       </TD></TR>
+       <TR align=middle bgColor=#ffffff vAlign=top>
+        <TD class="x1l x4x" align=right>2. </TD>
+        <TD class="x1l x4x" nowrap>
+          <A href="MenuEdit.jsp?action=V&menu_item_id=2000&caller_menu_item_id=0">
+     Admin</A>
+       </TD>
+        <TD class="x1l x4x" align=left>2000</TD>
+        <TD class="x1l x4x">1</TD>
+     <TD class="x1l x4x" align=left>-</TD>
+        <TD class="x1l x4x">Home Menu</TD>
+        <TD class="x1l x4x">E</TD>
+        <TD class="x1l x4x" nowrap>
+        <A href="MenuList.jsp?menu_item_id=2000">
+          <clr-icon shape="bullet-list"></clr-icon></A>
+       </TD></TR>
+       <TR align=middle bgColor=#ffffff vAlign=top>
+        <TD class="x1l x4x" align=right>3. </TD>
+        <TD class="x1l x4x" nowrap>
+          <A href="MenuEdit.jsp?action=V&menu_item_id=2500&caller_menu_item_id=0">
+     Job</A>
+       </TD>
+        <TD class="x1l x4x" align=left>2500</TD>
+        <TD class="x1l x4x">2</TD>
+     <TD class="x1l x4x" align=left>-</TD>
+        <TD class="x1l x4x">Home Menu</TD>
+        <TD class="x1l x4x">E</TD>
+        <TD class="x1l x4x" nowrap>
+        <A href="MenuList.jsp?menu_item_id=2500">
+          <clr-icon shape="bullet-list"></clr-icon></A>
+       </TD></TR>
+       <TR align=middle bgColor=#ffffff vAlign=top>
+        <TD class="x1l x4x" align=right>4. </TD>
+        <TD class="x1l x4x" nowrap>
+          <A href="MenuEdit.jsp?action=V&menu_item_id=3000&caller_menu_item_id=0">
+     Security</A>
+       </TD>
+        <TD class="x1l x4x" align=left>3000</TD>
+        <TD class="x1l x4x">3</TD>
+     <TD class="x1l x4x" align=left>-</TD>
+        <TD class="x1l x4x">Home Menu</TD>
+        <TD class="x1l x4x">E</TD>
+        <TD class="x1l x4x" nowrap>
+        <A href="MenuList.jsp?menu_item_id=3000">
+          <clr-icon shape="bullet-list"></clr-icon></A>
+       </TD></TR>
+       <TR align=middle bgColor=#ffffff vAlign=top>
+        <TD class="x1l x4x" align=right>5. </TD>
+        <TD class="x1l x4x" nowrap>
+          <A href="MenuEdit.jsp?action=V&menu_item_id=5000&caller_menu_item_id=0">
+     Sure Board</A>
+       </TD>
+        <TD class="x1l x4x" align=left>5000</TD>
+        <TD class="x1l x4x">4</TD>
+     <TD class="x1l x4x" align=left>-</TD>
+        <TD class="x1l x4x">Home Menu</TD>
+        <TD class="x1l x4x">E</TD>
+        <TD class="x1l x4x" nowrap>
+        <A href="MenuList.jsp?menu_item_id=5000">
+          <clr-icon shape="bullet-list"></clr-icon></A>
+       </TD></TR>
+       <TR align=middle bgColor=#ffffff vAlign=top>
+        <TD class="x1l x4x" align=right>6. </TD>
+        <TD class="x1l x4x" nowrap>
+          <A href="MenuEdit.jsp?action=V&menu_item_id=6000&caller_menu_item_id=0">
+     Projects</A>
+       </TD>
+        <TD class="x1l x4x" align=left>6000</TD>
+        <TD class="x1l x4x">5</TD>
+     <TD class="x1l x4x" align=left>-</TD>
+        <TD class="x1l x4x">Home Menu</TD>
+        <TD class="x1l x4x">E</TD>
+        <TD class="x1l x4x" nowrap>
+        <A href="MenuList.jsp?menu_item_id=6000">
+          <clr-icon shape="bullet-list"></clr-icon></A>
+       </TD></TR>
+
+
+    </tbody>
+  </table> -->
+  <clr-datagrid [clrDgLoading]="loading"  [(clrDgSelected)]="selected">
+    <clr-dg-placeholder><ng-template #loadingSpinner><clr-spinner>{{'LOADING'|translate}} ... </clr-spinner></ng-template>
+      <div *ngIf="error;else loadingSpinner">{{error}}</div></clr-dg-placeholder>
+      <clr-dg-column [clrDgField]="''" style="max-width: 40px;">
+        <ng-container *clrDgHideableColumn="{hidden: false}"></ng-container>
+      </clr-dg-column>
+      
+      <clr-dg-column>
+        <ng-container *clrDgHideableColumn="{hidden: false}">
+          {{'NO' | translate}}
+        </ng-container>
+      </clr-dg-column>
+      
+      <clr-dg-column>
+        <ng-container *clrDgHideableColumn="{hidden: false}">
+          {{'MENU_ITEM_NAME' | translate}}
+        </ng-container>
+      </clr-dg-column>
+      
+      <clr-dg-column>
+        <ng-container *clrDgHideableColumn="{hidden: false}">
+          {{'ID' | translate}}
+        </ng-container>
+      </clr-dg-column>
+      
+      <clr-dg-column>
+        <ng-container *clrDgHideableColumn="{hidden: false}">
+          {{'SEQUENCE' | translate}}
+        </ng-container>
+      </clr-dg-column>
+      
+      <clr-dg-column>
+        <ng-container *clrDgHideableColumn="{hidden: false}">
+          {{'MODULE_NAME' | translate}}
+        </ng-container>
+      </clr-dg-column>
+      
+      <clr-dg-column>
+        <ng-container *clrDgHideableColumn="{hidden: false}">
+          {{'MENU_ACTION_LINK' | translate}}
+        </ng-container>
+      </clr-dg-column>
+      
+      <clr-dg-column>
+        <ng-container *clrDgHideableColumn="{hidden: false}">
+          {{'STATUS' | translate}}
+        </ng-container>
+      </clr-dg-column>
+      
+      <clr-dg-column>
+        <ng-container *clrDgHideableColumn="{hidden: false}">
+          {{'SUB_MENU' | translate}}
+        </ng-container>
+      </clr-dg-column>
+      
+      <clr-dg-column>
+        <ng-container *clrDgHideableColumn="{hidden: false}">
+          <clr-icon shape="bars"></clr-icon>
+          {{'ACTION' | translate}}
+        </ng-container>
+      </clr-dg-column>
+      
+
+    <clr-dg-row *clrDgItems="let user of menus;let i = index" [clrDgItem]="user">
+      <clr-dg-cell style="max-width: 40px;">
+        <span style="cursor: pointer;"><clr-icon shape="edit" (click)="goToEdit(user)" class="red is-error" style="color:red;"></clr-icon></span>
+      </clr-dg-cell>
+      <clr-dg-cell >{{i+1}}</clr-dg-cell>
+      <clr-dg-cell>{{user.menuItemDesc}}</clr-dg-cell>
+      <clr-dg-cell >{{user.menuId}}</clr-dg-cell>
+      <clr-dg-cell >{{user.itemSeq}}</clr-dg-cell>
+      <clr-dg-cell > {{user.moduleName}} </clr-dg-cell>
+      <clr-dg-cell > {{user.main_menu_action_name}}</clr-dg-cell>
+      <clr-dg-cell >{{user.status}} </clr-dg-cell>
+      <clr-dg-cell ><clr-icon shape="bullet-list" (click)="submenu(user.menuItemId)" style="color: rgb(108, 108, 194);"></clr-icon> </clr-dg-cell>
+      <clr-dg-cell>
+        <span style="cursor: pointer;padding: 10px; "><clr-icon shape="trash"  (click)="onDelete(user)" class="red is-error" style="color: red;"></clr-icon></span>
+        <clr-signpost>
+          <span style="cursor: pointer;" clrSignpostTrigger><clr-icon shape="help" class="success" style="color: rgb(0, 130, 236);"></clr-icon></span>
+          <clr-signpost-content [clrPosition]="'left-middle'" *clrIfOpen>
+            <h5 style="margin-top: 0">{{'WHO_COLUMN'|translate}} </h5>
+                  <div>{{'ACCOUNT_ID'|translate}} <code class="clr-code">{{user.accountId}}</code></div>
+                  <div>{{'CREATED_AT'|translate}}  <code class="clr-code">{{user.createdAt| date}}</code></div>
+                  <div>{{'CREATED_BY'|translate}}  <code class="clr-code">{{user.createdBy}}</code></div>
+                  <div>{{'UPDATED_AT'|translate}} <code class="clr-code">{{user.updatedAt | date}}</code></div>
+                  <div>{{'UPDATED_BY'|translate}} <code class="clr-code">{{user.updatedBy}}</code></div>
+          </clr-signpost-content>
+        </clr-signpost>
+      </clr-dg-cell>
+      <!-- <clr-dg-action-overflow>
+        <button class="action-item" *ngIf="medit == 'true'"  (click)="goToEdit(user)">Edit <clr-icon shape="edit" class="is-error"></clr-icon></button>
+        <button class="action-item" *ngIf="mdelete == 'true'"  (click)="onDelete(user)">Delete<clr-icon shape="trash" class="is-error"></clr-icon></button>
+      </clr-dg-action-overflow> -->
+
+                <clr-dg-row-detail *clrIfExpanded >
+                  <table class="table">
+                    <tr>
+                      <td class="td-title">Menu Name: </td>
+                      <td class="td-content">{{user.menuItemDesc}}</td>
+                    </tr>
+                  </table>
+                </clr-dg-row-detail>
+    </clr-dg-row>
+
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{pagination.totalItems}} users
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+
+  <clr-modal [(clrModalOpen)]="modalAdd" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title">Add Menu Maintenance</h3>
+    <div class="modal-body">
+          <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+        <div class="clr-row">
+           <!-- <div class="clr-col-sm-12">
+            <label for="name">Menu Item ID<span class="required-field">*</span></label>
+           <input type="text" class="clr-input" formControlName="menuItemId">
+          </div> -->
+          <div class="clr-col-sm-12">
+            <label for="name">Menu ID<span class="required-field">*</span></label>
+           <input type="text" class="clr-input" formControlName="menuId" name="menuId" [(ngModel)]="mainid" readonly>
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="name">Menu Item Name<span class="required-field">*</span></label>
+           <input type="text" class="clr-input" formControlName="menuItemDesc">
+           <div *ngIf="submitted && entryForm.controls.menuItemDesc.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.menuItemDesc.errors.required" class="error_mess">*This field is Required</div>
+        </div>
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="tags">Sequence</label>
+            <input type="text" class="clr-input" formControlName="itemSeq">
+            <div *ngIf="submitted && entryForm.controls.itemSeq.errors" class="error_mess">
+              <div *ngIf="submitted && entryForm.controls.itemSeq.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+          <div *ngIf="submitted && entryForm.controls.itemSeq.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.itemSeq.errors.pattern" class="error_mess">*Required Only Number</div>
+        </div>
+            </div>
+            <div class="clr-col-sm-12">
+              <label for="tags">Module Name</label>
+              <input type="text" class="clr-input" formControlName="moduleName">
+              <div *ngIf="submitted && entryForm.controls.moduleName.errors" class="error_mess">
+                <div *ngIf="submitted && entryForm.controls.moduleName.errors.required" class="error_mess">*This field is Required</div>
+            </div>
+              </div>
+            <div class="clr-col-sm-12">
+              <label for="tags">Status</label>
+              <select  id="" formControlName="status">
+                <option value="Enable">Enable</option>
+                <option value="Disable">Disable</option>
+                </select>
+                <div *ngIf="submitted && entryForm.controls.status.errors" class="error_mess">
+                  <div *ngIf="submitted && entryForm.controls.status.errors.required" class="error_mess">*This field is Required</div>
+              </div>
+              </div>
+              <div class="clr-col-sm-12">
+                <label for="tags">Menu Action Link</label>
+                <input type="text" class="clr-input" formControlName="main_menu_action_name">
+                <div *ngIf="submitted && entryForm.controls.main_menu_action_name.errors" class="error_mess">
+                  <div *ngIf="submitted && entryForm.controls.main_menu_action_name.errors.required" class="error_mess">*This field is Required</div>
+              </div>
+                <!-- <select NAME="menu_id" >
+                  <option SELECTED >Home Menu
+                          <OPTION >Home
+      <OPTION >Job
+
+      <OPTION >&nbsp;&nbsp;&nbsp;Job logs
+      <OPTION >&nbsp;&nbsp;&nbsp;Pending Jobs
+      <OPTION >&nbsp;&nbsp;&nbsp;Defined Jobs
+      <OPTION >&nbsp;&nbsp;&nbsp;Surewebsocket
+
+      <OPTION >Security
+      <OPTION >&nbsp;&nbsp;&nbsp;User Maintance
+      <OPTION >&nbsp;&nbsp;&nbsp;User Group Maintance
+      <OPTION >&nbsp;&nbsp;&nbsp;System parametrs
+      <OPTION >&nbsp;&nbsp;&nbsp;Menu access control
+      <OPTION >&nbsp;&nbsp;&nbsp;Menu Maintance
+
+      <OPTION >SureBoard
+      <OPTION >&nbsp;&nbsp;&nbsp;Road Map
+      <OPTION >&nbsp;&nbsp;&nbsp;Iteration Release
+      <OPTION >&nbsp;&nbsp;&nbsp;Milestone
+      <OPTION >&nbsp;&nbsp;&nbsp;Goal
+      <OPTION >&nbsp;&nbsp;&nbsp;Wbs Task Board
+
+
+      <OPTION >Projects
+      <OPTION >&nbsp;&nbsp;&nbsp;My projects
+      <OPTION >&nbsp;&nbsp;&nbsp;All Projects
+      <OPTION >&nbsp;&nbsp;&nbsp;Templates
+      <OPTION >&nbsp;&nbsp;&nbsp;Repositories
+      <OPTION >&nbsp;&nbsp;&nbsp;Recently Modify
+      <OPTION >&nbsp;&nbsp;&nbsp;Recently Archived
+      <OPTION >&nbsp;&nbsp;&nbsp;Shared with Me
+      <OPTION >&nbsp;&nbsp;&nbsp;My Fav
+
+
+
+      </select> -->
+                </div>
+                <div class="clr-col-sm-12">
+                  <label for="tags">Menu Icon Name</label>
+                  <input type="text" class="clr-input" formControlName="main_menu_icon_name">
+                  <div *ngIf="submitted && entryForm.controls.main_menu_icon_name.errors" class="error_mess">
+                    <div *ngIf="submitted && entryForm.controls.main_menu_icon_name.errors.required" class="error_mess">*This field is Required</div>
+                </div>
+                    </div>
+        </div>
+        <br>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" (click)="modalAdd = false">Cancel</button>
+          <button type="submit" class="btn btn-primary" >ADD</button>
+        </div>
+  </form>
+    </div>
+
+  </clr-modal>
+
+  <clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+    <div class="modal-body" *ngIf="rowSelected.menuItemId">
+      <h1 class="delete">Are You Sure Want to delete?</h1>
+      <h2 class="heading">{{rowSelected.menuItemId}}</h2>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modaldelete = false">Cancel</button>
+      <button type="submit" (click)="delete(rowSelected.menuItemId)" class="btn btn-primary" >Delete</button>
+      </div>
+    </div>
+  </clr-modal>
+
+
+  <clr-modal [(clrModalOpen)]="modaledit" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title">Update Menu Maintenance</h3>
+    <div class="modal-body" *ngIf="rowSelected.menuItemId">
+      <h2 class="heading">{{rowSelected.menuItemId}}</h2>
+          <form (ngSubmit)="onUpdate(rowSelected.menuItemId)">
+        <div class="clr-row">
+
+          <div class="clr-col-sm-12">
+            <label for="name">Menu ID<span class="required-field">*</span></label>
+           <input type="text" class="clr-input" name="menuId" [(ngModel)]="rowSelected.menuId" readonly>
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="name">Menu Item Name<span class="required-field">*</span></label>
+           <input type="text" class="clr-input" name="menuItemDesc" [(ngModel)]="rowSelected.menuItemDesc">
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="tags">Sequence</label>
+            <input type="text" class="clr-input" name="itemSeq" [(ngModel)]="rowSelected.itemSeq">
+            </div>
+            <div class="clr-col-sm-12">
+              <label for="tags">Module Name</label>
+              <input type="text" class="clr-input" name="moduleName" [(ngModel)]="rowSelected.moduleName">
+              </div>
+            <div class="clr-col-sm-12">
+              <label for="tags">Status</label>
+              <select  id="" name="status" [(ngModel)]="rowSelected.status">
+                <option value="Enable">Enable</option>
+                <option value="Disable">Disable</option>
+                </select>
+              </div>
+              <div class="clr-col-sm-12">
+                <label for="tags">Menu Action Link</label>
+                <input type="text" class="clr-input" name="main_menu_action_name" [(ngModel)]="rowSelected.main_menu_action_name">
+                </div>
+                <div class="clr-col-sm-12">
+                  <label for="tags">Menu Icon Name </label>
+                  <input type="text" class="clr-input" name="main_menu_icon_name" [(ngModel)]="rowSelected.main_menu_icon_name">
+                  </div>
+        </div>
+        <br>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" (click)="modaledit = false">Cancel</button>
+          <button type="submit" class="btn btn-primary" >Update</button>
+          </div>
+  </form>
+    </div>
+
+  </clr-modal>
+
+
+  <clr-modal [(clrModalOpen)]="modalCsv" [clrModalSize]="'sm'" [clrModalStaticBackdrop]="false">
+    <h3 class="modal-title">Import File</h3>
+    <div class="modal-body">
+        <input type="file" name="file" class="file" (change)="selectFile($event)" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" [disabled]="!selectedFiles" (click)="saveCsv()">Import</button>
+    </div>
+  </clr-modal>

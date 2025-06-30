@@ -1,0 +1,62 @@
+input[type=text],[type=date],[type=password] {
+  width: 100%;
+  padding: 15px 20px;
+ // margin: 3px 0;
+ background-color:rgb(255, 255, 255);
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.required-field{
+  color: red;
+font-size: 18px;
+
+}
+.green{
+  background-color: rgb(156, 231, 156);
+  color: black;
+}
+.blue{
+  background-color: #57abcf;//rgb(82, 87, 161);
+  color: black;
+}
+input.ng-invalid.ng-touched {
+  border-color: red;
+}
+
+.error_mess {
+  color: red;
+}
+.td-title {
+  text-align: center;
+  width: 150px;
+color: white;
+  font-weight: bold;
+  background-color: rgba(63, 122, 231, 0.863);
+  //color: rgb(24, 13, 13);
+}
+th{
+  //background-color:rgb(170, 169, 169);
+  font-weight: bold;
+}
+.td-content{
+  text-align: left;
+}
+.delete,.heading{
+  text-align: center;
+  color: red;
+}
+.section p {
+background-color: rgb(206, 201, 201);
+  padding: 10px;
+  font-size: 18px;
+}
+
+select{
+  width: 100%;
+  padding: 5px 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
