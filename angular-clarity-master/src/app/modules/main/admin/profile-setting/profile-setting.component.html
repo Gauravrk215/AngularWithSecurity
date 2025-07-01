@@ -1,0 +1,266 @@
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"> <clr-icon shape="home"></clr-icon></a></li>
+  <li><a href="javascript://"> <clr-icon shape="user"></clr-icon>  Profile Settings</a></li>
+</ol>
+<br>
+
+
+ <!-- <div class="pad-16" *ngIf="userProfile">
+  <h3><b>My Profile Settings</b></h3>
+  <br />
+  <div *ngIf="image; else def">
+    <img [src]="image" alt="Avatar" style="height:100px;width:100px;border-radius:50%;">
+  </div>
+  <ng-template #def>
+    <img src="../../../assets/images/profile-icon.png" alt="Avatar" style="height:100px;width:100px;border-radius:50%;">
+  </ng-template>
+  <div *ngIf="message" style="color:indianred; font-weight: bold"> {{ message }}</div>
+  <input
+    style="display: none"
+    type="file" accept="image/*"
+    (change)="onSelectFile($event)"
+    #fileInput>
+    <a (click)="fileInput.click()">upload your photo</a>
+
+
+  <section class="form-block" style="margin-top:32px">
+      <form (ngSubmit)="onSubmit()">
+
+
+
+          <table>
+              <tr>
+                  <td>Your Full Name: </td>
+                  <td colspan="2"><input type="text" name="fullName" [(ngModel)]="userProfile.fullName"></td>
+              </tr>
+              <tr>
+                  <td>Pronouns</td>
+                  <td colspan="2"><input type="text" name="pronouns" [(ngModel)]="userProfile.pronouns"> </td>
+              </tr>
+              <tr>
+                  <td>Role:</td>
+                  <td colspan="2"><input type="text" name="role" [(ngModel)]="userProfile.role"> </td>
+              </tr>
+              <tr>
+                  <td>Department or Team</td>
+                  <td><input colspan="2" type="text" name="department" [(ngModel)]="userProfile.department" style="width:180px" /></td>
+              </tr>
+              <tr>
+                  <td style="width:125px;">Email </td>
+                  <td>
+                      <input colspan="2" readonly type="text" name="email" [(ngModel)]="userProfile.email" style="width:180px" />
+                  </td>
+              </tr>
+              <tr>
+                <td style="width:125px;">About Me </td>
+                <td>
+                    <textarea colspan="2" rows="4" cols="50" name="about" [(ngModel)]="userProfile.about" style="width:180px"></textarea>
+                </td>
+            </tr>
+          </table>
+          <br>
+          <button type="submit" form-control class="btn btn-primary">UPDATE</button>
+      </form>
+  </section>
+</div> -->
+
+
+
+<div class="pad-16">
+  <h3><b>My Profile Settings</b></h3>
+
+  <div  *ngIf="image; else def">
+    <img [src]="image" alt="Avatar" style="height:100px;width:100px;border-radius:50%;">
+  </div>
+  <ng-template #def>
+    <img src="../../../../assets/images/profile-icon.png" alt="Avatar" style="height:100px;width:100px;border-radius:50%;">
+  </ng-template>
+  <div *ngIf="message" style="color:indianred; font-weight: bold"> {{ message }}</div>
+  <input
+    style="display: none"
+    type="file" accept="image/*"
+    (change)="onSelectFile($event)"
+    #fileInput>
+    <button class="btn btn-primary"> <a (click)="fileInput.click()">upload your photo</a></button>
+<button class="btn btn-primary" (click)="openmodal()">cropimage</button>
+
+
+
+
+  <section class="form-block" style="margin-top:20px">
+
+      <form (ngSubmit)="onSubmit()" *ngIf="userProfile">
+        <div class="clr-row">
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="projectName">Your Full Name</label>
+            <input id="projectName" type="text"  placeholder="Enter full Name"  name="fullName" [(ngModel)]="userProfile.fullName"
+              class="clr-input">
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="projectName">Pronouns</label>
+            <input id="projectName" type="text"  placeholder="Enter Pronouns" name="pronouns" [(ngModel)]="userProfile.pronouns"
+              class="clr-input">
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="projectName">Role</label>
+            <input id="projectName" type="text"  placeholder="Enter Role" name="role" [(ngModel)]="userProfile.role"
+              class="clr-input">
+          </div>
+          </div>
+          <div class="clr-row">
+            <div class="clr-col-md-4 clr-col-sm-12">
+              <label for="projectName">Department or Team</label>
+              <input id="projectName" type="text"  placeholder="Enter Department"  name="department" [(ngModel)]="userProfile.department"
+                class="clr-input">
+            </div>
+            <div class="clr-col-md-4 clr-col-sm-12">
+              <label for="projectName">Email</label>
+              <input id="projectName" type="text"  placeholder="Enter email" name="email" [(ngModel)]="userProfile.email"
+                class="clr-input">
+            </div>
+            </div>
+            <div class="clr-row">
+            <div class="clr-col-md-4 clr-col-sm-12">
+              <label for="projectName">About Me</label>
+              <textarea  id="" cols="10" rows="2"  name=" about"  placeholder="Enter Description" name="about" [(ngModel)]="userProfile.about">
+              </textarea>
+
+
+            </div>
+            </div>
+
+          <br>
+          <button type="submit" form-control class="btn btn-primary">UPDATE</button>
+      </form>
+  </section>
+
+  <hr>
+<!-- PASSWORD RESET -->
+<section class="form-block" style="margin-top:32px">
+  <table>
+    <tr>
+      <td><b>Password:</b> </td><br />
+      <td>Change Password for your account <a routerLink="../passwordreset">Change password</a></td>
+      <!--routerLink="../reset-password"  (click)="goToResetPassword() -->
+    </tr>
+  </table>
+</section>
+<hr>
+
+<!-- KILL SESSION -->
+<section class="form-block" style="margin-top:32px">
+  <table>
+    <tr>
+      <td><b>Security: </b> </td><br>
+      <td>Logout of all sessions except this current browser <a routerLink="../../login">Logout other
+            sessions</a></td>
+    </tr>
+  </table>
+</section>
+<hr>
+
+<!-- DEACTIVATE ACCOUNT -->
+<section class="form-block" style="margin-top:32px">
+  <table>
+    <tr>
+      <td><b>Deactivation: </b> </td><br />
+      <td>Remove access to all organizations and workspace in cloudnsure  <a
+            routerLink="/deactivate-account">Deactivate account</a></td>
+    </tr>
+  </table>
+</section>
+
+</div>
+<!-- <hr>
+<h2 style="text-align:center ;">Crop Image</h2>
+<div style="text-align:center ;"><input type="file" (change)="fileChangeEvent($event)" /></div>
+
+<br />
+<button class="btn btn-primary" (click)="rotateLeft()">Rotate left</button>
+<button class="btn btn-primary" (click)="rotateRight()">Rotate right</button>
+<button class="btn btn-primary" (click)="flipHorizontal()">Flip horizontal</button>
+<button class="btn btn-primary" (click)="flipVertical()">Flip vertical</button>
+<button class="btn btn-primary" (click)="toggleContainWithinAspectRatio()">{{containWithinAspectRatio?'Fill Aspect Ratio':'Contain Within Aspect Ratio'}}</button>
+<button class="btn btn-primary" (click)="zoomOut()">Zoom -</button> <button class="btn btn-primary" (click)="zoomIn()">Zoom +</button>
+<br>
+<div class="clr-col-md-4 clr-col-sm-12">
+  <input class="clr-input" [(ngModel)]="rotation" placeholder="Rotation" type="number" (keyup)="updateRotation()" />
+</div>
+
+ <image-cropper
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="4 / 3"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+></image-cropper>
+
+ <image-cropper
+[imageChangedEvent]="imageChangedEvent"
+[maintainAspectRatio]="true"
+[containWithinAspectRatio]="containWithinAspectRatio"
+[aspectRatio]="4 / 3"
+[resizeToWidth]="256"
+[cropperMinWidth]="128"
+[onlyScaleDown]="true"
+[roundCropper]="false"
+[canvasRotation]="canvasRotation"
+[transform]="transform"
+[alignImage]="'left'"
+[style.display]="showCropper ? null : 'none'"
+format="png"
+(imageCropped)="imageCropped($event)"
+(imageLoaded)="imageLoaded()"
+(cropperReady)="cropperReady($event)"
+(loadImageFailed)="loadImageFailed()"
+></image-cropper>
+<img [src]="croppedImage" />
+ -->
+
+
+
+<clr-modal [(clrModalOpen)]="model" [clrModalSize]="'lg'">
+  <h3 class="modal-title"><b>Profile Photo</b></h3>
+  <div class="modal-body">
+    <!-- <div  *ngIf="image; else def" style="text-align: center;">
+      <img [src]="image" alt="Avatar" style="height:278px;width:278x;border-radius:50%;">
+    </div>
+    <hr> -->
+    <input type="file" (change)="fileChangeEvent($event)" />
+    <br>
+    <image-cropper
+[imageChangedEvent]="imageChangedEvent"
+[maintainAspectRatio]="true"
+[containWithinAspectRatio]="containWithinAspectRatio"
+[aspectRatio]="4 / 3"
+[resizeToWidth]="256"
+[cropperMinWidth]="128"
+[onlyScaleDown]="true"
+[roundCropper]="false"
+[canvasRotation]="canvasRotation"
+[transform]="transform"
+[alignImage]="'left'"
+[style.display]="showCropper ? null : 'none'"
+format="png"
+(imageCropped)="imageCropped($event)"
+(imageLoaded)="imageLoaded()"
+(cropperReady)="cropperReady($event)"
+(loadImageFailed)="loadImageFailed()"
+
+></image-cropper>
+    <button class="btn btn-primary" (click)="toggleContainWithinAspectRatio()"><i class="fa fa-percent"></i></button>
+    <button class="btn btn-primary" (click)="rotateLeft()"><i class="fa fa-rotate-left"></i></button>
+    <button class="btn btn-primary" (click)="rotateRight()"> <i class="fa fa-rotate-right"></i></button>
+    <button class="btn btn-primary" (click)="flipVertical()"><clr-icon shape="ellipsis-vertical"></clr-icon></button>
+   <button class="btn btn-primary" (click)="flipHorizontal()"><clr-icon shape="ellipsis-horizontal"></clr-icon></button>
+   <button class="btn btn-primary" (click)="zoomOut()"><clr-icon shape="minus-circle"></clr-icon></button>
+   <button class="btn btn-primary" (click)="zoomIn()"><clr-icon shape="plus-circle"></clr-icon></button>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="model = false">Cancel</button>
+      <button type="submit" class="btn btn-primary" (click)="picUpload()">Upload</button>
+    </div>
+  </div>
+</clr-modal>
