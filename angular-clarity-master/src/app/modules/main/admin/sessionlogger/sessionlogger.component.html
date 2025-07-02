@@ -1,0 +1,99 @@
+
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"><clr-icon shape="home"></clr-icon></a></li>
+  <li><a href="" > <clr-icon shape="eye"></clr-icon>Log Management</a></li>
+  <li><a href="" > Session Logger</a></li>
+
+
+</ol>
+
+
+<div class="dg-wrapper">
+  <div class="clr-row">
+    <div class="clr-col-8">
+      <h3>Session Logger</h3>
+  </div>
+    <div class="clr-col-4" style="text-align: right;">
+
+      <button class="btn btn-outline" (click)="onExport()">
+        <clr-icon shape="export"></clr-icon> xlsx
+      </button>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+  <clr-datagrid [clrDgLoading]="loading">
+    <clr-dg-placeholder><ng-template #loadingSpinner><clr-spinner>Loading ... </clr-spinner></ng-template>
+      <div *ngIf="error;else loadingSpinner">{{error}}</div></clr-dg-placeholder>
+
+    <clr-dg-column [clrDgField]="'clientIp'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      Client Ip
+    </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'lastAccessDate'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      lastAccessDate
+    </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'logintime'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      Log In Time
+    </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'logouttime'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      Log Out Time
+    </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'creationdate'" style="width: 320px;"><ng-container *clrDgHideableColumn="{hidden: false}">
+      Session Id
+      </ng-container></clr-dg-column >
+    <clr-dg-column [clrDgField]="'logFileName'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      User Id
+    </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'status'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      User Name
+    </ng-container></clr-dg-column>
+
+
+
+
+
+    <clr-dg-row *clrDgItems="let user of data;let i = index" [clrDgItem]="user">
+      <clr-dg-cell>{{user.clientIp}}</clr-dg-cell>
+      <clr-dg-cell>{{user.lastAccessDate}}</clr-dg-cell>
+      <clr-dg-cell>{{user.logintime}} </clr-dg-cell>
+      <clr-dg-cell>{{user.logouttime}}</clr-dg-cell>
+      <clr-dg-cell >{{user.sessionId}}</clr-dg-cell>
+      <clr-dg-cell>{{user.userId.userId}}</clr-dg-cell>
+      <clr-dg-cell>{{user.userId.username}}</clr-dg-cell>
+
+      <clr-dg-action-overflow>
+
+        <button class="action-item"  (click)="modaldel(user)">Delete</button>
+
+      </clr-dg-action-overflow>
+
+
+    </clr-dg-row>
+
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Record per page</clr-dg-page-size>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{pagination.totalItems}} Records
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+</div>
+
+<clr-modal [(clrModalOpen)]="modaldelete"  [clrModalStaticBackdrop]="true">
+
+  <div class="modal-body" *ngIf="rowSelected?.userId?.userId">
+    <h1 class="delete">Are You Sure Want to delete?</h1>
+    <h2 class="heading">{{rowSelected.userId.userId}}</h2>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="modaldelete = false">Cancel</button>
+      <button type="button"  class="btn btn-primary" (click)="delete(rowSelected.userId.userId)">Delete</button>
+    </div>
+  </div>
+</clr-modal>
