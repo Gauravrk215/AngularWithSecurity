@@ -1,0 +1,665 @@
+
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"> <clr-icon shape="home"></clr-icon></a></li>
+  <li><a href="javascript://"><clr-icon shape="lock"></clr-icon>{{'SECURITY' | translate}}</a></li>
+  <li><a href="javascript://">{{'systemParameter' | translate}}</a></li>
+</ol>
+
+<!--<table class="table">
+  <caption>
+    <h4>Edit Mode</h4>
+  </caption>
+  <thead>
+    <tr>
+      <th class="name">Setup Code</th>
+      <th class="name">Value</th>
+
+      </tr>
+  </thead>
+  <tbody>
+
+  <TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle" ><B>Scheduler Timer</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">Scheduler Timer.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="10"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>Lease Tax Code</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">Tax Code.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="SST0"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>Vessel Confirmation Process Limit</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">Number of vessel confirmation(s) to process in each billing process.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="25"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>Row To Display</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">Number of rows to display per page (The value must not be less than or equal 1).</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="500"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>Link To Display</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">Number of links to display per page (The value must not be less than or equal 1).</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="10"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>Row To Add</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">Number of rows to add (tabular) (The value must not be less than or equal 1).</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="1"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>LOV Row To Display</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">LOV - Number of rows to display per page (The value must not be less than or equal 1).</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="10"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>LOV Link To Display</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">LOV - Number of link to display per page (The value must not be less than or equal 1).</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="10"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>OID Server Name</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">OID Server Hostname.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="billing.ptp.com.my"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>OID Base</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">OID Base.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="cn=Users,dc=ptp,dc=com,dc=my"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>OID Admin User</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">OID Administrator User.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="cn=orcladmin"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>OID Server Port</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">OID Server Port.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="389"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>User Default Group</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">Default User Group.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="2"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>Default Department</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">Default Department Code.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="D1"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>Default Position</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">Default Position Code.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="P1"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>Single Charge</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">Single charge for bundled containers.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <SELECT NAME="desc">
+<OPTION VALUE="N">No
+<OPTION SELECTED VALUE="Y">Yes
+</SELECT>
+</TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>First Day of The Week</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">SUN / MON / TUE / WED / THU / FRI / SAT.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="MON"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>Hour per Shift</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">Total hour per shift.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="8"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>CN Billing Frequency</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">CN billing frequency setting, I - Immediately or F - Default (which follow bill to setup).</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="I"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>Billing Department Code</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">The department code used by billing department, which is allowed to access all Non-Container Service Order information. Multiple department code can be specify, seperate by comma.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="FINANCE,DISPUTE"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>Base Price List</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">Base Price List.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="BASE PRICE LIST"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>Non-Container Service Order Auto-Approval Department Code</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">All Non-Container Service Order created by this department code will be approved automatically.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="DISPUTE"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>EDI MAE Scheduler ON/OFF</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">EDI MAE Scheduler ON/OFF.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="10"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle"><B>EDI Scheduler ON/OFF</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">EDI Scheduler ON/OFF.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="Y"></TD>
+
+</TR>
+
+<TR VALIGN="middle">
+    <TD class="x1l x4x" valign="middle">
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">Allowed Customer Codes for MSC Taulia CSV generation.</span>
+      </a>
+    </TD>
+    <TD class="x1l x4x" valign="middle" align="left">
+          <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="('SYSADMIN','ITSUPPORTMSC')"></TD>
+
+</TR>
+
+
+
+  </tbody>
+</table>-->
+
+
+
+
+
+
+<h4>{{ 'editMode' | translate }}</h4>
+<hr>
+<div class="container">
+  <form >
+    <div class="row">
+      <div class="col-25">
+        <label for="fname"><B>{{'setupCode' | translate}}</B></label>
+      </div>
+      <div class="col-75">
+        <label for="fname"><B>{{'value' | translate}}</B></label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="fname"><B>{{ 'schedulerTimer' | translate }}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content">{{ 'schedulerTimer' | translate }}</span>
+          </a> </label>
+      </div>
+      <div class="col-75">
+        <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100"  name="schedulerTime" [(ngModel)]="project.schedulerTime">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="lname"><B>{{ 'leaseTaxCode' | translate }}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content"> {{'taxCodeTooltip' | translate}}</span>
+          </a></label>
+      </div>
+      <div class="col-75">
+          <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="leaseTaxCode" [(ngModel)]="project.leaseTaxCode">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="country"><B>{{ 'vesselConfProcessLimit' | translate }}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content">Number of vessel confirmation(s) to process in each billing process.</span>
+          </a></label>
+      </div>
+      <div class="col-75">
+        <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="vesselConfProcessLimit" [(ngModel)]="project.vesselConfProcessLimit">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="subject"><B>{{ 'rowToDisplay' | translate }}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content">Number of rows to display per page (The value must not be less than or equal 1).</span>
+          </a></label>
+      </div>
+      <div class="col-75">
+        <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="rowToDisplay" [(ngModel)]="project.rowToDisplay">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="subject"><B>{{'linkToDisplay' | translate}}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content">Number of links to display per page (The value must not be less than or equal 1).</span>
+          </a></label>
+      </div>
+      <div class="col-75">
+        <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="linkToDisplay" [(ngModel)]="project.linkToDisplay">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="subject"><B>{{'rowToAdd' | translate}}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content">Number of rows to add (tabular) (The value must not be less than or equal 1).</span>
+          </a></label>
+      </div>
+      <div class="col-75">
+        <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="rowToAdd" [(ngModel)]="project.rowToAdd">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="subject"><B>{{'lovRowToDisplay' | translate}}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content">LOV - Number of rows to display per page (The value must not be less than or equal 1).</span>
+          </a></label>
+      </div>
+      <div class="col-75">
+        <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="lovRowToDisplay" [(ngModel)]="project.lovRowToDisplay">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="subject"><B>{{'lovLinkToDisplay' | translate}}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content">{{'lovLinkToDisplayTooltip' | translate}}</span>
+          </a></label>
+      </div>
+      <div class="col-75">
+        <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="lovLinkToDisplay" [(ngModel)]="project.lovLinkToDisplay">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="subject"><B>{{'oidServerName' | translate}}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content">{{'oidServerNameTooltip' | translate}}</span>
+          </a></label>
+      </div>
+      <div class="col-75">
+        <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="oidserverName" [(ngModel)]="project.oidserverName">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="subject"><B>{{'oidBase' | translate}}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content">{{'oidBaseTooltip' | translate}}</span>
+          </a></label>
+      </div>
+      <div class="col-75">
+        <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="oidBase" [(ngModel)]="project.oidBase">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="subject"><B>{{'oidAdminUser' | translate}}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content">{{'oidAdminUserTooltip' | translate}}</span>
+          </a></label>
+      </div>
+      <div class="col-75">
+        <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="oidAdminUser" [(ngModel)]="project.oidAdminUser">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="subject"><B>{{'oidServerPort' | translate}}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content">{{'oidServerPortTooltip' | translate}}</span>
+          </a></label>
+      </div>
+     <div class="col-75">
+  <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="oidServerPort" [(ngModel)]="project.oidServerPort">
+</div>
+</div>
+<div class="row">
+  <div class="col-25">
+    <label for="subject"><B>{{'userDefaultGroup' | translate}}</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">{{'Default User Group.' | translate}}</span>
+      </a></label>
+  </div>
+  <div class="col-75">
+    <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="userDefaultGroup" [(ngModel)]="project.userDefaultGroup">
+  </div>
+</div>
+<div class="row">
+  <div class="col-25">
+    <label for="subject"><B>{{'defaultDepartment' | translate}}</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">{{'defaultDepartmentCode.' | translate}}</span>
+      </a></label>
+  </div>
+  <div class="col-75">
+    <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="defaultDepartment" [(ngModel)]="project.defaultDepartment">
+  </div>
+</div>
+<div class="row">
+  <div class="col-25">
+    <label for="subject"><B>{{'defaultPosition' | translate}}</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">{{'Default Position Code.' | translate}}</span>
+      </a></label>
+  </div>
+  <div class="col-75">
+    <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="defaultPosition" [(ngModel)]="project.defaultPosition">
+  </div>
+</div>
+<div class="row">
+  <div class="col-25">
+    <label for="subject"><B>{{'singleCharge' | translate}}</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">{{'Single charge for bundled containers.' | translate}}</span>
+      </a></label>
+  </div>
+  <div class="col-75">
+    <select NAME="desc" name="singleCharge" [(ngModel)]="project.singleCharge">
+      <option VALUE="N">{{'No' | translate}}</option>
+      <option SELECTED VALUE="Y">{{'Yes' | translate}}</option>
+    </select>
+  </div>
+</div>
+<div class="row">
+  <div class="col-25">
+    <label for="subject"><B>{{'firstDayOftheWeek' | translate}}</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">{{'SUN / MON / TUE / WED / THU / FRI / SAT.' | translate}}</span>
+      </a></label>
+  </div>
+  <div class="col-75">
+    <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="firstDayOftheWeek" [(ngModel)]="project.firstDayOftheWeek">
+  </div>
+</div>
+<div class="row">
+  <div class="col-25">
+    <label for="subject"><B>{{'hourPerShift' | translate}}</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">{{'Total hour per shift.' | translate}}</span>
+      </a></label>
+  </div>
+  <div class="col-75">
+    <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="hourPerShift" [(ngModel)]="project.hourPerShift">
+  </div>
+</div>
+<div class="row">
+  <div class="col-25">
+    <label for="subject"><B>{{'cnBillingFrequency' | translate}}</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">{{'CN billing frequency setting, I - Immediately or F - Default (which follow bill to setup).' | translate}}</span>
+      </a></label>
+  </div>
+  <div class="col-75">
+    <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="cnBillingFrequency" [(ngModel)]="project.cnBillingFrequency">
+  </div>
+</div>
+<div class="row">
+  <div class="col-25">
+    <label for="subject"><B>{{'billingDepartmentCode' | translate}}</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">{{'The department code used by billing department, which is allowed to access all Non-Container Service Order information. Multiple department code can be specify, seperate by comma.' | translate}}</span>
+      </a></label>
+  </div>
+  <div class="col-75">
+    <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="billingDepartmentCode" [(ngModel)]="project.billingDepartmentCode">
+  </div>
+</div>
+<div class="row">
+  <div class="col-25">
+    <label for="subject"><B>{{'basePriceList' | translate}}</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">{{'Base Price List.' | translate}}</span>
+      </a></label>
+  </div>
+  <div class="col-75">
+    <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="basePriceList" [(ngModel)]="project.basePriceList">
+  </div>
+</div>
+<div class="row">
+  <div class="col-25">
+    <label for="subject"><B>{{'nonContainerServiceOrder' | translate}}</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">{{'All Non-Container Service Order created by this department code will be approved automatically.' | translate}}</span>
+      </a></label>
+  </div>
+  <div class="col-75">
+    <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="nonContainerServiceOrder" [(ngModel)]="project.nonContainerServiceOrder">
+  </div>
+</div>
+<div class="row">
+  <div class="col-25">
+    <label for="subject"><B>{{'ediMaeSchedulerONOFF' | translate}}</B>
+      <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+        <clr-icon shape="help" size="md"></clr-icon>
+        <span class="tooltip-content">{{'ediSchedulerONOFF' | translate}}</span>
+      </a></label>
+  </div>
+      <div class="col-75">
+        <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" name="ediSchedulerONOFF" [(ngModel)]="project.ediSchedulerONOFF">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="subject"><B>{{'uploadLogo' | translate}}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content">{{'UploadLogo' | translate}}</span>
+          </a></label>
+      </div>
+      <div class="col-75">
+
+          <input type="file"  (change)="onFileChanged($event)" accept=".pdf,.doc,.docx,.jpg,.msg" name="upload_Logo">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="subject"><B> {{'companyDisplayName' | translate}}</B>
+          <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md">
+            <clr-icon shape="help" size="md"></clr-icon>
+            <span class="tooltip-content">c{{'companyDisplayName' | translate}}</span>
+          </a></label>
+      </div>
+      <div class="col-75">
+        <input TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100"  name="companyname" [(ngModel)]="project.company_Display_Name">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-md" style="margin-left: 140px;">
+          <clr-icon shape="help" size="md"></clr-icon>
+          <span class="tooltip-content">Allowed Customer Codes for MSC Taulia CSV generation.</span>
+        </a>
+      </div>
+      <div class="col-75">
+        <INPUT TYPE="text" NAME="desc" SIZE="30" MAXLENGTH="100" VALUE="('SYSADMIN','ITSUPPORTMSC')">
+      </div>
+    </div>
+    <button class="btn btn-primary" (click)="updatedata()">Save</button>
+    <button  class="btn btn-success">Clear</button>
+  </form>
+</div>
