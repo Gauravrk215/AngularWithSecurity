@@ -1,0 +1,606 @@
+<!-- <ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/']">Home</a></li>
+  <li><a href="javascript://">User</a></li>
+</ol>
+
+<div class="dg-wrapper">
+  <div class="clr-row">
+    <div class="clr-col-8">
+      <h3>User list </h3>
+    </div>
+    <div class="clr-col-4" style="text-align: right;">
+      <button class="btn btn-outline" (click)="onExport()">
+        <clr-icon shape="export"></clr-icon> xlsx
+      </button>
+      <button id="add" class="btn btn-primary" (click)="goToAdd()">
+        <clr-icon shape="plus"></clr-icon>ADD
+      </button>
+    </div>
+  </div>
+  <clr-datagrid [clrDgLoading]="loading">
+    <clr-dg-placeholder>user not found!</clr-dg-placeholder>
+    <clr-dg-column [clrDgField]="'login.username'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      User Id
+    </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'name.title'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      Name
+    </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'gender'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        gender
+      </ng-container>
+      </clr-dg-column >
+    <clr-dg-column [clrDgField]="'dob'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      dob
+    </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'email'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      email
+    </ng-container></clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let user of users" [clrDgItem]="user">
+      <clr-dg-cell>{{user.login.username}}</clr-dg-cell>
+      <clr-dg-cell>{{user.name.title}} {{user.name.first}} {{user.name.last}}</clr-dg-cell>
+      <clr-dg-cell>{{user.gender}}</clr-dg-cell>
+      <clr-dg-cell>{{user.dob.date | date}}</clr-dg-cell>
+      <clr-dg-cell>{{user.email}}</clr-dg-cell>
+      <clr-dg-action-overflow>
+        <button class="action-item" (click)="onEdit(user)">Edit</button>
+        <button class="action-item" (click)="onDelete(user)">Delete</button>
+      </clr-dg-action-overflow>˝
+      <clr-dg-row-detail *clrIfExpanded>
+        <table class="table">
+          <tr>
+            <td class="td-title">picture</td>
+            <td class="td-content"><img [src]="user.picture.large"></td>
+          </tr>
+          <tr>
+            <td class="td-title">id</td>
+            <td class="td-content">{{user.id.name}}, {{user.id.value}}</td>
+          </tr>
+          <tr>
+            <td class="td-title">location</td>
+            <td class="td-content">{{user.location.street}} {{user.location.city}}, {{user.location.state}}
+              {{user.location.postcode}}, {{user.nat}} </td>
+          </tr>
+          <tr>
+            <td class="td-title">register</td>
+            <td class="td-content">{{user.registered.date | date}}</td>
+          </tr>
+          <tr>
+            <td class="td-title">tel</td>
+            <td class="td-content">phone: {{user.phone}} cell: {{user.cell}}</td>
+          </tr>
+        </table>
+      </clr-dg-row-detail>
+    </clr-dg-row>
+
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{pagination.totalItems}} users
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+</div>
+
+<clr-modal [(clrModalOpen)]="modalEdit" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">User Edit</h3>
+  <div class="modal-body" *ngIf="rowSelected.name">
+    <h2>{{rowSelected.name.title}} {{rowSelected.name.first}} {{rowSelected.name.last}}</h2>
+    <form clrForm>
+      <clr-input-container>
+        <label>name</label>
+        <input clrInput type="text" [(ngModel)]="rowSelected.name.title" name="title" />
+        <input clrInput type="text" [(ngModel)]="rowSelected.name.first" name="first" />
+        <input clrInput type="text" [(ngModel)]="rowSelected.name.last" name="last" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>email</label>
+        <input clrInput type="text" [(ngModel)]="rowSelected.email" name="email" />
+      </clr-input-container>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="modalEdit = false">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="onSave()">Save</button>
+  </div>
+</clr-modal>
+
+ -->
+
+
+
+
+
+
+
+
+<!--user list -->
+
+
+<!-- <ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/']">Home</a></li>
+  <li><a href="javascript://">User</a></li>
+</ol>
+
+<div class="dg-wrapper">
+  <div class="clr-row">
+    <div class="clr-col-8">
+      <h3>User list </h3>
+    </div>
+    <div class="clr-col-4" style="text-align: right;">
+      <button class="btn btn-outline" (click)="onExport()">
+        <clr-icon shape="export"></clr-icon> xlsx
+      </button>
+      <button id="add" class="btn btn-primary" (click)="openAddUser=true">
+        <clr-icon shape="plus"></clr-icon>ADD
+      </button>
+    </div>
+  </div>
+  <clr-datagrid [clrDgLoading]="loading">
+    <clr-dg-placeholder>user not found!</clr-dg-placeholder>
+    <clr-dg-column [clrDgField]="'id'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        User Id
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'name'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        Name
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'gender'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        gender
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'dob'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        dob
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'email'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        email
+      </ng-container>
+    </clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let user1 of allusers" [clrDgItem]="user1">
+      <clr-dg-cell>{{user1.id}}</clr-dg-cell>
+      <clr-dg-cell>{{user1.name}}</clr-dg-cell>
+      <clr-dg-cell>{{user1.gender}}</clr-dg-cell>
+      <clr-dg-cell>{{user1.dob| date}}</clr-dg-cell>
+      <clr-dg-cell>{{user1.email}}</clr-dg-cell>
+      <clr-dg-action-overflow>
+        <button class="action-item" (click)="onEdit(user1.id)">Edit</button>
+        <button class="action-item" (click)="del(user1.id)">Delete</button>
+        <button class="action-item" (click)="openAssignModal(user1.id)">Assignment</button>
+      </clr-dg-action-overflow>˝
+      <clr-dg-row-detail *clrIfExpanded>
+        <table class="table">
+          <tr>
+            <td class="td-title">picture</td>
+            <td class="td-content" *ngIf="!user1.imgData"><img class="img-class" src="../../../../assets/images/profile-icon.png"></td>
+            <td class="td-content" *ngIf="user1.imgData"><img class="img-class" [src]="user1.imgData"></td>
+
+          </tr>
+          <tr>
+            <td class="td-title">id</td>
+            <td class="td-content">{{user1.user_id}}</td>
+          </tr>
+          <tr>
+            <td class="td-title">location</td>
+            <td class="td-content">{{user1.address1}}, {{user.country}} -
+              {{user.postal}} </td>
+          </tr>
+          <tr>
+            <td class="td-title">register</td>
+            <td class="td-content">{{user1.created_at}}</td>
+          </tr>
+          <tr>
+            <td class="td-title">tel</td>
+            <td class="td-content">phone: {{user1.phone}}</td>
+          </tr>
+        </table>
+      </clr-dg-row-detail>
+    </clr-dg-row>
+
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{pagination.totalItems}} users
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+
+</div>
+
+<clr-modal [(clrModalOpen)]="modalEdit" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">User Edit</h3>
+  <div class="modal-body">
+
+    <form clrForm>
+      <clr-input-container>
+        <label>User Id</label>
+        <input [(ngModel)]="updateU.id" style="width: 100%;" clrInput type="text" name="user_id" readonly />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Name</label>
+        <input [(ngModel)]="updateU.name" style="width: 100%;" clrInput type="text" name="name" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Gender</label>
+        <input [(ngModel)]="updateU.gender" style="width: 100%;" clrInput type="text" name="gender" />
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>DOB</label>
+        <input [(ngModel)]="updateU.dob" style="width: 100%;" clrInput type="text" name="dob" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Email</label>
+        <input [(ngModel)]="updateU.email" style="width: 100%;" clrInput type="text" name="email" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Username</label>
+        <input [(ngModel)]="updateU.username" style="width: 100%;" clrInput type="text" name="username" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Password</label>
+        <input [(ngModel)]="updateU.password" style="width: 100%;" clrInput type="password" name="password" />
+      </clr-input-container>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="modalEdit = false">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="updateUser()">Save</button>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="openAddUser" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">User Create</h3>
+  <div class="modal-body">
+    <form clrForm>
+
+      <clr-input-container>
+        <label>Name</label>
+        <input [(ngModel)]="user.name" style="width: 100%;" clrInput type="text" name="name" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Gender</label>
+        <input [(ngModel)]="user.gender" style="width: 100%;" clrInput type="text" name="gender" />
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>DOB</label>
+        <input [(ngModel)]="user.dob" style="width: 100%;" clrInput type="date" name="dob" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Email</label>
+        <input [(ngModel)]="user.email" style="width: 100%;" clrInput type="text" name="email" />
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Username</label>
+        <input [(ngModel)]="user.username" style="width: 100%;" clrInput type="text" name="username" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Password</label>
+        <input [(ngModel)]="user.password" style="width: 100%;" clrInput type="password" name="password" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Image</label>
+        <input type="file" (change)="onFileChanged($event)" clrInput required />
+      </clr-input-container>
+    </form>
+    <div *ngIf=message>{{message}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="openAddUser = false">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="createUserHere()">Save</button>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+  <div class="modal-body">
+    <h1 class="delete">Are You Sure Want to delete?</h1>
+    <h2 class="heading">{{tempid}}</h2>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="modaldelete = false">Cancel</button>
+      <button type="button" (click)="onDelete()" class="btn btn-primary">Delete</button>
+    </div>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="modalcreate" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+  <div class="modal-body">
+    <h1 class="add-pop">Are You Sure Want to add?</h1>
+    <h2 class="heading">{{tempid}}</h2>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="modalcreate = false">Cancel</button>
+      <button type="button" class="btn btn-primary">Delete</button>
+    </div>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="modalup" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+  <div class="modal-body">
+    <h1 class="add-pop">Are You Sure Want to update?</h1>
+    <h2 class="heading">{{tempid}}</h2>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="modalup = false">Cancel</button>
+      <button type="button" class="btn btn-primary">Delete</button>
+    </div>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="assign" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">Assign Menu Group To User</h3>
+  <div class="modal-body">
+
+    <form clrForm>
+
+      <label>Select Menu Group</label>
+      <select name="menu_group" [(ngModel)]="userData.menu_group">
+        <option value="null" disabled>Choose one...</option>
+        <option *ngFor="let g of groupData" [value]="g.id">{{ g.menu_name }}</option>
+
+      </select>
+
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="assign = false">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="saveAssign()">Save</button>
+  </div>
+</clr-modal> -->
+
+
+
+
+<!--user  -->
+
+
+
+
+
+
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/']">Home</a></li>
+  <li><a href="javascript://">User</a></li>
+</ol>
+
+<div class="dg-wrapper">
+  <div class="clr-row">
+    <div class="clr-col-8">
+      <h3>User list </h3>
+    </div>
+    <div class="clr-col-4" style="text-align: right;">
+      <button class="btn btn-outline" (click)="onExport()">
+        <clr-icon shape="export"></clr-icon> xlsx
+      </button>
+      <button id="add" class="btn btn-primary" (click)="openAddUser=true">
+        <clr-icon shape="plus"></clr-icon>ADD
+      </button>
+    </div>
+  </div>
+  <clr-datagrid [clrDgLoading]="loading">
+    <clr-dg-placeholder>user not found!</clr-dg-placeholder>
+    <clr-dg-column [clrDgField]="'userId'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        User Id
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'firstName'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        Name
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'username'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        Username
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'role'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        Role
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'email'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        email
+      </ng-container>
+    </clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let user1 of userst" [clrDgItem]="user1">
+      <clr-dg-cell>{{user1.userId}}</clr-dg-cell>
+      <clr-dg-cell>{{user1.firstName}}&nbsp;{{user1.lastName}}</clr-dg-cell>
+      <clr-dg-cell>{{user1.username}}</clr-dg-cell>
+      <clr-dg-cell>{{user1.role}}</clr-dg-cell>
+      <clr-dg-cell>{{user1.email}}</clr-dg-cell>
+      <clr-dg-action-overflow>
+        <button class="action-item" (click)="onEditNew(user1.userId)">Edit</button>
+        <button class="action-item" (click)="delNew(user1.userId)">Delete</button>
+        <button class="action-item" (click)="openAssignModalNew(user1.userId)">Assignment</button>
+      </clr-dg-action-overflow>˝
+      <clr-dg-row-detail *clrIfExpanded>
+        <table class="table">
+          <tr>
+            <td class="td-title">picture</td>
+            <td class="td-content" *ngIf="!retrievedImage"><img class="img-class"
+                src="../../../../assets/images/profile-icon.png"></td>
+            <td class="td-content" *ngIf="retrievedImage"><img class="img-class" [src]="retrievedImage"></td>
+
+          </tr>
+          <tr>
+            <td class="td-title">ID</td>
+            <td class="td-content">{{user1.userId}}</td>
+          </tr>
+          <tr>
+            <td class="td-title">Updated</td>
+            <td class="td-content">{{user1.updatedAt | date}}</td>
+          </tr>
+          <tr>
+            <td class="td-title">Register</td>
+            <td class="td-content">{{user1.createdAt | date}}</td>
+          </tr>
+        </table>
+      </clr-dg-row-detail>
+    </clr-dg-row>
+
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{pagination.totalItems}} users
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+
+</div>
+
+<clr-modal [(clrModalOpen)]="modalEdit" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">User Edit</h3>
+  <div class="modal-body">
+
+    <form clrForm>
+      <clr-input-container>
+        <label>User Id</label>
+        <input [(ngModel)]="updateU1.userId" style="width: 100%;" clrInput type="text" name="userId" readonly />
+      </clr-input-container>
+      <clr-input-container>
+        <label>First Name</label>
+        <input [(ngModel)]="updateU1.firstName" style="width: 100%;" clrInput type="text" name="firstName" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Last Name</label>
+        <input [(ngModel)]="updateU1.lastName" style="width: 100%;" clrInput type="text" name="lastName" />
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Email</label>
+        <input [(ngModel)]="updateU1.email" style="width: 100%;" clrInput type="text" name="email" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Username</label>
+        <input [(ngModel)]="updateU1.username" style="width: 100%;" clrInput type="text" name="username" />
+      </clr-input-container>
+
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="modalEdit = false">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="updateUserNew()">Save</button>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="openAddUser" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">User Create</h3>
+  <div class="modal-body">
+    <form clrForm>
+
+      <clr-input-container>
+        <label>Name</label>
+        <input [(ngModel)]="user.name" style="width: 100%;" clrInput type="text" name="name" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Gender</label>
+        <input [(ngModel)]="user.gender" style="width: 100%;" clrInput type="text" name="gender" />
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>DOB</label>
+        <input [(ngModel)]="user.dob" style="width: 100%;" clrInput type="date" name="dob" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Email</label>
+        <input [(ngModel)]="user.email" style="width: 100%;" clrInput type="text" name="email" />
+      </clr-input-container>
+
+      <clr-input-container>
+        <label>Username</label>
+        <input [(ngModel)]="user.username" style="width: 100%;" clrInput type="text" name="username" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Password</label>
+        <input [(ngModel)]="user.password" style="width: 100%;" clrInput type="password" name="password" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Image</label>
+        <input type="file" (change)="onFileChanged($event)" clrInput required />
+      </clr-input-container>
+    </form>
+    <div *ngIf=message>{{message}}</div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="openAddUser = false">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="createUserHere()">Save</button>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+  <div class="modal-body">
+    <h1 class="delete">Are You Sure Want to delete?</h1>
+    <h2 class="heading">{{tempid}}</h2>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="modaldelete = false">Cancel</button>
+      <button type="button" (click)="onDelete()" class="btn btn-primary">Delete</button>
+    </div>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="modalcreate" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+  <div class="modal-body">
+    <h1 class="add-pop">Are You Sure Want to add?</h1>
+    <h2 class="heading">{{tempid}}</h2>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="modalcreate = false">Cancel</button>
+      <button type="button" class="btn btn-primary">Delete</button>
+    </div>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="modalup" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+  <div class="modal-body">
+    <h1 class="add-pop">Are You Sure Want to update?</h1>
+    <h2 class="heading">{{tempid}}</h2>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="modalup = false">Cancel</button>
+      <button type="button" class="btn btn-primary">Delete</button>
+    </div>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="assign" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">Assign Menu Group To User</h3>
+  <div class="modal-body">
+
+    <form clrForm>
+
+      <label>Select Menu Group</label>
+      <select name="menu_group" [(ngModel)]="userData.menu_group">
+        <option value="null" disabled>Choose one...</option>
+        <option *ngFor="let g of groupData" [value]="g.id">{{ g.menu_name }}</option>
+
+      </select>
+
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="assign = false">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="saveAssign()">Save</button>
+  </div>
+</clr-modal>

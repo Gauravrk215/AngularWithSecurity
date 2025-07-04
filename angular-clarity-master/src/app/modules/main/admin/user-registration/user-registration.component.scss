@@ -1,0 +1,143 @@
+//@import "../../../assets/scss/var";
+/* :host {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}  */
+
+/* .s-login-pg {
+    width:400px;
+    display:flex;
+    padding:0;
+    margin:48px 16px 16px 16px;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.15);
+    .s-login-pg-head{
+        width:100%;
+        height:220px;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #998;
+        padding:16px;
+        color:white;
+    }
+    .s-login-pg-form {
+        width:100%;
+        height:200px;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        margin:24px 16px;
+        input{
+            margin: 16px;
+        }
+    }
+    .s-login-pg-foot {
+        width:100%;
+        min-height:40px;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+
+} */
+
+//** variables
+$background: #f5f6fa;
+$text: #9c9c9c;
+$input-bg-color: #fff;
+$input-text-color: #a3a3a3;
+$button-bg-color: #7f8ff4;
+$button-text-color: #fff;
+
+//** root
+:root {
+	background: $background;
+	color: $text;
+	font: 1rem "PT Sans", sans-serif;
+}
+
+html,
+body,
+.container {
+	height: 100%;
+}
+
+a {
+	color: inherit;
+
+	&:hover {
+		color: $button-bg-color;
+	}
+}
+
+//** helper
+.email_check {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+//** button
+.btn {
+	display: inline-block;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	border: 0;
+	outline: 0;
+	padding: 0;
+	transition: all 200ms ease-in;
+	cursor: pointer;
+
+	&--primary {
+		background: $button-bg-color;
+		color: $button-text-color;
+		box-shadow: 0 0 10px 2px rgba(0, 0, 0, .1);
+		border-radius: 2px;
+		//padding: 12px 36px;
+		//padding: 7px 158px;
+		width: 100%;
+
+		&:hover {
+			background: darken($button-bg-color, 4%);
+		}
+
+		&:active {
+			background: $button-bg-color;
+			box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, .2);
+		}
+	}
+
+	/* &--inside {
+		margin-left: -96px;
+	} */
+}
+
+//** form
+.form {
+	/* margin-left: auto;
+	margin-right: auto; */
+	&__field {
+		width: 360px;
+		//width: 450px;
+		background: #fff;
+		color: $input-text-color;
+		font: inherit;
+		box-shadow: 0 6px 10px 0 rgba(0, 0, 0 , .1);
+		border: 0;
+		outline: 0;
+		padding: 22px 18px;
+	}
+}
