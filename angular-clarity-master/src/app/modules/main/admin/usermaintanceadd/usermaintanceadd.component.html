@@ -1,0 +1,319 @@
+
+    <h4 style="font-weight: 300;display: inline;"> User Maintenance</h4>
+    <span class="label label-light-blue" style="display: inline;margin-left: 30px;">Add Mode</span><br>
+    <hr>
+    <div class="main" >
+      <form [formGroup]="entryForm">
+
+        <div class="clr-row">
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name"> First Name</label>
+           <input type="text" class="clr-input" formControlName="first_name">
+           <div *ngIf="submitted && entryForm.controls.first_name.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.first_name.errors.required" class="error_mess">*This field is Required</div>
+        </div>
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">Last Name</label>
+           <input type="text" class="clr-input" formControlName="last_name">
+           <div *ngIf="submitted && entryForm.controls.last_name.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.last_name.errors.required" class="error_mess">*This field is Required</div>
+        </div>
+          </div>
+           <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">Mobile Number</label>
+           <input type="text" class="clr-input" formControlName="mob_no" required pattern="((\+)?([1-9]{2}))?[1-9]{1}[0-9]{9}$">
+           <div *ngIf="submitted && entryForm.controls.mob_no.errors" class="error_mess">
+            <div *ngIf="submitted && entryForm.controls.mob_no.errors.required" class="error_mess">*This field is Required</div>
+            <div *ngIf="submitted && entryForm.controls.mob_no.errors.pattern" class="error_mess">* Please Follow your pattern,+91 Enter 10 digit Mobile Number.
+            </div>
+
+        </div>
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">New Password<span class="required-field">*</span></label>
+           <input type="password" class="clr-input" formControlName="new_password" minlenght="6">
+           <div *ngIf="submitted && entryForm.controls.new_password.errors" class="error_mess">
+            <div *ngIf="entryForm.controls.new_password.errors.required" class="error_mess">*Password is required</div>
+            <div *ngIf="entryForm.controls.new_password.errors.minlength" class="error_mess">* Password must be at least 6 characters</div>
+
+        </div>
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">Confirm New Password<span class="required-field">*</span></label>
+           <input type="password" class="clr-input" formControlName="confirm_passwordS">
+           <div *ngIf="submitted && entryForm.controls.confirm_passwordS.errors" class="error_mess">
+            <div *ngIf="entryForm.controls.confirm_passwordS.errors.required" class="error_mess">* Confirm Password is required</div>
+            <div *ngIf="entryForm.controls.confirm_passwordS.errors.confirmedValidator" class="error_mess">* Password and Confirm Password must be match.</div>
+
+        </div>
+          </div>
+          <!-- <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">Business Title</label>
+           <input type="text" class="clr-input" formControlName="title">
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name"> Short Name</label>
+           <input type="text" class="clr-input" formControlName="shortName">
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">Full Name</label>
+           <input type="text" class="clr-input" formControlName="fullName">
+          </div> -->
+          <!-- <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="tags">Status</label>
+            <select  id="" formControlName="status">
+              <option value="E">Enable</option>
+              <option  value="A">Active</option></select>
+            </div> -->
+            <!-- <div class="clr-col-md-3 clr-col-sm-12">
+              <label for="name">Position Code</label>
+             <input type="text" class="clr-input" formControlName="positionCodeString" [(ngModel)]="userobjpos.positionCode" name="positionCode" >
+            </div>
+            <div class="clr-col-md-1 clr-col-sm-12" style="margin-top: 25px;">
+              <button style="margin-right: 5px;" (click)="gotoposition()">V</button>
+            </div>
+            <div class="clr-col-md-3 clr-col-sm-12">
+              <label for="name">Department Code</label>
+             <input type="text" class="clr-input" formControlName="departmentCodeString" [(ngModel)]="userobjdept.departmentCode" name="departmentCode">
+            </div>
+            <div class="clr-col-md-1 clr-col-sm-12" style="margin-top: 25px;">
+              <button style="margin-right: 5px;" (click)="gotodepartmet()">V</button>
+            </div> -->
+            <div class="clr-col-md-4 clr-col-sm-12">
+              <label for="tags">User Group</label>
+              <select  id="tags" formControlName="usrGrpId" >
+                <option *ngFor="let sub of usergrpdata" [value]="sub.usrGrp">{{sub.groupName}}</option>
+                </select>
+                <div *ngIf="submitted && entryForm.controls.usrGrpId.errors" class="error_mess">
+                  <div *ngIf="submitted && entryForm.controls.usrGrpId.errors.required" class="error_mess">*This field is Required</div>
+              </div>
+              </div>
+              <!-- <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="name">Customer Id</label>
+               <input type="text" class="clr-input" formControlName="customerId" name="customerCode">
+              </div> -->
+              <!-- <div class="clr-col-md-1 clr-col-sm-12" style="margin-top: 25px;">
+                <button style="margin-right: 5px;" >V</button>
+              </div> -->
+              <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="name">Email</label>
+               <input type="text" class="clr-input" formControlName="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+               <div *ngIf="submitted && entryForm.controls.email.errors" class="error_mess">
+                <div *ngIf="submitted && entryForm.controls.email.errors.required" class="error_mess">*This field is Required</div>
+                <!-- <div *ngIf="submitted && entryForm.controls.email.errors.email" class="error_mess">*Email must be a valid email address</div> -->
+                <div *ngIf="submitted && entryForm.controls.email.errors.pattern" class="error_mess">*Email must be a valid email address</div>
+
+            </div>
+              </div>
+              <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="tags">Access Type</label>
+                <select  name="usrGrpId" formControlName="accesstype">
+                  <option *ngFor="let sub of accessdata" [value]="sub.name" [selected]="true">{{sub.name}}</option>
+                 </select>
+                 <div *ngIf="submitted && entryForm.controls.accesstype.errors" class="error_mess">
+                  <div *ngIf="submitted && entryForm.controls.accesstype.errors.required" class="error_mess">*This field is Required</div>
+              </div>
+                </div>
+              <!-- <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="tags">Notification</label>
+                <select  id="" formControlName="notification">
+                  <option value="N" >NO</option>
+                  <option value="Y">YES</option></select>
+                </div> -->
+
+                   </div>
+                   <!-- <div class="clr-row">
+                    <div class="clr-col-md-3 clr-col-sm-12">
+                      <label for="name">Created By</label>
+                     <input type="text" class="clr-input">
+                    </div>
+                    <div class="clr-col-md-3 clr-col-sm-12">
+                      <label for="name">Created On</label>
+                     <input type="text" class="clr-input">
+                    </div>
+                    <div class="clr-col-md-3 clr-col-sm-12">
+                      <label for="name">Updated By</label>
+                     <input type="text" class="clr-input">
+                    </div>
+                    <div class="clr-col-md-3 clr-col-sm-12">
+                      <label for="name">Updated On</label>
+                     <input type="text" class="clr-input">
+                    </div>
+                  </div> -->
+                  </form>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="goback()">Cancel</button>
+      <button type="button"  class="btn btn-primary" (click)="onSubmit()">Add</button>
+      </div>
+    </div>
+
+
+    <clr-modal [(clrModalOpen)]="customer" [clrModalSize]="'lg'">
+      <h3 class="modal-title"><b>Select From List:</b></h3>
+      <div class="modal-body">
+        <div class="clr-row">
+          <div class="clr-col-md-12 clr-col-sm-12">
+              <input id="data" type="text" placeholder="Enter search Criteria" class="clr-input">
+           </div>
+          </div>
+
+         <clr-datagrid [clrDgLoading]="loading">
+          <clr-dg-placeholder><clr-spinner>Loading ...</clr-spinner></clr-dg-placeholder>
+          <clr-dg-column [clrDgField]="'id'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            No
+          </ng-container></clr-dg-column>
+          <clr-dg-column [clrDgField]="'customerId'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            Customer Code
+          </ng-container></clr-dg-column>
+          <clr-dg-column [clrDgField]="'customerCode'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            Customer Id
+          </ng-container></clr-dg-column>
+
+          <clr-dg-column [clrDgField]="'customerName'">
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+              Customer Name
+            </ng-container>
+            </clr-dg-column >
+
+          <clr-dg-row *clrDgItems="let user of custdata;let i = index" [clrDgItem]="user">
+            <clr-dg-cell>{{i+1}}</clr-dg-cell>
+            <clr-dg-cell (click)="getcustID(user.customerId)" style="color: rgb(108, 108, 194);" >{{user.customerCode}}</clr-dg-cell>
+            <clr-dg-cell >{{user.customerId}}</clr-dg-cell>
+            <clr-dg-cell>{{user.customerName}}</clr-dg-cell>
+
+            <clr-dg-row-detail *clrIfExpanded>
+              <table class="table">
+                <tr>
+                  <td class="td-title">NO</td>
+                  <td class="td-content">{{user.id}}</td>
+                </tr>
+                <tr>
+                  <td class="td-title"> Customer Code</td>
+                  <td class="td-content">{{user.customerCode}}</td>
+                </tr>
+                <tr>
+                  <td class="td-title">Customer Id</td>
+                  <td class="td-content">{{user.customerId}} </td>
+                </tr>
+                <tr>
+                  <td class="td-title"> Customer Name<td>
+                  <td class="td-content">{{user.customerName}}</td>
+                </tr>
+              </table>
+            </clr-dg-row-detail>
+          </clr-dg-row>
+
+          <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+              <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Records per page</clr-dg-page-size>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+              of {{pagination.totalItems}} Records
+            </clr-dg-pagination>
+          </clr-dg-footer>
+        </clr-datagrid>
+      </div>
+    </clr-modal>
+
+    <clr-modal [(clrModalOpen)]="department" [clrModalSize]="'lg'">
+      <h3 class="modal-title"><b>Select From List:</b></h3>
+      <div class="modal-body">
+        <div class="clr-row">
+          <div class="clr-col-md-12 clr-col-sm-12">
+              <input id="data" type="text" placeholder="Enter search Criteria" class="clr-input">
+           </div>
+          </div>
+
+
+         <clr-datagrid [clrDgLoading]="loading">
+          <clr-dg-placeholder><clr-spinner>Loading ...</clr-spinner></clr-dg-placeholder>
+          <clr-dg-column [clrDgField]="'id'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            No
+          </ng-container></clr-dg-column>
+          <clr-dg-column [clrDgField]="'customerId'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            Department Code
+          </ng-container></clr-dg-column>
+
+          <clr-dg-row *clrDgItems="let user of departmentdata;let i = index" [clrDgItem]="user">
+            <clr-dg-cell>{{i+1}}</clr-dg-cell>
+            <clr-dg-cell (click)="getdepid(user.departmentCode)" style="color: rgb(108, 108, 194);" >{{user.departmentCode}}</clr-dg-cell>
+
+
+
+
+            <clr-dg-row-detail *clrIfExpanded>
+              <table class="table">
+                <tr>
+                  <td class="td-title">NO</td>
+                  <td class="td-content">{{user.id}}</td>
+                </tr>
+               </table>
+            </clr-dg-row-detail>
+          </clr-dg-row>
+
+          <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+              <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Records per page</clr-dg-page-size>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+              of {{pagination.totalItems}} Records
+            </clr-dg-pagination>
+          </clr-dg-footer>
+        </clr-datagrid>
+
+
+
+
+      </div>
+    </clr-modal>
+
+    <clr-modal [(clrModalOpen)]="position" [clrModalSize]="'lg'">
+      <h3 class="modal-title"><b>Select From List:</b></h3>
+      <div class="modal-body">
+        <div class="clr-row">
+          <div class="clr-col-md-12 clr-col-sm-12">
+              <input id="data" type="text" placeholder="Enter search Criteria" class="clr-input">
+           </div>
+          </div>
+
+
+         <clr-datagrid [clrDgLoading]="loading">
+          <clr-dg-placeholder><clr-spinner>Loading ...</clr-spinner></clr-dg-placeholder>
+          <clr-dg-column [clrDgField]="'id'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            No
+          </ng-container></clr-dg-column>
+          <clr-dg-column [clrDgField]="'customerId'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            Position Code
+          </ng-container></clr-dg-column>
+
+          <clr-dg-row *clrDgItems="let user of positiondata;let i = index" [clrDgItem]="user">
+            <clr-dg-cell>{{i+1}}</clr-dg-cell>
+            <clr-dg-cell (click)="getposid(user.positionCode)" style="color: rgb(108, 108, 194);" >{{user.positionCode}}</clr-dg-cell>
+
+
+
+
+            <clr-dg-row-detail *clrIfExpanded>
+              <table class="table">
+                <tr>
+                  <td class="td-title">NO</td>
+                  <td class="td-content">{{user.id}}</td>
+                </tr>
+               </table>
+            </clr-dg-row-detail>
+          </clr-dg-row>
+
+          <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+              <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Records per page</clr-dg-page-size>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+              of {{pagination.totalItems}} Records
+            </clr-dg-pagination>
+          </clr-dg-footer>
+        </clr-datagrid>
+
+
+
+
+      </div>
+    </clr-modal>
