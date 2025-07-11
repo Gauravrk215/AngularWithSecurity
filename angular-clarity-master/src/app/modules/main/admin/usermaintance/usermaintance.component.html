@@ -1,0 +1,124 @@
+
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"><clr-icon shape="home"></clr-icon></a></li>
+  <li><a href="javascript://"><clr-icon shape="lock"></clr-icon>{{ 'SECURITY' | translate }}</a></li>
+  <li><a href="javascript://">{{'USER_MAINTENANCE'| translate}}</a></li>
+
+</ol>
+
+
+<div class="dg-wrapper">
+  <div class="clr-row">
+    <div class="clr-col">
+      <h3>{{'USER_MAINTENANCE'| translate}} </h3>
+  </div>
+    <div class="clr-col" style="text-align: right;">
+      <div class="btn-group">
+        <button class="btn text-dark" (click)="downloadFiles()"><b>{{ 'DOWNLOAD_TEMPLATE' | translate }}</b></button>
+
+    </div>
+    <button class="btn btn-primary" (click)="csvImport()">{{ 'IMPORT' | translate }}</button>
+      <button class="btn btn-outline" (click)="onExport()">
+        <clr-icon shape="export"></clr-icon> {{ 'EXPORT_XLSX' | translate }}
+      </button>
+      <button id="add"  class="btn btn-primary" *ngIf="mcreate == 'true'" (click)="goToAdd()">
+        <clr-icon shape="plus"></clr-icon> {{ 'ADD' | translate }}
+      </button>
+    </div>
+  </div>
+
+
+
+
+
+
+
+  <clr-datagrid [clrDgLoading]="loading">
+    <clr-dg-placeholder >
+      <ng-template #loadingSpinner><clr-spinner>Loading ... </clr-spinner></ng-template>
+      <div *ngIf="error;else loadingSpinner">{{error}}</div>
+    </clr-dg-placeholder>
+    <!-- <clr-dg-placeholder *ngIf="!loading1;" > <clr-spinner>not</clr-spinner></clr-dg-placeholder>
+    <ng-template #other_content style="text-align: center;">Data Not found...</ng-template> -->
+
+    <clr-dg-column [clrDgField]="'userId'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      User Id
+    </ng-container></clr-dg-column>
+    <!-- <clr-dg-column [clrDgField]="'username'" style="width: 300px;"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      User Name
+    </ng-container></clr-dg-column> -->
+    <clr-dg-column [clrDgField]="'fullName'" style="width: 200px;"><ng-container *clrDgHideableColumn="{hidden: false}">
+      Full Name
+      </ng-container></clr-dg-column >
+    <clr-dg-column [clrDgField]="'email'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      Email
+    </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="'usrGrpName'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      User Group Name
+    </ng-container></clr-dg-column>
+    <!-- <clr-dg-column [clrDgField]="'customerNumer'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      Customer Number
+    </ng-container></clr-dg-column> -->
+
+
+
+    <clr-dg-row *clrDgItems="let user of givendata;let i = index" [clrDgItem]="user">
+      <clr-dg-cell>{{user.userId}}</clr-dg-cell>
+      <!-- <clr-dg-cell>{{user.username}}</clr-dg-cell> -->
+      <clr-dg-cell >{{user.fullName}}</clr-dg-cell>
+      <clr-dg-cell>{{user.email}}</clr-dg-cell>
+      <clr-dg-cell>{{user.usrGrpName}}</clr-dg-cell>
+      <!-- <clr-dg-cell>{{user.customerNumer}}</clr-dg-cell> -->
+
+
+      <clr-dg-action-overflow>
+
+        <button class="action-item" *ngIf="medit == 'true'"  (click)="goToEdit(user.userId)">Edit</button>
+        <button class="action-item" (click)="onDelete(user)">Delete<cds-icon shape="trash" class="is-error"></cds-icon></button>
+            </clr-dg-action-overflow>
+
+      <clr-dg-row-detail *clrIfExpanded>
+        <table class="table">
+          <tr>
+            <td class="td-title">username</td>
+            <td class="td-content">{{user.username}}</td>
+          </tr>
+
+
+        </table>
+      </clr-dg-row-detail>
+    </clr-dg-row>
+
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Record per page</clr-dg-page-size>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{pagination.totalItems}} Records
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+</div>
+
+
+<clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+  <div class="modal-body" *ngIf="rowSelected.userId">
+    <h1 class="delete">Are You Sure Want to delete?</h1>
+    <h2 class="heading">{{rowSelected.userId}}</h2>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="modaldelete = false">Cancel</button>
+    <button type="submit" (click)="delete(rowSelected.userId)" class="btn btn-primary" >Delete</button>
+    </div>
+  </div>
+</clr-modal>
+
+
+<clr-modal [(clrModalOpen)]="modalCsv" [clrModalSize]="'sm'" [clrModalStaticBackdrop]="false">
+  <h3 class="modal-title">Import File</h3>
+  <div class="modal-body">
+      <input type="file" name="file" class="file" (change)="selectFile($event)" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+  </div>
+  <div class="modal-footer">
+      <button class="btn btn-primary" type="button" [disabled]="!selectedFiles" (click)="saveCsv()">Import</button>
+  </div>
+</clr-modal>
