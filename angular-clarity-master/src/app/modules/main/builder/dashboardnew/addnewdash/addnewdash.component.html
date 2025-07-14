@@ -1,0 +1,40 @@
+<!-- <p>addnewdash works!</p> -->
+<h4 style="font-weight: 300;display: inline;"><b>{{'define_dashboard'| translate}}</b></h4>
+<span class="label label-light-blue" style="display: inline;margin-left: 10px;"> {{'add_mode'| translate}}</span>
+<hr><br>
+
+<div class="container">
+
+
+
+
+
+  <!-- entry form-->
+  <form [formGroup]="entryForm">
+    <div class="clr-row">
+      <div class="clr-col-md-6 clr-col-sm-12">
+        <label for="dashboard_name"> {{'dashboard_name_label'| translate}}</label>
+        <input id="dashboard_name" type="text" formControlName="dashboard_name" placeholder="{{'dashboard_name_placeholder'| translate}}" class="clr-input">
+      </div>
+      <div class="clr-col-md-6 clr-col-sm-12">
+          <label for="secuirity_profile"> {{'security_profile_label'| translate}}</label>
+          <input id="secuirity_profile" type="text" formControlName="secuirity_profile" placeholder=" {{'security_profile_placeholder'| translate}}" class="clr-input">
+      </div>
+      <div class="clr-col-md-6 clr-col-sm-12">
+        <label for="description">{{'description_label'| translate}}</label>
+        <textarea  cols="10" rows="2"  name=" description" formControlName="description" placeholder=" {{'description_placeholder'| translate}}"></textarea>
+      </div>
+      <div class="clr-col-md-6 clr-col-sm-12">
+        <label for="addHome">{{'add_to_dashboard_label'| translate}}</label>
+        <input type="checkbox" clrToggle  formControlName="add_to_home"/>
+      </div>
+    </div>
+    <br>
+
+    <div class="center">
+      <button type="button" class="btn btn-outline" (click)="onBack()">{{'back_button'| translate}}</button>
+      <button type="submit" class="btn btn-primary" (click)="onSubmit()">{{'submit_button'| translate}}</button>
+    </div>
+
+  </form>
+</div>

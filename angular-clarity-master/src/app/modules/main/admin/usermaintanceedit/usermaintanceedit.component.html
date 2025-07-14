@@ -1,0 +1,348 @@
+
+    <h4 style="font-weight: 300;display: inline;"> User Maintenance</h4>
+    <span class="label label-light-blue" style="display: inline;margin-left: 30px;">Edit Mode</span><br>
+    <hr>
+    <div class="main" >
+      <form *ngIf="data1">
+        <div class="clr-row">
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name"> First Name</label>
+           <input type="text" class="clr-input" name="first_name" [(ngModel)]="data1.fullName" >
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">Last Name</label>
+           <input type="text" class="clr-input" name="last_name" [(ngModel)]="data1.last_name">
+          </div>
+           <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">Mobile Number</label>
+           <input type="text" class="clr-input" name="mob_no" [(ngModel)]="data1.mob_no">
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">New Password<span class="required-field">*</span></label>
+           <input type="password" class="clr-input" name="new_password" [(ngModel)]="data1.userPassw">
+          </div>
+
+          <!-- <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">Business Title</label>
+           <input type="text" class="clr-input" formControlName="title">
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name"> Short Name</label>
+           <input type="text" class="clr-input" formControlName="shortName">
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">Full Name</label>
+           <input type="text" class="clr-input" formControlName="fullName">
+          </div> -->
+          <!-- <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="tags">Status</label>
+            <select  id="" formControlName="status">
+              <option value="E">Enable</option>
+              <option  value="A">Active</option></select>
+            </div> -->
+            <!-- <div class="clr-col-md-3 clr-col-sm-12">
+              <label for="name">Position Code</label>
+             <input type="text" class="clr-input" formControlName="positionCodeString" [(ngModel)]="userobjpos.positionCode" name="positionCode" >
+            </div>
+            <div class="clr-col-md-1 clr-col-sm-12" style="margin-top: 25px;">
+              <button style="margin-right: 5px;" (click)="gotoposition()">V</button>
+            </div>
+            <div class="clr-col-md-3 clr-col-sm-12">
+              <label for="name">Department Code</label>
+             <input type="text" class="clr-input" formControlName="departmentCodeString" [(ngModel)]="userobjdept.departmentCode" name="departmentCode">
+            </div>
+            <div class="clr-col-md-1 clr-col-sm-12" style="margin-top: 25px;">
+              <button style="margin-right: 5px;" (click)="gotodepartmet()">V</button>
+            </div> -->
+            <div class="clr-col-md-4 clr-col-sm-12">
+              <label for="tags">User Group</label>
+              <select [(ngModel)]="data1.usrGrpId" name="usrGrpId">
+                <option *ngFor="let sub of usergrpdata" [value]="sub.usrGrp">{{sub.groupName}}</option>
+               </select>
+              </div>
+              <!-- <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="name">Customer Id</label>
+               <input type="text" class="clr-input" formControlName="customerId" name="customerCode">
+              </div> -->
+              <!-- <div class="clr-col-md-1 clr-col-sm-12" style="margin-top: 25px;">
+                <button style="margin-right: 5px;" >V</button>
+              </div> -->
+              <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="name">Email</label>
+               <input type="text" class="clr-input" name="email" [(ngModel)]="data1.email">
+              </div>
+              <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="tags">Access Type</label>
+                <select [(ngModel)]="data1.accesstype" name="usrGrpId">
+                  <option *ngFor="let sub of accessdata" [value]="sub.name">{{sub.name}}</option>
+                 </select>
+                </div>
+              <!-- <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="tags">Notification</label>
+                <select  id="" formControlName="notification">
+                  <option value="N" >NO</option>
+                  <option value="Y">YES</option></select>
+                </div> -->
+
+                   </div>
+        <!-- <div class="clr-row">
+
+
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name"> User Name</label>
+           <input type="text" class="clr-input" [(ngModel)]="data1.username" name="username">
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">New Password<span class="required-field">*</span></label>
+           <input type="password" class="clr-input" [(ngModel)]="data1.userPassw" name="userPassw">
+          </div>
+
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">Business Title</label>
+           <input type="text" class="clr-input" [(ngModel)]="data1.title" name="title">
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name"> Short Name</label>
+           <input type="text" class="clr-input" [(ngModel)]="data1.shortName" name="shortName">
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="name">Full Name</label>
+           <input type="text" class="clr-input" [(ngModel)]="data1.fullName" name="fullName">
+          </div>
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="tags">Status</label>
+            <select [(ngModel)]="data1.status" name="status">
+              <option value="E">Enable</option>
+              <option  value="A">Active</option></select>
+            </div>
+            <div class="clr-col-md-3 clr-col-sm-12">
+              <label for="name">Position Code</label>
+             <input type="text" class="clr-input" [(ngModel)]="data1.positionCodeString" [value]="userobjpos.positionCode"  name="positionCodeString">
+            </div>
+            <div class="clr-col-md-1 clr-col-sm-12" style="margin-top: 25px;">
+              <button style="margin-right: 5px;" (click)="gotoposition()">V</button>
+            </div>
+            <div class="clr-col-md-3 clr-col-sm-12">
+              <label for="name">Department Code</label>
+             <input type="text" class="clr-input" [(ngModel)]="data1.departmentCodeString" [value]="userobjdept.departmentCode" name="departmentCodeString">
+            </div>
+            <div class="clr-col-md-1 clr-col-sm-12" style="margin-top: 25px;">
+              <button style="margin-right: 5px;" (click)="gotodepartmet()">V</button>
+            </div>
+            <div class="clr-col-md-4 clr-col-sm-12">
+              <label for="tags">User Group</label>
+              <select [(ngModel)]="data1.usrGrpId" name="usrGrpId">
+                <option *ngFor="let sub of usergrpdata" [value]="sub.usrGrp">{{sub.groupName}}</option>
+               </select>
+              </div>
+              <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="name">Customer Id</label>
+               <input type="text" class="clr-input" [(ngModel)]="data1.customerId" [value]="userobjcust.customerCode" name="customerId">
+              </div>
+              <div class="clr-col-md-1 clr-col-sm-12" style="margin-top: 25px;">
+                <button style="margin-right: 5px;" (click)="gotocustomerid()">V</button>
+              </div>
+              <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="name">Email</label>
+               <input type="text" class="clr-input"[(ngModel)]="data1.email" name="email">
+              </div>
+              <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="tags">Notification</label>
+                <select [(ngModel)]="data1.notification" name="notification">
+                  <option value="N" >NO</option>
+                  <option value="Y">YES</option></select>
+                </div>
+
+                   </div>
+                   <div class="clr-row">
+                    <div class="clr-col-md-3 clr-col-sm-12">
+                      <label for="name">Created By</label>
+                     <input type="text" class="clr-input" [(ngModel)]="data1.createby" name="createby">
+                    </div>
+                    <div class="clr-col-md-3 clr-col-sm-12">
+                      <label for="name">Created On</label>
+                     <input type="text" class="clr-input" [(ngModel)]="data1.createdate" name="createdate">
+                    </div>
+                    <div class="clr-col-md-3 clr-col-sm-12">
+                      <label for="name">Updated By</label>
+                     <input type="text" class="clr-input" [(ngModel)]="data1.updateby" name="updateby">
+                    </div>
+                    <div class="clr-col-md-3 clr-col-sm-12">
+                      <label for="name">Updated On</label>
+                     <input type="text" class="clr-input"[(ngModel)]="data1.updatedate" name="updatedate">
+                    </div>
+                  </div> -->
+                  </form>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="goback()">Close</button>
+      <button type="button"  class="btn btn-primary" (click)="update()">Update</button>
+      </div>
+    </div>
+
+    <clr-modal [(clrModalOpen)]="customer" [clrModalSize]="'lg'">
+      <h3 class="modal-title"><b>Select From List:</b></h3>
+      <div class="modal-body">
+        <div class="clr-row">
+          <div class="clr-col-md-12 clr-col-sm-12">
+              <input id="data" type="text" placeholder="Enter search Criteria" class="clr-input">
+           </div>
+          </div>
+
+         <clr-datagrid [clrDgLoading]="loading">
+          <clr-dg-placeholder><clr-spinner>Loading ...</clr-spinner></clr-dg-placeholder>
+          <clr-dg-column [clrDgField]="'id'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            No
+          </ng-container></clr-dg-column>
+          <clr-dg-column [clrDgField]="'customerId'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            Customer Code
+          </ng-container></clr-dg-column>
+          <clr-dg-column [clrDgField]="'customerCode'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            Customer Id
+          </ng-container></clr-dg-column>
+
+          <clr-dg-column [clrDgField]="'customerName'">
+            <ng-container *clrDgHideableColumn="{hidden: false}">
+              Customer Name
+            </ng-container>
+            </clr-dg-column >
+
+          <clr-dg-row *clrDgItems="let user of custdata;let i = index" [clrDgItem]="user">
+            <clr-dg-cell>{{i+1}}</clr-dg-cell>
+            <clr-dg-cell (click)="getcustID(user.customerId)" style="color: rgb(108, 108, 194);" >{{user.customerCode}}</clr-dg-cell>
+            <clr-dg-cell >{{user.customerId}}</clr-dg-cell>
+            <clr-dg-cell>{{user.customerName}}</clr-dg-cell>
+
+            <clr-dg-row-detail *clrIfExpanded>
+              <table class="table">
+                <tr>
+                  <td class="td-title">NO</td>
+                  <td class="td-content">{{user.id}}</td>
+                </tr>
+                <tr>
+                  <td class="td-title"> Customer Code</td>
+                  <td class="td-content">{{user.customerCode}}</td>
+                </tr>
+                <tr>
+                  <td class="td-title">Customer Id</td>
+                  <td class="td-content">{{user.customerId}} </td>
+                </tr>
+                <tr>
+                  <td class="td-title"> Customer Name<td>
+                  <td class="td-content">{{user.customerName}}</td>
+                </tr>
+              </table>
+            </clr-dg-row-detail>
+          </clr-dg-row>
+
+          <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+              <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Records per page</clr-dg-page-size>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+              of {{pagination.totalItems}} Records
+            </clr-dg-pagination>
+          </clr-dg-footer>
+        </clr-datagrid>
+      </div>
+    </clr-modal>
+
+    <clr-modal [(clrModalOpen)]="department" [clrModalSize]="'lg'">
+      <h3 class="modal-title"><b>Select From List:</b></h3>
+      <div class="modal-body">
+        <div class="clr-row">
+          <div class="clr-col-md-12 clr-col-sm-12">
+              <input id="data" type="text" placeholder="Enter search Criteria" class="clr-input">
+           </div>
+          </div>
+
+
+         <clr-datagrid [clrDgLoading]="loading">
+          <clr-dg-placeholder><clr-spinner>Loading ...</clr-spinner></clr-dg-placeholder>
+          <clr-dg-column [clrDgField]="'id'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            No
+          </ng-container></clr-dg-column>
+          <clr-dg-column [clrDgField]="'customerId'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            Department Code
+          </ng-container></clr-dg-column>
+
+          <clr-dg-row *clrDgItems="let user of departmentdata;let i = index" [clrDgItem]="user">
+            <clr-dg-cell>{{i+1}}</clr-dg-cell>
+            <clr-dg-cell (click)="getdepid(user.departmentCode)" style="color: rgb(108, 108, 194);" >{{user.departmentCode}}</clr-dg-cell>
+
+
+
+
+            <clr-dg-row-detail *clrIfExpanded>
+              <table class="table">
+                <tr>
+                  <td class="td-title">NO</td>
+                  <td class="td-content">{{user.id}}</td>
+                </tr>
+               </table>
+            </clr-dg-row-detail>
+          </clr-dg-row>
+
+          <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+              <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Records per page</clr-dg-page-size>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+              of {{pagination.totalItems}} Records
+            </clr-dg-pagination>
+          </clr-dg-footer>
+        </clr-datagrid>
+
+
+
+
+      </div>
+    </clr-modal>
+    <clr-modal [(clrModalOpen)]="position" [clrModalSize]="'lg'">
+      <h3 class="modal-title"><b>Select From List:</b></h3>
+      <div class="modal-body">
+        <div class="clr-row">
+          <div class="clr-col-md-12 clr-col-sm-12">
+              <input id="data" type="text" placeholder="Enter search Criteria" class="clr-input">
+           </div>
+          </div>
+
+
+         <clr-datagrid [clrDgLoading]="loading">
+          <clr-dg-placeholder><clr-spinner>Loading ...</clr-spinner></clr-dg-placeholder>
+          <clr-dg-column [clrDgField]="'id'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            No
+          </ng-container></clr-dg-column>
+          <clr-dg-column [clrDgField]="'customerId'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            Position Code
+          </ng-container></clr-dg-column>
+
+          <clr-dg-row *clrDgItems="let user of positiondata;let i = index" [clrDgItem]="user">
+            <clr-dg-cell>{{i+1}}</clr-dg-cell>
+            <clr-dg-cell (click)="getposid(user.positionCode)" style="color: rgb(108, 108, 194);" >{{user.positionCode}}</clr-dg-cell>
+
+
+
+
+            <clr-dg-row-detail *clrIfExpanded>
+              <table class="table">
+                <tr>
+                  <td class="td-title">NO</td>
+                  <td class="td-content">{{user.id}}</td>
+                </tr>
+               </table>
+            </clr-dg-row-detail>
+          </clr-dg-row>
+
+          <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+              <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Records per page</clr-dg-page-size>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+              of {{pagination.totalItems}} Records
+            </clr-dg-pagination>
+          </clr-dg-footer>
+        </clr-datagrid>
+
+
+
+
+      </div>
+    </clr-modal>
