@@ -1,0 +1,54 @@
+<h4 style="font-weight: 300;display: inline;"><b> Dashboard</b></h4>
+<span class="label label-light-blue" style="display: inline;margin-left: 10px;">Edit Mode</span>
+<hr><br>
+
+<div class="container">
+
+
+
+
+
+  <!-- entry form-->
+  <form>
+    <div class="clr-row">
+      <div class="clr-col-md-6 clr-col-sm-12">
+        <label for="dashboard_name">Dashboard Name</label>
+        <input id="dashboard_name" type="text"  name="dashboard_name" [(ngModel)]="Header.dashboard_name" placeholder="Enter Dashboard Name" class="clr-input">
+      </div>
+      <div class="clr-col-md-6 clr-col-sm-12">
+          <label for="secuirity_profile">Security Profile</label>
+          <input id="secuirity_profile" type="text" name="secuirity_profile" [(ngModel)]="Header.secuirity_profile" placeholder="Enter Security Profile" class="clr-input">
+      </div>
+      <!-- <div class="clr-col-md-4 clr-col-sm-12" >
+        <div class="clr-row">
+        <div class="clr-col-6" style="margin-top: 15px;">
+        <div><label for="testing">build</label>
+          <div><input type="checkbox" name="build" [(ngModel)]="Header.build"></div>
+        </div>
+      </div>
+      <div class="clr-col-6" style="margin-top: 15px;">
+        <div><label for="testing">Testing</label>
+          <div><input type="checkbox"  name="testing" [(ngModel)]="Header.testing"></div>
+        </div>
+      </div>
+      </div>
+    </div> -->
+
+      <div class="clr-col-md-6 clr-col-sm-12">
+        <label for="description">Description</label>
+        <textarea  cols="10" rows="2"  name=" description" [(ngModel)]="Header.description"  placeholder="Enter Description"></textarea>
+      </div>
+      <div class="clr-col-md-6 clr-col-sm-12">
+        <label for="workflow_name">Add to Dasboard</label>
+        <input type="checkbox" clrToggle value="add_to_home" name="add_to_home" [(ngModel)]="Header.add_to_home" />
+      </div>
+    </div>
+    <br>
+
+    <div class="center">
+      <button type="button" class="btn btn-outline" (click)="onBack()">BACK</button>
+      <button type="submit" class="btn btn-primary" (click)="onSubmit()">Update</button>
+    </div>
+
+  </form>
+</div>
