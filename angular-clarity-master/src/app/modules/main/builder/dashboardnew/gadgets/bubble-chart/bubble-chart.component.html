@@ -1,0 +1,9 @@
+<div style="display:block">
+  <canvas baseChart
+  [datasets]="bubbleChartData"
+  [type]="bubbleChartType"
+  [options]="bubbleChartOptions"
+  (chartHover)="chartHovered($event)"
+  (chartClick)="chartClicked($event)">
+</canvas>
+</div>
