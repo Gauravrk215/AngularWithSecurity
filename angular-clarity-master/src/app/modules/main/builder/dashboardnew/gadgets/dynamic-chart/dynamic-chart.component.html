@@ -1,0 +1,10 @@
+<div style="display: block">
+  <canvas baseChart [datasets]="dynamicChartData"
+  [options]="barChartOptions"
+    [type]="barChartType"
+    [labels]="dynamicChartLabels"
+    (chartHover)="chartHovered($event)"
+    (chartClick)="chartClicked($event)">
+  </canvas>
+</div>
+<button class="btn btn-primary" (click)="randomize()">Update</button>
