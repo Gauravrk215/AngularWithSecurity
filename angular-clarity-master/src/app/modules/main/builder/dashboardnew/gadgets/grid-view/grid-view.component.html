@@ -1,0 +1,69 @@
+<div style="display: block;">
+<div class="dg-wrapper">
+    <div class="clr-row">
+      <div class="clr-col-8">
+        <h3>User Group Maintenance</h3>
+      </div>
+    </div>
+    <clr-datagrid [clrDgLoading]="loading">
+      <clr-dg-placeholder> <ng-template #loadingSpinner><clr-spinner>Loading ... </clr-spinner></ng-template>
+        <div *ngIf="error;else loadingSpinner">{{error}}</div></clr-dg-placeholder>
+  
+      <clr-dg-column [clrDgField]="'usrGrp'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        User Group No
+      </ng-container></clr-dg-column>
+      <clr-dg-column [clrDgField]="'groupName'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        Group Name
+      </ng-container></clr-dg-column>
+      <clr-dg-column [clrDgField]="'groupDesc'"><ng-container *clrDgHideableColumn="{hidden: false}">
+        Description
+        </ng-container></clr-dg-column >
+      <clr-dg-column [clrDgField]="'groupLevel'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        Group Level
+      </ng-container></clr-dg-column>
+      <clr-dg-column [clrDgField]="'status'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        Status
+      </ng-container></clr-dg-column>
+      <!-- <clr-dg-column [clrDgField]="'usrGrp'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        User Group
+      </ng-container></clr-dg-column> -->
+      <clr-dg-column [clrDgField]="'updateDateFormated'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+      Updated Date
+      </ng-container></clr-dg-column>
+  
+  
+      <clr-dg-row *clrDgItems="let user of givendata?.slice()?.reverse();let i = index" [clrDgItem]="user">
+        <clr-dg-cell>{{user.usrGrp}}</clr-dg-cell>
+        <clr-dg-cell>{{user.groupName}}</clr-dg-cell>
+        <clr-dg-cell >{{user.groupDesc}}</clr-dg-cell>
+        <clr-dg-cell>{{user.groupLevel}}</clr-dg-cell>
+        <clr-dg-cell>{{user.status}}</clr-dg-cell>
+        <!-- <clr-dg-cell>{{user.usrGrp}}</clr-dg-cell> -->
+        <clr-dg-cell>{{user.updateDateFormated}}</clr-dg-cell>
+  
+        <!-- <clr-dg-action-overflow>
+  
+        </clr-dg-action-overflow> -->
+  
+        <!-- <clr-dg-row-detail *clrIfExpanded>
+          <table class="table">
+            <tr>
+              <td class="td-title">username</td>
+              <td class="td-content">{{user.groupName}}</td>
+            </tr>
+  
+  
+          </table>
+        </clr-dg-row-detail> -->
+      </clr-dg-row>
+  
+      <clr-dg-footer>
+        <clr-dg-pagination #pagination [clrDgPageSize]="10">
+          <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Record per page</clr-dg-page-size>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+          of {{pagination.totalItems}} Records
+        </clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
+</div>
+  </div>
