@@ -1,0 +1,10 @@
+
+<div style="display: block">
+  <canvas baseChart
+    [datasets]="polarAreaChartData"
+    [labels]="polarAreaChartLabels"
+    [type]="polarAreaChartType"
+    (chartHover)="chartHovered($event)"
+   (chartClick)="chartClicked($event)">
+  </canvas>
+</div>
