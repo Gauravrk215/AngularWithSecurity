@@ -1,0 +1,27 @@
+<table class="table">
+  <thead>
+  <th class="c-col">#</th>
+  <th>Item</th>
+  <th></th>
+  </thead>
+  <tr class="ui basic segment" *ngFor="let todo of todoList; let i = index">
+      <td class="c-col">{{i + 1}}</td>
+      <td>{{todo}}</td>
+      <td style="text-align:right">
+          <a routerLink="." (click)="removeTodo(i)">
+              <clr-icon shape="times"></clr-icon>
+          </a>
+      </td>
+  </tr>
+  <tr>
+      <td></td>
+      <td>
+        <input [(ngModel)]="todo" placeholder="Add Todo" class="clr-input">
+      </td>
+      <td style="text-align:right">
+          <a  routerLink="." color='primary' (click)="addTodo(todo)">
+              <clr-icon shape="plus"></clr-icon>
+          </a>
+      </td>
+  </tr>
+</table>
