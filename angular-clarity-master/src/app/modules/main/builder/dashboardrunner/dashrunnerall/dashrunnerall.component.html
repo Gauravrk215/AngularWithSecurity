@@ -1,0 +1,117 @@
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+    <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"><clr-icon shape="home"></clr-icon></a></li>
+    <li><a href="javascript://"><clr-icon shape="grid-view"></clr-icon>{{ 'dashboard' | translate }}</a></li>
+  </ol>
+  
+  <br>
+  
+  <div class="dg-wrapper">
+      <div class="clr-row">
+        <div class="clr-col-8">
+          <h3>{{ 'all_dashboard' | translate }}</h3>
+        </div>
+        <div class="clr-col-4" style="text-align: right;">
+          <button id="add" class="btn btn-primary"  (click)="gotoadd()">
+            <clr-icon shape="plus"></clr-icon>{{ 'dashboard_builder' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <ng-template #showInfo>
+        <div class="alert alert-info" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="info-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">
+                      {{ 'dashboard_found' | translate }}
+                          <!-- Dashboard could be found. Loading.. -->
+                        <clr-spinner [clrMedium]="true">{{ 'loading' | translate }}</clr-spinner>
+                    </span>
+                </div>
+            </div>
+        </div>
+      </ng-template>
+
+
+      <div *ngIf="data; else showInfo" class="clr-row clr-align-items-start clr-justify-content-start">
+        <div *ngFor="let app of data| filter:search; let index = i" class="clr-col-auto" >
+          <div class="clr-row">
+            <div class="clr-col-lg-12 clr-col-md-4 clr-col-sm-4 clr-col-12" style="width: 410px;">
+                <div class="card" (click)="goToEdit(app.id)" >
+                    <div class="card-header" style="padding-bottom: 0px;">
+                      <div class="clr-row">
+                        <div class="clr-col-12">
+                    <clr-icon shape="grid-view"></clr-icon>
+                      </div>
+                      </div>  
+                      <div class="clr-row">
+                        <div class="clr-col-12">
+                        <b class="word" id="word" [title]="app.dashboard_name"> {{app.dashboard_name}}</b>
+                      </div>
+                      </div>  
+       
+                         <div class="clr-row">
+                          <div class="clr-col-12"> <div class="card-title1" id="word" >
+                            <b style="font-size: 15px;" class="p2" [title]="app.description">{{app.description}}</b>
+                          </div>
+                           </div>
+                        </div>
+
+                        <!-- <div class="clr-row">
+                          <div class="clr-col-12"> <div class="card-title1" id="word" >
+                            <b style="font-size: 15px;" class="p2" [title]="app.secuirity_profile">{{app.secuirity_profile}}</b>
+                          </div>
+                           </div>
+                        </div> -->
+                    </div>
+      
+                    <!-- <div class="card-block" style="padding: 10px 10px 0px 10px;">
+      
+                        <div class="card-text">
+                    </div>
+                  </div> -->
+                    <div class="card-footer" style="padding: 10px 10px 6px 10px">
+                        <button class="btn btn-sm btn-link"> {{ 'last_updated' | translate }}: {{app.updatedAt|date}}</button>  <span style="margin: 0 0 0 10px; padding: 5px;" class="label p7"><clr-icon shape="calendar"></clr-icon>&nbsp;{{app.createdAt | timePipe}}</span>
+                    </div>
+                
+            </div>
+        </div>
+        </div>
+      </div>
+      </div>
+  
+  
+    <clr-modal [(clrModalOpen)]="addModall" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+      <div class="modal-body">
+          <div class="s-order-dash-pg">
+              <div class="chart-box" id="word1" (click)="gotoadd()"><br>
+                <img style="margin: auto; display: block;" src="/assets/images/fromscratch.png" height="90" width="90">
+                <h5 class="center"> <b>{{ 'start_from_scratch' | translate }}</b>  </h5>
+              </div>
+              <div class="chart-box" id="word1" ><br>
+                <img style="margin: auto; display: block;" src="/assets/images/copytemplate.png" height="90" width="90">
+                <h5 class="center"> <b>{{ 'import_template' | translate }}</b>  </h5>
+              </div>
+              <div class="chart-box" id="word1"><br>
+                <img style="margin: auto; display: block;" src="/assets/images/database.png" height="90" width="90">
+                <h5 class="center"> <b>{{ 'import_public_project' | translate }}</b>  </h5>
+              </div>
+            </div>
+      </div>
+    </clr-modal>
+  
+    <clr-modal [(clrModalOpen)]="modalDelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+      <div class="modal-body" *ngIf="rowSelected.id">
+        <h1 class="delete">{{ 'delete_confirmation' | translate }}</h1>
+        <h2 class="heading">{{rowSelected.id}}</h2>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" (click)="modalDelete = false">{{ 'CANCEL' | translate }}</button>
+          <button type="submit" (click)="delete(rowSelected.id)" class="btn btn-primary" >{{'DELETE' |translate}}</button>
+        </div>
+      </div>
+    </clr-modal>
+   
+  
+  
