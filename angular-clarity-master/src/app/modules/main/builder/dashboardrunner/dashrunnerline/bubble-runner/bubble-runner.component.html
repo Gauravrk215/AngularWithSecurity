@@ -1,0 +1,11 @@
+<div><button class="btn btn-primary" (click)="generatePDFFile()">Export</button></div>
+<div class="chart-box" id="contentContainer" #contentContainer>
+  <canvas baseChart
+  [datasets]="bubbleChartData"
+  [type]="bubbleChartType"
+  [options]="bubbleChartOptions"
+  [legend]="ChartLegend"
+    style="display: block; width: 238px; height: 200px;">
+</canvas>
+</div>
+  

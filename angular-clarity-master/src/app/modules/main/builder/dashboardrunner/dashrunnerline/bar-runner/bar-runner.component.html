@@ -1,0 +1,38 @@
+<div><button class="btn btn-primary" (click)="generatePDFFile()">Export</button></div>
+<div class="chart-box" id="contentContainer" #contentContainer>
+    <!-- <h4 class="center"> <b>Test</b>  </h4> -->
+      <canvas baseChart
+      [datasets]="barChartData"
+      [labels]="showlabel ? barChartLabels: lineChartNoLabels"
+      [legend]="barChartLegend"
+      [type]="barChartType">
+    </canvas>
+</div>
+
+
+<!-- <div class="chart-box" >
+    <li *ngFor="let project of barData" class="nav-item px-3 d-narrow-none">
+      <div class="text-uppercase mb-1">
+        <small>{{ project.name }}</small>
+      </div>
+      <div class="progress-static labeled progress-bar">
+        <div class="progress-meter" [attr.data-value]="project.progress" [attr.data-displayval]="project.progress + '%'"
+             [style.height.px]="15"></div>
+      </div>
+    </li>
+</div> -->
+
+<!-- <div class="chart-box">
+  <ul class="nav">
+    <li *ngFor="let project of barData" class="nav-item px-3 d-narrow-none">
+      <div class="text-uppercase mb-1">
+        <small>{{ project.name }}</small>
+      </div>
+      <div class="progress-static labeled progress-bar">
+        <div class="progress-meter" [style.width.%]="getProgressBarWidth(project.progress)">
+          <span class="progress-text">{{ project.progress }}%</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div> -->
