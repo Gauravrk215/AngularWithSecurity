@@ -1,0 +1,49 @@
+.componentbtn{
+  color: white;
+  background-color: #03AC13;
+  border: none;
+}
+.content-container {
+  min-height: 100vh;
+  height: initial;
+}
+a:hover {
+text-decoration: none;
+cursor: pointer;
+}
+.clr-checkbox{
+color: #212529;
+border: 1px solid #ced4da;
+border-radius: 0.25rem;
+// padding: 0.75rem 0.75rem;
+// margin-top: 3px;
+width: 100%;
+margin-left: 20px;
+margin-bottom: 18px;
+}
+.clr-input, .clr-dropdown {
+color: #212529;
+border: 1px solid #ced4da;
+border-radius: 0.25rem;
+padding: 0.75rem 0.75rem;
+margin-top: 3px;
+width: 100%;
+margin-bottom: 10px;
+}
+
+.circle {
+  width: 25px;
+  height: 25px;
+  border: 0.5px solid black;
+  border-radius: 25px;
+  // background-color: #235255;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.4;
+}
+.circle b, clr-icon {
+  // color: #fff;
+  font-size: 15px;
+  //opacity: 0.5;
+}

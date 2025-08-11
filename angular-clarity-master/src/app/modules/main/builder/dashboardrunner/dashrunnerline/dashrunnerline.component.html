@@ -1,0 +1,40 @@
+<div style="display: inline;">
+  <ng-template #un><button (click)="toggleResizable()" type="button" class="btn btn-icon" aria-label="unlock">
+    <clr-icon shape="unlock"></clr-icon>
+  </button></ng-template>
+  <button (click)="toggleResizable()" *ngIf="resizable == true; else un" type="button" class="btn btn-icon" aria-label="lock">
+    <clr-icon shape="lock"></clr-icon>
+  </button>
+</div>
+<div class="content-container" #contentContainer>
+  <div style="width: 100%;">
+    <gridster [options]="options" style="background-color: transparent;">
+      <gridster-item [item]="item" *ngFor="let item of DashtestboardArray">
+        <!-- <span *ngIf="resizable == false">
+        <button class="btn btn-icon drag-handler" style="margin-left: 10px; margin-top: 10px;">
+          <clr-icon shape="drag-handle"></clr-icon>
+        </button></span> -->
+     
+        <span style="margin-top: 5px; float: right; display:flex"><!--style="margin-top: 10px; margin-right: 10px; float: right; display:flex"-->
+          <button *ngIf="resizable == false" class="btn btn-icon drag-handler" style="margin-left: 10px; margin-top: 10px;">
+            <clr-icon shape="drag-handle"></clr-icon>
+          </button>
+      </span>
+      <span style="margin-top: 5px; margin-right: 40px; float: right; display:flex">
+        <h4 style="margin-top: 10px;">{{ item.charttitle }}</h4>
+      </span>
+        <!-- <span><button class="btn btn-primary" (click)="Export(item.name)">Export</button></span> -->
+        <!-- <span><app-line-runner (buttonClicked)="generatePDFFile()"></app-line-runner></span> -->
+        <!-- <h4 style="margin-top: 10px; margin-left: 10px;">{{ item.charttitle }}</h4> -->
+        <ndc-dynamic class="no-drag" [ndcDynamicComponent]="item.component" (moduleInfo)="display($event)"></ndc-dynamic>
+      </gridster-item>
+    </gridster>
+  </div>
+  </div>
+  <!--button-->
+  <div style="text-align: center;">
+    <!-- <button type="submit" class="btn btn-primary btn-adddata "   (click)="update()" >
+      <b>Update</b>
+    </button> -->
+    <!-- <button (click)="generatePDF()" class="btn btn-primary">Generate PDF</button> -->
+</div>
