@@ -1,0 +1,54 @@
+<!-- <div style="display: block;">
+    <div class="dg-wrapper">
+        <clr-datagrid [clrDgLoading]="loading">
+          <clr-dg-placeholder> <ng-template #loadingSpinner><clr-spinner>Loading ... </clr-spinner></ng-template>
+            <div *ngIf="error;else loadingSpinner">{{error}}</div></clr-dg-placeholder>
+      
+          <clr-dg-column [clrDgField]="'jan'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            jan
+          </ng-container></clr-dg-column>
+          <clr-dg-column [clrDgField]="'feb'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            feb
+          </ng-container></clr-dg-column>
+          <clr-dg-column [clrDgField]="'march'"><ng-container *clrDgHideableColumn="{hidden: false}">
+            march
+            </ng-container></clr-dg-column >
+          <clr-dg-column [clrDgField]="'april'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+            april
+          </ng-container></clr-dg-column>
+      
+      
+          <clr-dg-row *clrDgItems="let user of givendata?.slice()?.reverse();let i = index" [clrDgItem]="user">
+            <clr-dg-cell>{{user.jan}}</clr-dg-cell>
+            <clr-dg-cell>{{user.feb}}</clr-dg-cell>
+            <clr-dg-cell >{{user.march}}</clr-dg-cell>
+            <clr-dg-cell>{{user.april}}</clr-dg-cell>
+      
+      
+          </clr-dg-row>
+      
+          <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+              <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Record per page</clr-dg-page-size>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+              of {{pagination.totalItems}} Records
+            </clr-dg-pagination>
+          </clr-dg-footer>
+        </clr-datagrid>
+    </div>
+      </div> -->
+      <div><button class="btn btn-primary" (click)="generatePDFFile()">Export</button></div>
+      <div style="max-height: 400px; overflow: auto; padding: 10px;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th *ngFor="let co of getHeaders();let i=index">{{co}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of rows?.slice()?.reverse()">
+            <td *ngFor="let key of getHeaders()">{{item[key]}}</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>

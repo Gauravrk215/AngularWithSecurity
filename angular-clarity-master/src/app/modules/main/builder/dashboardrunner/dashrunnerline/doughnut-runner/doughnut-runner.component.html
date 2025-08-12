@@ -1,0 +1,10 @@
+<div style="text-align: right;"><button class="btn btn-primary" (click)="generatePDFFile()">Export</button></div>
+  <div class="chart-box" id="contentContainer" #contentContainer>
+        <canvas baseChart
+          [data]="doughnutChartData"
+          [labels]="showlabel ? doughnutChartLabels: lineChartNoLabels"
+          [legend]="doughnutChartLegend"
+          [type]="doughnutChartType"
+          style="display: block; width: 259px; height: 144px;">
+        </canvas>
+</div>
