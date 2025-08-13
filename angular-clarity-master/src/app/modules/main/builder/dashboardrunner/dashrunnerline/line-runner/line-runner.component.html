@@ -1,0 +1,14 @@
+<div><button class="btn btn-primary" (click)="generatePDFFile()">Export</button></div>
+<div class="chart-box" id="contentContainer" #contentContainer>
+    <!-- <h4 class="center"> <b>Test</b>  </h4> -->
+  <canvas baseChart
+    [datasets]="lineChartData"
+    [labels]="showlabel ? lineChartLabels: lineChartNoLabels"
+    [options]="lineChartOptions"
+    
+    [legend]="lineChartLegend"
+    [type]="lineChartType"
+    [plugins]="lineChartPlugins"
+    style="display: block; ">
+</canvas>
+</div>
