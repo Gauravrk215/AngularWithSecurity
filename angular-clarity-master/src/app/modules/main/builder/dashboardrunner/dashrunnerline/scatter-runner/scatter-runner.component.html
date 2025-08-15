@@ -1,0 +1,12 @@
+<div><button class="btn btn-primary" (click)="generatePDFFile()">Export</button></div>
+<div class="chart-box" id="contentContainer" #contentContainer>
+  <canvas baseChart
+  [datasets]="scatterChartData"
+  [type]="scatterChartType"
+  [legend]="ChartLegend"
+  [options]="ChartOptions"
+    style="display: block; width: 238px; height: 200px;">
+</canvas>
+</div>
+<!--  [labels]="showlabel ? radarChartLabels: lineChartNoLabels"-->
+  
