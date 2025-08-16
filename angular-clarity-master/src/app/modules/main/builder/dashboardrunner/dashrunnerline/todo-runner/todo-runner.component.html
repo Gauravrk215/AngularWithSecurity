@@ -1,0 +1,30 @@
+<div><button class="btn btn-primary" (click)="generatePDFFile()">Export</button></div>
+<div style="max-height:400px; overflow: auto; padding: 10px;">
+<table class="table">
+    <thead>
+    <th class="c-col">#</th>
+    <th>{{todoList.listName}}</th>
+    <th></th>
+    </thead>
+    <tr class="ui basic segment" *ngFor="let todo of todoList.List; let i = index">
+        <td class="c-col">{{i + 1}}</td>
+        <td>{{todo}}</td>
+        <td style="text-align:right">
+            <a routerLink="." (click)="removeTodo(i)">
+                <clr-icon shape="times"></clr-icon>
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+          <input [(ngModel)]="todo" placeholder="Add Todo" class="clr-input">
+        </td>
+        <td style="text-align:right">
+            <a  routerLink="." color='primary' (click)="addTodo(todo)">
+                <clr-icon shape="plus"></clr-icon>
+            </a>
+        </td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,46 @@
+<!-- <div class="clr-row" style="margin-top: 10px;">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>File</th>
+        <th>File Name</th>
+        <th>Preview</th>
+        <th>Cancel</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let attach of fileData; let i = index">
+        <td style="width: 70px;">
+          <input type="text" class="clr-input" [value]="i+1" readonly>
+        </td>
+        <td>
+          <input type="file" [accept]="acceptType" (change)="fileChanged.emit({ event: $event, index: i })">
+        </td>
+        <td>{{attach.uploadedfile_name}}</td>
+        <td> -->
+
+          <!-- Image Preview -->
+          <!-- <img *ngIf="type === 'image'" [src]="attach.filePreview" width="100px" height="100px" /> -->
+
+          <!-- Audio Preview -->
+          <!-- <audio *ngIf="type === 'audio'" [src]="attach.filePreview" controls></audio> -->
+
+          <!-- Video Preview -->
+          <!-- <video *ngIf="type === 'video'" [src]="attach.filePreview" width="100px" height="100px" controls></video> -->
+
+          <!-- Document Preview -->
+          <!-- <a *ngIf="type === 'document'" [href]="attach.filePreview" target="_blank">Open File</a>
+        </td>
+        <td>
+          <a (click)="deleteRow.emit(i)">
+            <clr-icon shape="trash" class="is-error"></clr-icon>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+    <button type="button" class="btn btn-primary" style="margin-left: 20px;" (click)="addRow.emit()">
+      <clr-icon shape="plus"></clr-icon>
+    </button>
+  </table>
+</div> -->
