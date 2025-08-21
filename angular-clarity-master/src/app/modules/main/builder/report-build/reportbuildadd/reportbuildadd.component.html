@@ -1,0 +1,48 @@
+<h4 style="font-weight: 300;display: inline;"><b>{{ 'CREATE_NEW_REPORT' | translate }}</b></h4>
+<span class="label label-light-blue" style="display: inline;margin-left: 10px;"> {{ 'ADD_MODE' | translate }}</span><br>
+<hr>
+
+
+
+
+
+
+
+
+<div class="container">
+
+
+
+
+  <!-- entry form-->
+  <form [formGroup]="entryForm"><!-- (ngSubmit)="onSubmit()"-->
+
+      <div class="clr-row">
+        <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="objectType">{{ 'NAME' | translate }}</label>
+          <input  type="text" placeholder="Enter name" formControlName="reportName" class="clr-input">
+  
+        </div>
+        <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="subObjectType">{{ 'DESCRIPTION' | translate }}</label>
+          <textarea  cols="10" rows="2" formControlName="description"  name=" description"  placeholder="Enter Description"></textarea>
+        </div>
+        <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="workflow_name">{{ 'ACTIVE' | translate }}</label>
+          <input type="checkbox" formControlName="active"  clrToggle value="billable" name="billable" />
+        </div>
+        </div>
+
+
+
+    <div class="center">
+      <div class="btn-group">
+        <div class="checkbox btn">
+          <input type="checkbox" id="btn-demo-check-1" (click)="goback()"/>
+          <label for="btn-demo-check-1">{{ 'CANCEL' | translate }}</label>
+        </div>
+        </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!entryForm.valid" (click)="onSubmit()">{{ 'SUBMIT' | translate }}</button>
+    </div>
+  </form>
+</div>
