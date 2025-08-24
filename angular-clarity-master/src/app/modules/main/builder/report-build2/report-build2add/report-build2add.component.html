@@ -1,0 +1,79 @@
+<h4 style="font-weight: 300;display: inline;"><b> {{'CREATE_NEW_REPORT'|translate}}</b></h4>
+<span class="label label-light-blue" style="display: inline;margin-left: 10px;">{{'add_mode'|translate}}</span><br>
+<hr>
+<div class="container">
+
+
+
+
+  <!-- entry form-->
+  <form [formGroup]="entryForm"><!-- (ngSubmit)="onSubmit()"-->
+
+      <div class="clr-row">
+        <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="objectType"> {{'REPORT_NAME'|translate}}</label>
+          <input  type="text" placeholder=" {{'REPORT_NAME'|translate}}" formControlName="reportName" class="clr-input">
+  
+        </div>
+        <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="subObjectType">{{'description_label'| translate}}</label>
+          <textarea  cols="10" rows="2" formControlName="description"  name=" description"  placeholder=" {{'description_placeholder'| translate}}"></textarea>
+        </div>
+        <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="workflow_name">{{'ACTIVE'| translate}}</label>
+          <input type="checkbox" formControlName="active"  clrToggle value="billable" name="billable" />
+        </div>
+<!-- 
+        <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="url">Get URL</label>
+            <div> <input type="text" class="clr-input" name="url"  placeholder="Enter Url"   style="width: 76%">&nbsp;<span><button  class="btn btn-icon btn-primary" (click)="getkeys()">
+                <clr-icon shape="view-list"></clr-icon>
+              </button></span></div>
+        </div>
+
+        <div class="clr-col-md-4 clr-col-sm-12">
+            <label for="workflow_name">Include Date filter</label>
+            <input type="checkbox" name="dateparam"  clrToggle value="billable" name="billable" />
+          </div>
+
+          <div class="clr-col-md-4 clr-col-sm-12">
+            <label>Standard Parameters</label>
+                <clr-combobox-container style="margin-top: 0; padding-top: 0;">
+                <clr-combobox [(ngModel)]="stdparams"   clrMulti="true"
+                   required>
+                    <ng-container *clrOptionSelected="let selected">
+                      {{selected}}
+                    </ng-container>
+                    <clr-options>
+                      <clr-option *clrOptionItems="let state of keysfromurl" [clrValue]="state">
+                        {{state}}
+                      </clr-option>
+                    </clr-options>
+                  </clr-combobox>
+                  </clr-combobox-container>
+    
+        </div>
+
+        <div class="clr-col-md-4 clr-col-sm-12">
+            <label>List</label>
+              <select>
+                <option value="">Choose from list</option>
+                <option></option>
+              </select>
+    
+        </div> -->
+        </div>
+
+
+
+    <div class="center">
+      <div class="btn-group">
+        <div class="checkbox btn">
+          <input type="checkbox" id="btn-demo-check-1" (click)="goback()"/>
+          <label for="btn-demo-check-1">{{'CANCEL'|translate}}</label>
+        </div>
+        </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!entryForm.valid" (click)="onSubmit()">{{'SUBMIT' | translate}}</button>
+    </div>
+  </form>
+</div>
