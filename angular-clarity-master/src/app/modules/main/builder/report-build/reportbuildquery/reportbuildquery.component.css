@@ -1,0 +1,146 @@
+@import '@swimlane/ngx-datatable/index.css';
+@import '@swimlane/ngx-datatable/themes/bootstrap.css';
+@import '@swimlane/ngx-datatable/assets/icons.css';
+.button1::after {
+  content: none;
+}
+
+.button1:hover::after {
+  content: "ADD ROWS";
+}
+
+.delete, .heading {
+  text-align: center;
+  color: red;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.section p {
+  padding: 10px;
+  font-size: 18px;
+}
+
+.clr-input {
+  color: #212529;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 0.75rem 0.75rem;
+  margin-top: 3px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.required-field {
+  color: red;
+  font-size: 18px;
+}
+
+input[type=text], textarea {
+  width: 100%;
+  padding: 15px 15px;
+  background-color: rgb(255, 255, 255);
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+html {
+  /* make sure we use up the whole viewport */
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  width: 100%;
+  background-color: gray;
+}
+
+ngx-datatable {
+  font-family: Metropolis, Avenir Next, Helvetica Neue, Arial, sans-serif;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  padding: 0;
+  background-color: #fff;
+}
+ngx-datatable .datatable-header, ngx-datatable .datatable-footer {
+  font-size: 11px;
+  line-height: 18px;
+  font-weight: bold;
+  background-color: #fafafa;
+}
+ngx-datatable .datatable-header {
+  box-shadow: 0 2px 4px 0px #ccc;
+}
+ngx-datatable .datatable-header .datatable-header-cell {
+  line-height: 22px;
+  padding-left: 10px;
+  height: 22px;
+}
+ngx-datatable .datatable-header .datatable-header-cell:not(:first-child) {
+  border-left: 1px solid #ccc;
+}
+ngx-datatable .datatable-footer {
+  border-top: 1px solid #ccc;
+}
+ngx-datatable .datatable-footer .page-count {
+  margin: 10px;
+}
+ngx-datatable .datatable-footer .pages a {
+  padding: 8px;
+  color: inherit;
+}
+ngx-datatable .datatable-footer .pages.active a {
+  padding: 8px;
+  color: #007cbb;
+  background-color: rgb(221, 221, 221);
+  text-align: center;
+}
+ngx-datatable .datatable-header-inner {
+  padding: 12px;
+}
+ngx-datatable .datatable-body-cell {
+  padding: 8px 0 10px 20px;
+  border-top: 1px solid #ddd;
+}
+ngx-datatable .pager i {
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+.postColumn {
+  border: 1px solid #ccc;
+  width: 78%;
+  margin-left: 15px;
+}
+
+.colName {
+  text-align: center;
+  padding: 5px;
+}
+
+.colfields {
+  border: 1px solid black;
+  margin: 17px;
+  text-align: center;
+  padding: 3px;
+}
+
+.fieldWrapper {
+  margin-top: 20px;
+}
+
+.center {
+  text-align: center;
+}
+
+select {
+  width: 100%;
+  padding: 5px 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}/*# sourceMappingURL=reportbuildquery.component.css.map */

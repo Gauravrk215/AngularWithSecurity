@@ -1,0 +1,56 @@
+.s-info-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.s-info-bar button {
+  outline: none;
+}
+
+.edit-pg {
+  width: 750px;
+}
+
+select {
+  width: 100%;
+  padding: 5px 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#lines table,
+#lines th,
+#lines td {
+  border: 0.5px solid #f1f0f0;
+  border-collapse: collapse;
+}
+#lines input,
+#lines input :focus {
+  outline: none;
+  border-width: 0px;
+  border: none;
+}
+
+.clr-input {
+  color: #212529;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 0.75rem 0.75rem;
+  margin-top: 3px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.center {
+  text-align: center;
+}
+
+textarea {
+  width: 100%;
+  padding: 15px 15px;
+  background-color: rgb(255, 255, 255);
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}/*# sourceMappingURL=reportbuildedit.component.css.map */

@@ -1,0 +1,66 @@
+<div class="container">
+    <h3 style="font-weight: 300;display: inline;"><b>REPORT SET UP - Project Details Report ({{ReportData.id}})</b></h3>
+    <span class="label label-light-blue" style="display: inline;margin-left: 10px;">Edit Mode</span>
+    <hr />
+    <form [formGroup]="entryForm">
+        <div class="clr-row">
+            <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12">
+                <div>
+                    <div class="clr-row">
+                        <div class="clr-col-md-4 clr-col-sm-12">
+                            <div class="clr-col-sm-12">
+                            <label for="projectName">Connection Name</label>
+                            <select  formControlName="conn_name" name="conn_name" [(ngModel)]="nodeEditProperties.conn_name" id="service"   class="clr-dropdown">
+                                <option value="null">Choose Name</option>
+                                <option *ngFor="let item of databaselist" [value]="item.name">{{item.name}}</option>
+                            </select>
+                            </div><br>
+                            <div class="clr-col-sm-12">
+                                <label for="projectName">Date Parameter Required</label>
+                                <select formControlName="date_param_req" name="date_param_req" [(ngModel)]="nodeEditProperties.date_param_req" id="service"   class="clr-dropdown">
+                                    <option value="null">Choose One</option>
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="clr-col-md-4 clr-col-sm-12">
+                            <div class="clr-col-sm-12">
+                            <label for="description" class="d1">Standard Parameter String (html)</label>
+                            <textarea id="t1" cols="10" rows="3" formControlName="std_param_html"  placeholder="Enter Description" name="std_param_html" [(ngModel)]="nodeEditProperties.std_param_html" style="width:100%">
+                            </textarea>
+                            </div>
+                        </div>
+                        <div class="clr-col-md-4 clr-col-sm-12">
+                            <div class="clr-col-sm-12">
+                                <label for="description" class="d1">Adhoc Parameter String (html)</label>
+                                <textarea id="t1" cols="10" rows="3" formControlName="adhoc_param_html" placeholder="Enter Description" name="adhoc_param_html" [(ngModel)]="nodeEditProperties.adhoc_param_html" style="width:100%">
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="clr-row" style="padding-left:10px;">
+            <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="description" class="d1">Column String (html)</label>
+                <textarea id="t1" cols="10" rows="3" formControlName="column_str" placeholder="Enter Description" name="column_str" [(ngModel)]="nodeEditProperties.column_str" style="width:100%">
+                </textarea>
+            </div>
+
+            <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="description" class="d1">SQL String</label>
+                <textarea id="t1" cols="10" rows="3" formControlName="sql_str"  placeholder="Enter Description" name="sql_str" [(ngModel)]="nodeEditProperties.sql_str" style="width:100%">
+                </textarea>
+            </div>
+        </div>
+      <br>
+      <div class="center">
+        <button type="button" class="btn btn-outline" (click)="back()">BACK</button>
+        <button type="submit" form-control class="btn btn-primary" (click)="onSubmit()">UPDATE</button>
+      </div>
+    </form>
+  </div>
+  
