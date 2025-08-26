@@ -1,0 +1,102 @@
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"><clr-icon shape="home"></clr-icon></a></li>
+  <li><a href="javascript://">{{'REPORT_BUILDER_2' | translate}}</a></li>
+</ol>
+<br>
+
+<div class="dg-wrapper">
+  <div class="clr-row">
+      <div class="clr-col-4">
+          <h3><b>{{'REPORT_BUILDER_2' | translate}}</b></h3>
+      </div>
+      <div class="clr-col-8" style="text-align: right;">
+        <button id="add" class="btn btn-primary" (click)="gotorunner()">
+            <clr-icon shape="grid-view"></clr-icon>{{'REPORT_RUNNER' | translate}}
+        </button>
+        
+        <button id="add" class="btn btn-primary" (click)="goToAdd()">
+            <clr-icon shape="plus"></clr-icon>{{'ADD' | translate}}
+        </button>
+    </div>
+</div>
+
+<clr-datagrid [clrDgLoading]="loading">
+    <clr-dg-placeholder><ng-template #loadingSpinner><clr-spinner>{{'LOADING' | translate}}</clr-spinner></ng-template>
+    <div *ngIf="error;else loadingSpinner">{{error}}</div></clr-dg-placeholder>
+  
+  
+    <clr-dg-column [clrDgField]="''"><ng-container *clrDgHideableColumn="{hidden: false}">
+      {{'GO_TO' | translate}}
+  </ng-container></clr-dg-column>
+  <clr-dg-column [clrDgField]="'name'"><ng-container *clrDgHideableColumn="{hidden: false}">
+      {{'REPORT_NAME' | translate}}
+  </ng-container></clr-dg-column>
+  <clr-dg-column [clrDgField]="'description'"><ng-container *clrDgHideableColumn="{hidden: false}">
+      {{'REPORT_DESCRIPTION' | translate}}
+  </ng-container></clr-dg-column>
+  <clr-dg-column [clrDgField]="'active'"><ng-container *clrDgHideableColumn="{hidden: false}">
+      {{'ACTIVE' | translate}}
+  </ng-container></clr-dg-column>
+  <clr-dg-column><ng-container *clrDgHideableColumn="{hidden: false}">
+      <clr-icon shape="bars"></clr-icon>{{'ACTION' | translate}}
+  </ng-container></clr-dg-column>
+  
+      <clr-dg-row *clrDgItems="let user of gridData?.slice()?.reverse();" [clrDgItem]="user">
+        <clr-dg-cell><span class="label label-light-blue" style="display: inline;margin-left: 10px; cursor: pointer;"  (click)="goToLines(user)"> {{'SET_UP' | translate}}</span></clr-dg-cell>
+        <clr-dg-cell id="word">{{user.reportName}}</clr-dg-cell>
+        <clr-dg-cell id="word">{{user.description}}</clr-dg-cell>
+        <clr-dg-cell id="word">{{user.active}}</clr-dg-cell>
+        <clr-dg-cell>
+          <a href="javascript:void(0)" style="padding-right: 10px;" role="tooltip" aria-haspopup="true" class="tooltip tooltip-sm tooltip-top-left">
+            <span style="cursor: pointer;"><clr-icon shape="trash" (click)="onDelete(user)" class="red is-error" style="color: red;"></clr-icon></span>
+            <span class="tooltip-content"> {{'DELETE' | translate}}</span>
+            </a>
+          <clr-signpost>
+            <span style="cursor: pointer;" clrSignpostTrigger><clr-icon shape="help" class="success" style="color: rgb(0, 130, 236);"></clr-icon></span>
+                    <clr-signpost-content [clrPosition]="'left-middle'" *clrIfOpen>
+                        <h5 style="margin-top: 0">{{'WHO_COLUMN' | translate}}</h5>
+                        <div>{{'ACCOUNT_ID' | translate}}: <code class="clr-code">{{user.accountId}}</code></div>
+                        <div>{{'CREATED_AT' | translate}}: <code class="clr-code">{{user.createdAt | date}}</code></div>
+                        <div>{{'CREATED_BY' | translate}}: <code class="clr-code">{{user.createdBy}}</code></div>
+                        <div>{{'UPDATED_AT' | translate}}: <code class="clr-code">{{user.updatedAt | date}}</code></div>
+                        <div>{{'UPDATED_BY' | translate}}: <code class="clr-code">{{user.updatedBy}}</code></div>
+                    </clr-signpost-content>
+          </clr-signpost>
+          
+            <!-- <span style="cursor: pointer;"><clr-icon shape="form" (click)="goToLines(user.id)" class="success" style="color: rgb(0, 130, 236);"></clr-icon></span> -->
+          </clr-dg-cell>
+        <clr-dg-action-overflow>
+          <!-- <button class="action-item" (click)="goToEdit(user.id)">Edit <clr-icon shape="edit" class="is-error"></clr-icon></button> -->
+        </clr-dg-action-overflow>
+  
+        <!-- <clr-dg-row-detail *clrIfExpanded >
+          <table class="table">
+            <tr>
+              <td class="td-title">actionName: </td>
+              <td class="td-content">{{user.actionName}}</td>
+            </tr>
+          </table>
+        </clr-dg-row-detail> -->
+      </clr-dg-row>
+  
+      <clr-dg-footer>
+        <clr-dg-pagination #pagination [clrDgPageSize]="10">
+          <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">{{'USERS_PER_PAGE' | translate}}</clr-dg-page-size>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+          of {{pagination.totalItems}} users
+        </clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
+  </div>
+  
+  <clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  
+    <div class="modal-body" *ngIf="rowSelected.id">
+      <h1 class="delete">{{'DELETE_CONFIRMATION' | translate}}</h1>
+      <h2 class="heading">{{rowSelected.id}}</h2>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modaldelete = false">{{'CANCEL' | translate}}</button>
+      <button type="submit" (click)="delete(rowSelected.id)" class="btn btn-primary" >{{'DELETE' | translate}}</button>
+      </div>
+    </div>
+  </clr-modal>
