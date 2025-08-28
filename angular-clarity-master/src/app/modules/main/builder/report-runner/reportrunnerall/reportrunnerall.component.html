@@ -1,0 +1,109 @@
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+    <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard']"><clr-icon shape="home"></clr-icon></a></li>
+    <li><a href="javascript://">{{ 'ALL_REPORT' | translate }}</a></li>
+  </ol>
+  <br>
+  
+  
+  <div class="dg-wrapper">
+    <div class="clr-row">
+      <div class="clr-col-4">
+        <h3><b>{{ 'ALL_REPORT' | translate }}</b></h3>
+      </div>
+      <div class="clr-col-8" style="text-align: right;">
+        <button id="add" class="btn btn-primary"  (click)="goToAdd()">
+          <clr-icon shape="plus"></clr-icon>{{ 'REPORT_BUILDER_SQL' | translate }}
+        </button>
+        <button id="add" class="btn btn-primary"  (click)="goToAdd2()">
+          <clr-icon shape="plus"></clr-icon>{{ 'REPORT_BUILDER_URL' | translate }}
+        </button>
+      </div>
+    </div>
+  
+  
+  
+    <ng-template #showInfo>
+      <div class="alert alert-info" role="alert">
+          <div class="alert-items">
+              <div class="alert-item static">
+                  <div class="alert-icon-wrapper">
+                      <clr-icon class="alert-icon" shape="info-circle"></clr-icon>
+                  </div>
+                  <span class="alert-text">
+                    {{ 'LOADING_MESSAGE' | translate }}
+                      <clr-spinner [clrMedium]="true">Loading ...</clr-spinner>
+                  </span>
+              </div>
+          </div>
+      </div>
+    </ng-template>
+
+
+    <div *ngIf="gridData; else showInfo" class="clr-row clr-align-items-start clr-justify-content-start">
+      <div *ngFor="let app of gridData| filter:search; let index = i" class="clr-col-auto" >
+        <div class="clr-row">
+          <div class="clr-col-lg-12 clr-col-md-4 clr-col-sm-4 clr-col-12" style="width: 410px;">
+              <div class="card" (click)="goToRunner(app)" >
+                  <div class="card-header" style="padding-bottom: 0px;">
+                    <div class="clr-row">
+                      <div class="clr-col-10">
+                  <clr-icon shape="file-group"></clr-icon> 
+                  <span class="badge badge-light-blue" *ngIf="app?.isSql == true">{{ 'SQL' | translate }}<span class="clr-sr-only">items in a light blue badge</span></span>
+          <span class="badge badge-orange" *ngIf="app?.isSql == false" style="color: #fff;">{{ 'URL' | translate }}<span class="clr-sr-only">items in an orange badge</span></span>
+                    </div >
+                    <div  class="clr-col-2">
+                      <input type="radio" id="cb1" class="dots" [title]="app.active == true ? 'Active: True' : 'Active: False'" [ngStyle]="{'background-color': app.active == true ? 'green' : 'red'}" >
+                    </div>
+                    </div>  
+                    <div class="clr-row">
+                      <div class="clr-col-12">
+                      <b class="word" id="word" [title]="app.reportName"> {{app.reportName}}</b>
+                    </div>
+                    </div>  
+     
+                       <div class="clr-row">
+                        <div class="clr-col-12"> <div class="card-title1" id="word" >
+                          <b style="font-size: 15px;" class="p2" [title]="app.description">{{app.description}}</b>
+                        </div>
+                         </div>
+                      </div>
+
+                      <!-- <div class="clr-row">
+                        <div class="clr-col-12"> <div class="card-title1" id="word" >
+                          <b style="font-size: 15px;" class="p2" [title]="app.secuirity_profile">{{app.secuirity_profile}}</b>
+                        </div>
+                         </div>
+                      </div> -->
+                  </div>
+    
+                  <!-- <div class="card-block" style="padding: 10px 10px 0px 10px;">
+    
+                      <div class="card-text">
+                  </div>
+                </div> -->
+                  <div class="card-footer" style="padding: 10px 10px 6px 10px">
+                      <button class="btn btn-sm btn-link"> Last Updated On: {{app.updatedAt|date}}</button>  <span style="margin: 0 0 0 10px; padding: 5px;" class="label p7"><clr-icon shape="calendar"></clr-icon>&nbsp;{{app.createdAt | timePipe}}</span>
+                  </div>
+              
+          </div>
+      </div>
+      </div>
+    </div>
+    </div>
+  
+  
+  
+   
+  </div>
+  
+  <clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  
+    <div class="modal-body" *ngIf="rowSelected.id">
+      <h1 class="delete">{{ 'DELETE_CONFIRMATION' | translate }}</h1>
+      <h2 class="heading">{{rowSelected.id}}</h2>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modaldelete = false">{{ 'CANCEL' | translate }}</button>
+      <button type="submit" (click)="delete(rowSelected.id)" class="btn btn-primary" >{{ 'DELETE' | translate }}</button>
+      </div>
+    </div>
+  </clr-modal>
