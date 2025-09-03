@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { MyworkspaceService } from 'src/app/services/admin/myworkspace.service';
 
 @Component({
@@ -9,14 +10,14 @@ import { MyworkspaceService } from 'src/app/services/admin/myworkspace.service';
   styleUrls: ['./forgotresetpassword1.component.scss']
 })
 export class Forgotresetpassword1Component implements OnInit {
-  public  form: FormGroup;
+  public form: FormGroup;
   submitted = false;
   passchange;
   newpHide: boolean = true;
   newIcon: string = "eye";
   newShapeChanger() {
     this.newpHide = !this.newpHide;
-    if(this.newpHide){
+    if (this.newpHide) {
       this.newIcon = 'eye'
     } else {
       this.newIcon = 'eye-hide'
@@ -26,7 +27,7 @@ export class Forgotresetpassword1Component implements OnInit {
   conIcon: string = "eye";
   comfShapeChanger() {
     this.cpHide = !this.cpHide;
-    if(this.cpHide){
+    if (this.cpHide) {
       this.conIcon = 'eye'
     } else {
       this.conIcon = 'eye-hide'
@@ -37,7 +38,8 @@ export class Forgotresetpassword1Component implements OnInit {
   token;
   constructor(private _fb: FormBuilder,
     private route: ActivatedRoute,
-    private mywork:MyworkspaceService) { }
+    private mywork: MyworkspaceService,
+    private toastr: ToastrService,) { }
 
   ngOnInit(): void {
     this.email = this.mywork.getStoredEmail();
@@ -49,19 +51,21 @@ export class Forgotresetpassword1Component implements OnInit {
       {
         first_name: ['', Validators.required],
         last_name: ['', Validators.required],
-        mob_no: ['', [Validators.required,Validators.minLength(10)]],
-        password: ['',[ Validators.required, Validators.minLength(6), Validators.maxLength(40)]],
-        confirm_passwordS: ['', Validators.required],
+        mob_no: ['', [Validators.required, Validators.minLength(10)]],
+        password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(40)]],
+        confirm_password: ['', Validators.required],
 
-      }, );
+      },);
   }
-  onsubmit(){
-this.mywork.adduserdetails(this.form.value,this.token).subscribe((data)=>{
-  console.log(data);
-  this.passchange=data;
-        console.log('success ', data);
-                },(err) => {
-          console.log('failure ', err);
-})
+  onsubmit() {
+    this.mywork.adduserdetails(this.form.value, this.token).subscribe((data) => {
+      console.log(data);
+      this.passchange = data;
+      this.toastr.success('Email Send successfully');
+      console.log('success ', data);
+    }, (err) => {
+      this.toastr.error("Server Error");
+      console.log('failure ', err);
+    })
   }
 }

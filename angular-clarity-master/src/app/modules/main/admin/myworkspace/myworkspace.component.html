@@ -1,0 +1,309 @@
+<div class="pad-16">
+  <h3><b>Organization and Workspaces</b></h3>
+  <br />
+
+  <section class="form-block" style="margin-top:32px">
+    <!--  <form (ngSubmit)="onSubmit()"> -->
+    <table *ngIf="sys_account">
+      <tr>
+        <td><b>Organization:</b> </td>
+        <td> {{ sys_account.companyName }}</td>
+      </tr>
+      <tr>
+        <td><b>Account Id:</b> </td>
+        <td>{{ sys_account.gstNumber }}</td>
+      </tr>
+
+        <tr>
+        <td><b> Selected Workspace: </b></td>
+        <td>{{sys_account.workspace }}</td>
+        <span  class="label label-light-green p7" style="margin-top: .4em; display: inline; cursor: pointer;margin-left: 20px;" (click)="allworksapce()">switch</span>
+      </tr>
+    </table>
+    <!-- <a routerLink="/create-workspace">create new workspace</a> -->
+  </section>
+
+  <clr-tabs>
+    <clr-tab>
+      <button clrTabLink>Users</button>
+      <clr-tab-content *clrIfActive>
+        <button class="btn btn-primary" (click)="addUsers()">INVITE USER</button>
+        <clr-datagrid [clrDgLoading]="loading"  >
+          <clr-dg-placeholder><clr-spinner [clrMedium]="true">Loading ...</clr-spinner></clr-dg-placeholder>
+
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            No
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+           Name
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            Account Type
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            Status
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            Actions
+          </ng-container></clr-dg-column>
+          <clr-dg-row *clrDgItems="let user of alluser;let i = index" [clrDgItem]="user">
+            <clr-dg-cell >{{i+1}}</clr-dg-cell>
+            <clr-dg-cell><img class="avatar" src="assets/download.png" alt=""  height="50px">
+             {{user.fullName}}<br>{{user.username}}<clr-icon shape="dot-circle"></clr-icon>{{user.email}}</clr-dg-cell>
+            <clr-dg-cell ></clr-dg-cell>
+            <!-- {{user.roles[0].description}} -->
+            <clr-dg-cell > {{user.status}} </clr-dg-cell>
+            <clr-dg-cell > <clr-icon shape="bullet-list"></clr-icon></clr-dg-cell>
+              </clr-dg-row>
+
+          <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+              <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+              of {{pagination.totalItems}} users
+            </clr-dg-pagination>
+          </clr-dg-footer>
+        </clr-datagrid>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button  clrTabLink>Guest</button>
+      <clr-tab-content *clrIfActive>
+        <button class="btn btn-primary" (click)="addguest()">INVITE GUEST</button>
+        <clr-datagrid [clrDgLoading]="loading"  >
+          <clr-dg-placeholder><clr-spinner [clrMedium]="true">Loading ...</clr-spinner></clr-dg-placeholder>
+
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            No
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+           Name
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            Account Type
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            Status
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            Access Till
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            Actions
+          </ng-container></clr-dg-column>
+          <clr-dg-row *clrDgItems="let user of allguest;let i = index" [clrDgItem]="user">
+            <clr-dg-cell >{{i+1}}</clr-dg-cell>
+            <clr-dg-cell><img class="avatar" src="assets/download.png" alt=""  height="50px">
+              {{user.fullName}}<br>{{user.username}}<clr-icon shape="dot-circle"></clr-icon>{{user.email}}</clr-dg-cell>
+             <clr-dg-cell >{{user.roles[0].description}}</clr-dg-cell>
+             <clr-dg-cell > {{user.status}} </clr-dg-cell>
+            <clr-dg-cell >{{user.access_duration}}</clr-dg-cell>
+            <clr-dg-cell > <clr-icon shape="bullet-list"></clr-icon>
+            </clr-dg-cell>
+              </clr-dg-row>
+
+          <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+              <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+              of {{pagination.totalItems}} users
+            </clr-dg-pagination>
+          </clr-dg-footer>
+        </clr-datagrid>
+      </clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+      <button clrTabLink>Teams</button>
+      <clr-tab-content *clrIfActive>
+        <button class="btn btn-primary" (click)="addteam()">ADD TEAM</button>
+        <clr-datagrid [clrDgLoading]="loading"  >
+          <clr-dg-placeholder><clr-spinner [clrMedium]="true">Loading ...</clr-spinner></clr-dg-placeholder>
+
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            No
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            Team Name
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            Owner
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            Count
+          </ng-container></clr-dg-column>
+          <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            Members
+          </ng-container></clr-dg-column>
+          <!-- <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+            Actions
+          </ng-container></clr-dg-column> -->
+          <clr-dg-row *clrDgItems="let user of allworkspacedata;let i = index" [clrDgItem]="user">
+            <clr-dg-cell >{{i+1}}</clr-dg-cell>
+            <clr-dg-cell>{{user.name}}</clr-dg-cell>
+            <clr-dg-cell >{{user.owner_id}}</clr-dg-cell>
+            <clr-dg-cell >3</clr-dg-cell>
+            <clr-dg-cell > <div (click)="manage(user.id)"> <img class="avatar" src="assets/images/profile-icon.png" alt=""  height="50px">
+              <img class="avatar" src="assets/images/profile-icon.png" alt=""  height="50px">
+              <img class="avatar" src="assets/images/profile-icon.png" alt=""  height="50px"></div>
+            </clr-dg-cell>
+            <!-- <clr-dg-cell >
+              <clr-icon shape="user" (click)="manage(user.id)"></clr-icon>
+            </clr-dg-cell> -->
+              </clr-dg-row>
+
+          <clr-dg-footer>
+            <clr-dg-pagination #pagination [clrDgPageSize]="10">
+              <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+              of {{pagination.totalItems}} users
+            </clr-dg-pagination>
+          </clr-dg-footer>
+        </clr-datagrid>
+      </clr-tab-content>
+    </clr-tab>
+
+  </clr-tabs>
+
+
+
+
+
+
+  <!-- ADD USERS [hidden]="isAdmin()" -->
+  <!-- <button class="btn btn-primary" (click)="addUsers()">ADD USER</button>
+  <button class="btn btn-primary" (click)="addguest()">ADD GUEST</button>
+  <button class="btn btn-primary" (click)="addteam()">ADD TEAM</button>
+
+
+  <hr> -->
+
+
+</div>
+
+
+<clr-modal [(clrModalOpen)]="modalteam" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h5 class="modal-title">Add A Team To Real It Solutions</h5>
+  <div class="modal-body">
+    <form [formGroup]="teamForm">
+      <div class="clr-row">
+        <div class="clr-col-md-6 clr-col-sm-12" >
+          <label>Name: </label>
+        <input class="clr-input"  type="text" name="name"  placeholder="Enter name" formControlName="name">
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modalteam = false">Cancel</button>
+      <button type="submit"  class="btn btn-primary"  [disabled]="!teamForm.valid"  (click)="oncreateteam()">Add</button>
+      </div>
+    </form>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="modalguest" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h5 class="modal-title">Invite Guest To REALITS-WS</h5>
+  <div class="modal-body">
+    <form [formGroup]="guestForm" >
+      <div class="clr-row">
+        <div class="clr-col-md-12 clr-col-sm-12" >
+          <label>To:  <span class="required-field">*</span></label>
+          <input class="clr-input" type="email" formControlName="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"  placeholder="name@dekatc.com">
+          <div *ngIf="guestForm.controls['email'].errors" class="error_mess">
+                                <div *ngIf="guestForm.controls['email'].hasError('pattern')" class="error_mess">* Email must be a valid email address
+                                  </div>  </div>
+          <!-- <textarea name="" id="" cols="30" rows="4" placeholder="name@dekatc.com" formControlName="email"></textarea> -->
+        </div>
+      </div>
+      <div class="clr-row">
+        <div class="clr-col-md-4 clr-col-sm-12" >
+          <label>Access duration: <span class="required-field">*</span></label>
+          <select formControlName="access_duration">
+            <option value="30" selected>30 day</option>
+            <option value="60">60 day</option>
+            <option value="90">90 day</option>
+          </select>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modalguest= false">Cancel</button>
+      <button type="submit"  class="btn btn-primary" [disabled]="!guestForm.valid" (click)="onCreateguest()">Add</button>
+      </div>
+    </form>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="modaluser" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
+  <h5 class="modal-title">Invite People To REALITS-WS</h5>
+  <div class="modal-body">
+    <form [formGroup]="userForm" >
+      <div class="clr-row">
+        <div class="clr-col-md-12 clr-col-sm-12" >
+          <label>To: </label>
+          <input class="clr-input" type="email" formControlName="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"  placeholder="name@dekatc.com">
+          <div *ngIf="userForm.controls['email'].errors" class="error_mess">
+                                <div *ngIf="userForm.controls['email'].hasError('pattern')" class="error_mess">* Email must be a valid email address
+                                  </div>  </div>
+          <!-- <textarea name="" id="" cols="30" rows="4" formControlName="email" placeholder="name@dekatc.com" ></textarea> -->
+        </div>
+      </div>
+<a style="float: left;" ><clr-icon shape="link"></clr-icon>Copy Invite Link</a>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modaluser = false">Cancel</button>
+      <button type="submit"  class="btn btn-primary" [disabled]="!userForm.valid" (click)="onCreateuser()">Add</button>
+      </div>
+    </form>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="allworkmodal" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h5 class="modal-title">Invite People To REALITS-WS</h5>
+  <div class="modal-body">
+    <clr-datagrid [clrDgLoading]="loading"  >
+      <clr-dg-placeholder><clr-spinner [clrMedium]="true">Loading ...</clr-spinner></clr-dg-placeholder>
+
+      <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+        No
+      </ng-container></clr-dg-column>
+      <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+        Team Name
+      </ng-container></clr-dg-column>
+      <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+        Owner
+      </ng-container></clr-dg-column>
+      <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+        Count
+      </ng-container></clr-dg-column>
+      <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+        Members
+      </ng-container></clr-dg-column>
+      <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
+        Actions
+      </ng-container></clr-dg-column>
+      <clr-dg-row *clrDgItems="let user of allwdata;let i = index" [clrDgItem]="user">
+        <clr-dg-cell >{{i+1}}</clr-dg-cell>
+        <clr-dg-cell>{{user.team_name}}</clr-dg-cell>
+        <clr-dg-cell >{{user.owner_id}}</clr-dg-cell>
+        <clr-dg-cell >3</clr-dg-cell>
+        <clr-dg-cell > <img class="avatar" src="assets/images/profile-icon.png" alt=""  height="50px">
+          <img class="avatar" src="assets/images/profile-icon.png" alt=""  height="50px">
+          <img class="avatar" src="assets/images/profile-icon.png" alt=""  height="50px">
+        </clr-dg-cell>
+        <clr-dg-cell > <clr-icon shape="bullet-list"></clr-icon>
+
+        </clr-dg-cell>
+          </clr-dg-row>
+
+      <clr-dg-footer>
+        <clr-dg-pagination #pagination [clrDgPageSize]="10">
+          <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+          of {{pagination.totalItems}} users
+        </clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
+  </div>
+</clr-modal>
+
+
+

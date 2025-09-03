@@ -51,7 +51,7 @@ export class AddguestComponent implements OnInit {
         last_name: ['', Validators.required],
         mob_no: ['', [Validators.required,Validators.minLength(10)]],
         password: ['',[ Validators.required, Validators.minLength(6), Validators.maxLength(40)]],
-        confirm_passwordS: ['', Validators.required],
+        confirm_password: ['', Validators.required],
 
       }, );
   }
