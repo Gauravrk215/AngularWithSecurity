@@ -52,7 +52,7 @@ export class UsermaintanceaddComponent implements OnInit {
       email:['',[Validators.required,Validators.email]],
       mob_no:['',[Validators.required]],
       new_password:['',[Validators.required,Validators.minLength(6)]],
-      confirm_passwordS:['',[Validators.required]],
+      confirm_password:['',[Validators.required]],
       usrGrpId:['',[Validators.required]],
       account_id:1,
       accesstype:['',[Validators.required]],
@@ -76,7 +76,7 @@ export class UsermaintanceaddComponent implements OnInit {
       //usrGrp: this._fb.array([this.user()]),
 
       }, {
-        validator: ConfirmedValidator('new_password', 'confirm_passwordS')
+        validator: ConfirmedValidator('new_password', 'confirm_password')
       });
       this.usergrp();
       this.getdata();

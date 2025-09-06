@@ -41,10 +41,10 @@
           </div>
           <div class="clr-col-md-4 clr-col-sm-12">
             <label for="name">Confirm New Password<span class="required-field">*</span></label>
-           <input type="password" class="clr-input" formControlName="confirm_passwordS">
-           <div *ngIf="submitted && entryForm.controls.confirm_passwordS.errors" class="error_mess">
-            <div *ngIf="entryForm.controls.confirm_passwordS.errors.required" class="error_mess">* Confirm Password is required</div>
-            <div *ngIf="entryForm.controls.confirm_passwordS.errors.confirmedValidator" class="error_mess">* Password and Confirm Password must be match.</div>
+           <input type="password" class="clr-input" formControlName="confirm_password">
+           <div *ngIf="submitted && entryForm.controls.confirm_password.errors" class="error_mess">
+            <div *ngIf="entryForm.controls.confirm_password.errors.required" class="error_mess">* Confirm Password is required</div>
+            <div *ngIf="entryForm.controls.confirm_password.errors.confirmedValidator" class="error_mess">* Password and Confirm Password must be match.</div>
 
         </div>
           </div>
