@@ -1,0 +1,305 @@
+<!-- <ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"> <clr-icon shape="home"></clr-icon></a></li>
+  <li><a href="javascript://"> <clr-icon shape="flag"></clr-icon>  Super Admin</a></li>
+  <li><a href="javascript://"> Report Runner</a></li>
+</ol> -->
+<h4 style="font-weight: 300;display: inline;"><b>Report Name - {{reportName}}</b></h4>
+<hr>
+<div class="container">
+  <div class="clr-row">
+    <div class="clr-col-md-6 clr-col-sm-12" *ngIf="DateParam">
+      <h5 style="font-weight: 200;display: inline; color: black;"><b>Date Range</b></h5>
+      <div class="clr-row">
+        <div class="clr-col-md-12 clr-col-sm-12">
+          <label for="description">Date Parameters</label>
+            <select id="condition"  class="clr-dropdown" [(ngModel)]="SelectdateType" (change)="select($event.target.value)">
+            <option>--Select Particular--</option>
+            <!-- <option>To Specific FromDate To To Date</option> -->
+            <option >Today</option>
+            <option >This Week</option>
+            <option >Last Week</option>
+            <option >This Month</option>
+            <option>Last Month</option>
+            <option >This Year</option>
+            <option>Last Year</option>
+            </select>
+      </div>
+      </div>
+      <div class="clr-row">
+        <div class="clr-col-md-6 clr-col-sm-12">
+          <label for="description">From Date</label>
+          <input  type="date"  class="clr-input"  name="FromDatequery" (change)="modo2($event.target.value)"  [(ngModel)]="FromDatequery" style="background-color:rgb(255, 255, 255);">
+        </div>
+        <div class="clr-col-md-6 clr-col-sm-12">
+          <label for="description">To Date</label>
+          <input  type="date"  class="clr-input"  name="ToDatequery" (change)="modo3($event.target.value)"  [(ngModel)]="ToDatequery" style="background-color:rgb(255, 255, 255);">
+        </div>
+      </div>
+    </div>
+    <div class="clr-col-md-6 clr-col-sm-12">
+      <h5 style="font-weight: 200;display: inline; color: black;"><b>Standard Parameters</b></h5>
+      <!-- <span *ngIf="stdParamFlag" [innerHTML]="stdParmas"></span> -->
+      <form [formGroup]="dynamicForm">
+      <div class="clr-row" >
+        <div class="clr-col-6" *ngFor="let field of dynamicHtml">
+        <ng-container *ngIf="dynamicHtmlFlag">
+          <label>{{ field }}</label>
+          <input type="text" [formControlName]="field" class="clr-input" [placeholder]="'Enter ' + field" style="background-color:rgb(255, 255, 255);"/>
+        </ng-container>
+        </div>
+        </div>
+      </form>
+      <!-- <div *ngIf="!stdParamFlag" class="clr-row">
+        <div class="clr-col-md-6 clr-col-sm-12">
+        <label for="description">Param 1</label>
+            <select id="condition"  class="clr-dropdown">
+            <option value="null">select Param</option>
+            </select>
+        </div>
+        <div class="clr-col-md-6 clr-col-sm-12">
+          <label for="description">Param 2</label>
+              <select id="condition"  class="clr-dropdown">
+              <option value="null">select Param</option>
+              </select>
+          </div>
+          <div class="clr-col-md-6 clr-col-sm-12">
+            <label for="description">Param 1</label>
+                <select id="condition"  class="clr-dropdown">
+                <option value="null">select Param</option>
+                </select>
+            </div>
+            <div class="clr-col-md-6 clr-col-sm-12">
+              <label for="description">Param 2</label>
+                  <select id="condition"  class="clr-dropdown">
+                  <option value="null">select Param</option>
+                  </select>
+              </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="clr-row">
+    <h5 style="font-weight: 200;display: inline;padding-left: 10px; color: black; "><b>Adhoc Parameters</b></h5>
+    </div>
+    <form >
+      <div class="clr-row fieldWrapper" >
+          <div class="clr-col-12">
+              <table class="table table-noborder" style="margin-top: 0px;"><!--table table-striped table-bordered-->
+                  <!-- <thead>
+                      <tr>
+                          <th>ANDOR</th>
+                          <th>FIELD NAME</th>
+                          <th>CONDITION</th>
+                          <th>VALUE</th>
+                          <th class="right" style="width:125px;">Action</th>
+                      </tr>
+                  </thead> -->
+                  <tbody>
+                      <tr  *ngFor="let data of serverData; let i = index">
+                          <td ><select colspan="2" [(ngModel)]="data.andor" [ngModelOptions]="{standalone: true}" name="andor" class="clr-dropdown">
+                              <option [ngValue]="null">Select Values</option>
+                              <option *ngFor="let sub of andor" [ngValue]="sub">{{sub}}</option>
+                              </select>
+                          </td>
+                          <td><select colspan="2"  [(ngModel)]="data.fields_name" [ngModelOptions]="{standalone: true}" name="fields_name" class="clr-dropdown">
+                              <option  [ngValue]="null">Select Values</option>
+                              <option *ngFor="let sub of adhocList" [ngValue]="sub">{{sub}}</option>
+                              </select>
+                          </td>
+                          <td>
+                           <select colspan="2" [(ngModel)]="data.condition" [ngModelOptions]="{standalone: true}" name="condition" class="clr-dropdown">
+                              <option  [ngValue]="null">Select Values</option>
+                              <option *ngFor="let sub of condition" [ngValue]="sub">{{sub}}</option>
+                              </select>
+                          </td>
+                          <td><input type="text"   [(ngModel)]="data.value" [ngModelOptions]="{standalone: true}" name="value" class="clr-input" style="background-color:rgb(255, 255, 255);"/></td>
+                          <td style="width:120px;">
+                              <a (click)="deleteRow(i)" title="Delete">
+                                  <clr-icon shape="trash" class="is-error"></clr-icon>
+                              </a>
+                              <!-- <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-sm tooltip-top-left"> -->
+                              <span class="label label-light-blue" style="display: inline;margin-left: 10px;" (click)="onAddLines()" title="Add"> <clr-icon shape="plus"></clr-icon></span><!-- *ngIf="i === showPlusIconRow"-->
+                              <!-- <span class="tooltip-content">Add</span>
+                              </a> -->
+                          </td>
+                      </tr>
+  
+                  </tbody>
+                  <!-- <span class="label label-light-blue" style="display: inline;margin-left: 10px;" (click)="onAddLines()"> <clr-icon shape="plus"></clr-icon></span> -->
+              </table>
+          </div>
+      </div>
+  </form>
+</div>
+<!-- <div class="clr-row" style="margin-top: 30px;">
+<div class="clr-col-md-4 clr-col-sm-12">
+  <label for="description">Date Parameters</label>
+  <select id="condition"  class="clr-dropdown" (change)="select($event.target.value)">
+          <option>--Select Particular--</option>
+          <option>To Specific FromDate To To Date</option>
+          <option >This Week</option>
+          <option >Last Week</option>
+          <option >This Month</option>
+          <option>Last Month</option>
+          <option >This Year</option>
+          <option>Last Year</option>
+      </select>
+</div>
+
+<div class="clr-col-md-8 clr-col-sm-12">
+  <label for="description">Standard Parameters</label>
+   <textarea name="" id="" cols="35" rows="4"  name="description">
+        </textarea>
+</div>
+
+</div> -->
+<!-- <div class="clr-row">
+  <div class="clr-col-md-6 clr-col-sm-12">
+    <label for="description">Adhoc Parameters</label>
+     <textarea name="" id="" cols="50" rows="4"  name="description">
+          </textarea>
+  </div>
+  <div class="clr-col-md-6 clr-col-sm-12">
+    <label for="description">Parameters</label>
+     <textarea name="" id="" cols="50" rows="4"  name="description">
+          </textarea>
+  </div>
+</div> -->
+<div class="clr-row">
+  <div class="clr-col-4" style="padding-top: 20px;">
+<h4 style="font-weight: 300;display: inline;"><b>Report Output</b></h4>
+</div>
+<div class="clr-col-8" style="text-align: right;">
+
+  <clr-signpost style="padding-right: 10px;">
+    <button class="btn btn-outline" aria-label="Icon Button Trigger" clrSignpostTrigger title="download">
+      <clr-icon shape="download"></clr-icon>
+    </button>
+    <clr-signpost-content [clrPosition]="'bottom-middle'" *clrIfOpen>
+      <button class="btn btn-primary"  (click)="onExport()">xlsx</button>
+      <button class="btn btn-primary" (click)="downloadFile('csv')" >CSV</button>
+      <button class="btn btn-primary"  (click)="downloadFile('pdf')" >PDF</button>
+    </clr-signpost-content>
+  </clr-signpost>
+  <!-- <button class="btn btn-outline"  (click)="onExport()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-xlsx" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM7.86 14.841a1.13 1.13 0 0 0 .401.823c.13.108.29.192.479.252.19.061.411.091.665.091.338 0 .624-.053.858-.158.237-.105.416-.252.54-.44a1.17 1.17 0 0 0 .187-.656c0-.224-.045-.41-.135-.56a1.002 1.002 0 0 0-.375-.357 2.028 2.028 0 0 0-.565-.21l-.621-.144a.97.97 0 0 1-.405-.176.37.37 0 0 1-.143-.299c0-.156.061-.284.184-.384.125-.101.296-.152.513-.152.143 0 .266.023.37.068a.624.624 0 0 1 .245.181.56.56 0 0 1 .12.258h.75a1.093 1.093 0 0 0-.199-.566 1.21 1.21 0 0 0-.5-.41 1.813 1.813 0 0 0-.78-.152c-.293 0-.552.05-.777.15-.224.099-.4.24-.527.421-.127.182-.19.395-.19.639 0 .201.04.376.123.524.082.149.199.27.351.367.153.095.332.167.54.213l.618.144c.207.049.36.113.462.193a.387.387 0 0 1 .153.326.512.512 0 0 1-.085.29.558.558 0 0 1-.255.193c-.111.047-.25.07-.413.07-.117 0-.224-.013-.32-.04a.837.837 0 0 1-.249-.115.578.578 0 0 1-.255-.384h-.764Zm-3.726-2.909h.893l-1.274 2.007 1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415H1.5l1.24-2.016-1.228-1.983h.931l.832 1.438h.036l.823-1.438Zm1.923 3.325h1.697v.674H5.266v-3.999h.791v3.325m7.636-3.325h.893l-1.274 2.007 1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415h-.861l1.24-2.016-1.228-1.983h.931l.832 1.438h.036l.823-1.438Z"/>
+    </svg>
+     xlsx
+  </button>
+  <button class="btn btn-outline"  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-csv" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM3.517 14.841a1.13 1.13 0 0 0 .401.823c.13.108.289.192.478.252.19.061.411.091.665.091.338 0 .624-.053.859-.158.236-.105.416-.252.539-.44.125-.189.187-.408.187-.656 0-.224-.045-.41-.134-.56a1.001 1.001 0 0 0-.375-.357 2.027 2.027 0 0 0-.566-.21l-.621-.144a.97.97 0 0 1-.404-.176.37.37 0 0 1-.144-.299c0-.156.062-.284.185-.384.125-.101.296-.152.512-.152.143 0 .266.023.37.068a.624.624 0 0 1 .246.181.56.56 0 0 1 .12.258h.75a1.092 1.092 0 0 0-.2-.566 1.21 1.21 0 0 0-.5-.41 1.813 1.813 0 0 0-.78-.152c-.293 0-.551.05-.776.15-.225.099-.4.24-.527.421-.127.182-.19.395-.19.639 0 .201.04.376.122.524.082.149.2.27.352.367.152.095.332.167.539.213l.618.144c.207.049.361.113.463.193a.387.387 0 0 1 .152.326.505.505 0 0 1-.085.29.559.559 0 0 1-.255.193c-.111.047-.249.07-.413.07-.117 0-.223-.013-.32-.04a.838.838 0 0 1-.248-.115.578.578 0 0 1-.255-.384h-.765ZM.806 13.693c0-.248.034-.46.102-.633a.868.868 0 0 1 .302-.399.814.814 0 0 1 .475-.137c.15 0 .283.032.398.097a.7.7 0 0 1 .272.26.85.85 0 0 1 .12.381h.765v-.072a1.33 1.33 0 0 0-.466-.964 1.441 1.441 0 0 0-.489-.272 1.838 1.838 0 0 0-.606-.097c-.356 0-.66.074-.911.223-.25.148-.44.359-.572.632-.13.274-.196.6-.196.979v.498c0 .379.064.704.193.976.131.271.322.48.572.626.25.145.554.217.914.217.293 0 .554-.055.785-.164.23-.11.414-.26.55-.454a1.27 1.27 0 0 0 .226-.674v-.076h-.764a.799.799 0 0 1-.118.363.7.7 0 0 1-.272.25.874.874 0 0 1-.401.087.845.845 0 0 1-.478-.132.833.833 0 0 1-.299-.392 1.699 1.699 0 0 1-.102-.627v-.495Zm8.239 2.238h-.953l-1.338-3.999h.917l.896 3.138h.038l.888-3.138h.879l-1.327 4Z"/>
+    </svg>
+    CSV
+  </button>
+  <button class="btn btn-outline" >
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filetype-pdf" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803c.287 0 .531-.057.732-.173.203-.117.358-.275.463-.474a1.42 1.42 0 0 0 .161-.677c0-.25-.053-.476-.158-.677a1.176 1.176 0 0 0-.46-.477c-.2-.12-.443-.179-.732-.179Zm.545 1.333a.795.795 0 0 1-.085.38.574.574 0 0 1-.238.241.794.794 0 0 1-.375.082H.788V12.48h.66c.218 0 .389.06.512.181.123.122.185.296.185.522Zm1.217-1.333v3.999h1.46c.401 0 .734-.08.998-.237a1.45 1.45 0 0 0 .595-.689c.13-.3.196-.662.196-1.084 0-.42-.065-.778-.196-1.075a1.426 1.426 0 0 0-.589-.68c-.264-.156-.599-.234-1.005-.234H3.362Zm.791.645h.563c.248 0 .45.05.609.152a.89.89 0 0 1 .354.454c.079.201.118.452.118.753a2.3 2.3 0 0 1-.068.592 1.14 1.14 0 0 1-.196.422.8.8 0 0 1-.334.252 1.298 1.298 0 0 1-.483.082h-.563v-2.707Zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638H7.896Z"/>
+    </svg>
+    PDF
+  </button> -->
+  <button class="btn btn-outline" (click)="back()"> Back
+  </button>
+  <button id="add" class="btn btn-primary" (click)="runtheQuery()">
+    Run
+  </button>
+</div>
+</div>
+<hr>
+<div style="max-height:500px; overflow:auto" *ngIf="!filtered">
+  <table class="table">
+    <thead>
+      <tr>
+        <th *ngFor="let co of getHeaders();let i=index">{{co}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of rows">
+        <td *ngFor="let key of getHeaders()">
+          <!-- Check if the key is 'cretaedat' -->
+          <ng-container *ngIf="key !== 'cretaedat' && key!== 'createdAt' && key !== 'updated_at' && key !== 'updatedAt' && key !== 'created_at' && key !== 'creat_at'; else dateCell">
+            {{ item[key] }}
+          </ng-container>
+          <!-- Apply date pipe for 'cretaedat' -->
+          <ng-template #dateCell>
+            {{ item[key] | date:'medium' }}
+          </ng-template>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div style="max-height:500px; overflow:auto" *ngIf="filtered">
+    <table class="table">
+      <thead>
+        <tr>
+          <th *ngFor="let co of getFilterHeaders();let i=index">{{co}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of filterRows">
+          <td *ngFor="let key of getFilterHeaders()">
+            <!-- Check if the key is 'cretaedat' -->
+            <ng-container *ngIf="key !== 'cretaedat' && key!== 'createdAt' && key !== 'updated_at' && key !== 'updatedAt' && key !== 'created_at' && key !== 'creat_at'; else dateCell">
+              {{ item[key] }}
+            </ng-container>
+            <!-- Apply date pipe for 'cretaedat' -->
+            <ng-template #dateCell>
+              {{ item[key] | date:'medium' }}
+            </ng-template>
+
+            <!-- <ng-container *ngIf="isDate(item[key]); else regularCell">
+              {{  item[key] | date:'medium' }}
+            </ng-container>
+            <ng-template #regularCell>
+              {{ item[key] }}
+            </ng-template> -->
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<!-- <div>
+  <table style="width:40%" class="table table-striped table-bordered">
+    <thead>
+      <tr>
+      <th>ID</th>
+      <th>Lastname</th>
+      <th>From date</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of duplicateArray">
+        <td>{{item.id}}</td>
+       <td>{{item.name}}</td>
+         <td>{{item.fromDate}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->
+
+
+<clr-modal [(clrModalOpen)]="modalselect" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title">Select From to To</h3>
+  <div class="modal-body">
+    <div class="clr-row">
+      <div class="clr-col-md-4 clr-col-sm-12">
+
+       <label for="tags">Changed  Date From</label>
+              <input  type="date"  class="clr-input"  name="cnid" (change)="modo2($event.target.value)" [(ngModel)]="myDateValue">
+           </div>
+            <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="tags">changed Date To </label>
+                <input  type="date"  class="clr-input"  name="todate" (change)="modo3($event.target.value)" [(ngModel)]="toDate">
+             </div>
+    </div>
+    <div class="modal-footer">
+
+      <button  class="btn btn-primary" (click)="filterDate()">Run</button>
+      <button class="btn btn-outline" (click)="modalselect = false">Cancle</button>
+    </div>
+  </div>
+</clr-modal>
