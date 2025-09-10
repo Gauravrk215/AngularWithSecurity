@@ -1,0 +1,148 @@
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"><clr-icon shape="home"></clr-icon></a></li>
+  <li><a href="javascript://"><clr-icon shape=""></clr-icon>{{ 'SETUP' | translate }}</a></li>
+</ol>
+
+<br>
+
+<div class="dg-wrapper">
+  <div class="clr-row">
+    <div class="clr-col-8">
+      <!-- <h3>Setup</h3> -->
+    </div>
+  </div>
+
+
+  <div class="container">
+    <h3 class="section">{{ 'SETUP_TOOLS' | translate }}</h3>
+    <div class="clr-row clr-align-items-start clr-justify-content-start" style="padding-right: 10px;">
+
+      <div class="clr-row">
+
+        <div class="clr-col-md-3" style="width: 300px ;" *ngFor="let item of sub;">
+          <div class="card" (click)="goToUserMaintenance(item)"
+            style="border-left: none; border-right: none; border-top: none;">
+
+
+            <div class="card-header" style="padding-bottom: 0px;">
+              <div class="clr-row">
+                <div class="clr-col-10">
+                  <clr-icon shape="cog"></clr-icon>
+                </div>
+                <div class="clr-col-2">
+                  <input type="radio" id="cb1" class="dots"
+                    [title]="item.status == 'Enable' ? 'status: True' : 'status: False'"
+                    [ngStyle]="{'background-color': item.status == 'Enable' ? 'green' : 'red'}">
+                </div>
+              </div> <br>
+              <div class="clr-row">
+                <div class="clr-col-12">
+                  <b class="word" id="word" title="User Maintenance" style="color:#e98585">{{item.menuItemDesc}}</b>
+                </div>
+              </div>
+
+              <div class="clr-row">
+                <div class="clr-col-12">
+                  <div class="card-title1" id="word">
+                    <b style="font-size: 15px;" class="p2" [title]="">{{item.menuItemDesc}}</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="clr-col-md-3" style="width: 300px ;">
+          <div class="card" (click)="goToreport()" style="border-left: none; border-right: none; border-top: none;">
+
+            <div class="card-header" style="padding-bottom: 0px;">
+              <div class="clr-row">
+                <div class="clr-col-12">
+                  <clr-icon shape="cog"></clr-icon>
+                </div>
+              </div> <br>
+              <div class="clr-row">
+                <div class="clr-col-12">
+                  <b class="word" id="word" title="Reports" style="color:#e98585">{{ 'REPORTS' | translate }}</b>
+                </div>
+              </div>
+
+              <div class="clr-row">
+                <div class="clr-col-12">
+                  <div class="card-title1" id="word">
+                    <b style="font-size: 15px;" class="p2" [title]="">{{ 'REPORTS_DESCRIPTION' | translate }}</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- Api Registery -->
+        <div class="clr-col-md-3" style="width: 300px ;">
+          <div class="card" (click)="goToApiRegistery()"
+            style="border-left: none; border-right: none; border-top: none;">
+
+            <div class="card-header" style="padding-bottom: 0px;">
+              <div class="clr-row">
+                <div class="clr-col-12">
+                  <clr-icon shape="cog"></clr-icon>
+                </div>
+              </div> <br>
+              <div class="clr-row">
+                <div class="clr-col-12">
+                  <b class="word" id="word" title="Api Registery" style="color:#e98585">{{ 'API_REGISTERY' | translate
+                    }}</b>
+                </div>
+              </div>
+
+              <div class="clr-row">
+                <div class="clr-col-12">
+                  <div class="card-title1" id="word">
+                    <b style="font-size: 15px;" class="p2" [title]="">{{ 'API_REGISTERY_DESCRIPTION' | translate }}</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <!-- Token Registery -->
+        <div class="clr-col-md-3" style="width: 300px ;">
+          <div class="card" (click)="goTokenRegistery()"
+            style="border-left: none; border-right: none; border-top: none;">
+
+            <div class="card-header" style="padding-bottom: 0px;">
+              <div class="clr-row">
+                <div class="clr-col-12">
+                  <clr-icon shape="cog"></clr-icon>
+                </div>
+              </div> <br>
+              <div class="clr-row">
+                <div class="clr-col-12">
+                  <b class="word" id="word" title="Token Registery" style="color:#e98585">{{ 'TOKEN_REGISTERY' |
+                    translate
+                    }}</b>
+                </div>
+              </div>
+
+              <div class="clr-row">
+                <div class="clr-col-12">
+                  <div class="card-title1" id="word">
+                    <b style="font-size: 15px;" class="p2" [title]="">{{ 'TOKEN_REGISTERY_DESCRIPTION' | translate
+                      }}</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>

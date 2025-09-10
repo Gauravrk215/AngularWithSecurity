@@ -1,0 +1,47 @@
+// .card-body{
+//     justify-content: center;
+//     margin: 50px auto 50px 80px;
+//     padding: 10px;
+// }
+
+.card {
+    position: relative;
+    display: block;
+    background-color: #fff;
+    background-color: var(--clr-card-bg-color, white);
+    width: 100%;
+    // margin-top: 1.2rem;
+    height: 135px;
+
+    margin: 10px;
+    
+}
+
+.clr-col-sm-2{
+    margin:20px 40px 20px 40px;
+}
+
+
+input[type='radio']{
+    width: 14px !important;
+    height: 14px !important;
+    margin: 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    outline: 1px solid gray;
+    box-shadow: none;
+    font-size: 0.8em;
+    text-align: center;
+    line-height: 1em;
+    background: red;
+  }
+  .dots
+  {
+    width: 100px;
+    height:100px;
+    border: 1px solid;
+    border-radius: 50%;
+    //background-color: #f00;
+    }
