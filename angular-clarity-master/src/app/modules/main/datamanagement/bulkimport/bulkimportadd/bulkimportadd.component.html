@@ -1,0 +1,183 @@
+<h4 style="font-weight: 300;display: inline;"><b>Validation Rule</b></h4>
+<span class="label label-light-blue" style="display: inline;margin-left: 10px;">Add Mode</span><br>
+Validation Rules are proccessed while importing bulk records for respective entity
+<hr>
+
+
+
+
+
+
+
+
+<div class="container">
+
+
+
+
+  <!-- entry form-->
+  <form [formGroup]="entryForm"><!-- (ngSubmit)="onSubmit()"-->
+    <div class="clr-row">
+      <div class="clr-col-md-4 clr-col-sm-12">
+        <label for="projectName">Entity Name</label>
+        <input id="projectName" type="text" formControlName="entity_name" placeholder="Enter Entity Name"
+          class="clr-input" required>
+      </div>
+      <div class="clr-col-md-4 clr-col-sm-12">
+        <label for="description">Description</label>
+          <textarea  id="" cols="10" rows="2"  name=" remarks" formControlName="description" placeholder="Enter Description">
+          </textarea>
+             </div>
+
+             <div class="clr-col-md-4 clr-col-sm-12">
+                <label for="workflow_name">Active</label>
+                <input type="checkbox" formControlName="active" clrToggle />
+        
+              </div>
+      </div>
+
+
+        <div style="margin-top: 40px;">
+          <h5>Add Rule</h5>
+            <!-- <div>Select open to add rules, select reset to delete existing rules</div> -->
+      </div>
+      <hr>
+      <div class="clr-row fieldWrapper" style="margin-top: 40px;">
+        <div class="clr-col-12">
+            <table class="table table-striped table-bordered" style="margin-top: 0px;">
+                <thead>
+                    <tr>
+                        <th>Rule Name</th>
+                        <th>From Sheet</th>
+                        <th>From Column</th>
+                        <th>validation Table</th>
+                        <th>Check Column</th>
+                        <th>Replacement Column (Id)</th>
+                        <th>Use Column (Id)</th>
+                        <th>Error Message</th>
+                        <th class="right" style="width:125px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  *ngFor="let data of serverData; let i = index">
+                        <td >
+                            <input type="text" [(ngModel)]="data.rulename" [ngModelOptions]="{standalone: true}" name="rulename"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.fromsheet" [ngModelOptions]="{standalone: true}" name="fromsheet"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.fromColumn" [ngModelOptions]="{standalone: true}" name="fromcolomn"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.validationTable" [ngModelOptions]="{standalone: true}" name="validationtable"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.checkColumn" [ngModelOptions]="{standalone: true}" name="checkcolumn"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.replacementcolumn" [ngModelOptions]="{standalone: true}" name="replacementcolumn"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.useColumn" [ngModelOptions]="{standalone: true}" name="useColumn"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.errormsg" [ngModelOptions]="{standalone: true}" name="errormsg" class="clr-input">
+                        </td>
+                        <td style="width:40px;">
+                            <a (click)="deleteRow(i)">
+                                <clr-icon shape="trash" class="is-error"></clr-icon>
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+                <button type="button" class="btn btn-primary button1" (click)="onAddLines()">
+                    <clr-icon shape="plus"></clr-icon>
+                </button>
+            </table>
+        </div>
+    </div>
+      <!-- <div class="clr-row">
+
+        <div class="clr-col-6">
+                    <div *ngIf="checkTransformMapper">
+            <span  class="label label-light-green p7 lbutton" (click)="checkTransMapper()">Enable TransFormation</span>
+            <textarea type="text" style="height:150px; background-color:#d6d6d6;" readonly></textarea>
+          </div>
+          <div *ngIf="transformMapper">
+            <label for="sequence" style="font-weight: bold;">Mapper Fields <span  class="label label-light-green p7 lbutton" (click)="goFromMapperField()">OPEN</span><span  class="label label-light-green p7 lbutton" (click)="transMapperReset()">RESET</span></label>
+            <textarea type="text" name="mapperText" style="height:150px;" [(ngModel)]="mapperText" readonly></textarea>
+          </div>
+        </div>
+
+        <div class="clr-col-6">
+            <div *ngIf="checkTransform">
+             <div style="text-align: right; width: 100px;"> <span style="cursor: pointer;"  class="label label-light-green p7 lbutton" (click)="checkTrans()">Add Rule line</span></div>
+              <textarea type="text" style="height:150px; background-color:#d6d6d6;" readonly></textarea>
+            </div>
+            <div *ngIf="transform">
+              <label for="sequence" style="font-weight: bold;"><span  class="label label-light-green p7 lbutton" (click)="goFromMapper()">OPEN</span><span  class="label label-light-green p7 lbutton" (click)="transReset()">RESET</span></label>
+              <textarea type="text" formControlName="rule_line" style="height:150px;" [(ngModel)]="mapperdata" readonly></textarea>
+            </div>
+          </div>
+      </div> -->
+
+      <div class="center">
+        <div class="btn-group">
+          <div class="checkbox btn">
+            <input type="checkbox" id="btn-demo-check-1" (click)="goback()"/>
+            <label for="btn-demo-check-1">Cancel</label>
+          </div>
+          </div>
+        <button type="submit" class="btn btn-primary" [disabled]="!entryForm.valid" (click)="onSubmit()">SUBMIT</button>
+      </div>
+    </form>
+  </div>
+  
+  <clr-modal [(clrModalOpen)]="mappperModal" [clrModalSize]="'xl'" [clrModalStaticBackdrop]="true">
+    <h3 class="modal-title"> MAPPER FORM</h3>
+    <div class="modal-body">
+      <form >
+        <div class="clr-row" style="padding-left: 10px;">
+        <div *ngFor="let sheetName of sheetNames"  >
+        <button class="btn btn-primary" (click)="getHeaderbybutton(id,sheetName)">{{sheetName}}</button>
+        </div>
+        <!-- <button class="btn btn-primary" (click)="checkData()">Check data</button> -->
+      </div>
+        <div class="clr-row fieldWrapper">
+            <div class="clr-col-md-12 clr-col-sm-12">
+                <table class="table" style="width:100%;"  *ngIf="selectedSheetName">
+                    <thead>
+                        <tr>
+                            <th>Header Fields</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of JsonHeader[selectedSheetName]; let i = index">
+                            <td class="left">
+                                <input type="text" [(ngModel)]="data.headerName" [ngModelOptions]="{standalone: true}" name="headerName"  class="clr-input" readonly/>
+                            </td>
+                            <td>
+                                <!-- <input type="text"  [(ngModel)]="data.value" [ngModelOptions]="{standalone: true}" name="value" class="clr-input"/> -->
+                                <select [(ngModel)]="data.value" [ngModelOptions]="{standalone: true}" name="value">
+                                  <option value="null">choose {{selectedSheetName}}</option>
+                                  <option *ngFor="let data of headerData" [value]="data">{{data}}</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+  
+  
+        </div>
+        <br>
+        <div class="modal-footer">
+          <button type="button" form-control class="btn btn-outline" (click)="mappperModal = false">Back</button>
+            <button type="submit" form-control class="btn btn-primary" (click)="onUpdate()">SUBMIT</button>
+        </div>
+    </form>
+    </div>
+  </clr-modal>
