@@ -1,0 +1,73 @@
+<h4 style="font-weight: 300;display: inline;"><b>Add Rule Lines</b></h4>
+<hr>
+<div class="container">
+    <div class="clr-row" style="padding-left: 10px;">
+        <button type="button" form-control class="btn btn-primary" (click)="columnList()">Get Header</button>
+    </div>
+
+<form  (ngSubmit)="onUpdate()">
+
+
+    <div class="clr-row fieldWrapper" >
+        <div class="clr-col-12">
+            <table class="table table-striped table-bordered" style="margin-top: 0px;">
+                <thead>
+                    <tr>
+                        <th>Rule Name</th>
+                        <th>From Sheet</th>
+                        <th>From Column</th>
+                        <th>validation Table</th>
+                        <th>Check Column</th>
+                        <th>Replacement Column (Id)</th>
+                        <th>Use Column (Id)</th>
+                        <th>Error Message</th>
+                        <th class="right" style="width:125px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  *ngFor="let data of serverData; let i = index">
+                        <td >
+                            <input type="text" [(ngModel)]="data.rulename" [ngModelOptions]="{standalone: true}" name="rulename"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.fromsheet" [ngModelOptions]="{standalone: true}" name="fromsheet"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.fromColumn" [ngModelOptions]="{standalone: true}" name="fromcolomn"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.validationTable" [ngModelOptions]="{standalone: true}" name="validationtable"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.checkColumn" [ngModelOptions]="{standalone: true}" name="checkcolumn"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.replacementcolumn" [ngModelOptions]="{standalone: true}" name="replacementcolumn"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.useColumn" [ngModelOptions]="{standalone: true}" name="useColumn"  class="clr-input">
+                        </td>
+                        <td >
+                            <input type="text" [(ngModel)]="data.errormsg" [ngModelOptions]="{standalone: true}" name="errormsg" class="clr-input">
+                        </td>
+                        <td style="width:40px;">
+                            <a (click)="deleteRow(i)">
+                                <clr-icon shape="trash" class="is-error"></clr-icon>
+                            </a>
+                        </td>
+                    </tr>
+
+                </tbody>
+                <button type="button" class="btn btn-primary button1" (click)="onAddLines()">
+                    <clr-icon shape="plus"></clr-icon>
+                </button>
+            </table>
+        </div>
+    </div>
+
+    <div class="center">
+                <button type="button" form-control class="btn btn-outline" (click)="back()">Back</button>
+        <button type="submit" form-control class="btn btn-primary" (click)="onUpdate()">SUBMIT</button>
+    </div>
+</form>
+</div>
