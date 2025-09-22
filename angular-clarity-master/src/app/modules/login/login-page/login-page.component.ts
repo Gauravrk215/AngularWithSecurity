@@ -41,6 +41,8 @@ export class LoginPageComponent implements OnInit {
   email = '';
   password = '';
   isError = false;
+  isLoading = false;
+  showPassword = false;
 
   model: any = {};
   errMsg: string = '';
@@ -71,32 +73,80 @@ export class LoginPageComponent implements OnInit {
   }
 
   onLogin() {
+    console.log('onLogin called');
+    console.log('Form data:', { email: this.model.email, password: this.model.password });
+    
+    // Reset error state
+    this.isError = false;
+    this.errMsg = '';
+    
+    // Validate inputs
+    if (!this.model.email || !this.model.password) {
+      this.isError = true;
+      this.errMsg = 'Please enter both email and password';
+      console.log('Validation failed - missing email or password');
+      return;
+    }
+
+    // Set loading state
+    this.isLoading = true;
+    console.log('Loading state set to true, making API call...');
+
     // tslint:disable-next-line:max-line-length
     this.loginService.getToken(this.model.email, this.model.password)
-      .subscribe(resp => {
-        if (resp.user === undefined || resp.user.token === undefined || resp.user.token === "INVALID") {
-          this.errMsg = 'Checking Email or password';
-          return;
-        }
-        this.router.navigate([resp.landingPage]);// add , {skipLocationChange: true}
-      },
+      .subscribe(
+        resp => {
+          console.log('API Response received:', resp);
+          this.isLoading = false;
+          
+          // Handle different response formats
+          if (resp.operationStatus === 'ERROR') {
+            this.isError = true;
+            this.errMsg = resp.operationMessage || 'Login failed';
+            return;
+          }
+          // Handle different response formats
+          if (resp.success === 'false') {
+            this.isError = true;
+            this.errMsg = resp.message || 'Login failed';
+            return;
+          }
+          if (resp.user === undefined || resp.user.token === undefined || resp.user.token === "INVALID") {
+            this.isError = true;
+            this.errMsg = 'Invalid email or password';
+            return;
+          }
+          
+          // Success - navigate to landing page
+          console.log('Login successful, navigating to:', resp.landingPage);
+          this.router.navigate([resp.landingPage]);
+        },
         (errResponse: HttpErrorResponse) => {
+          console.log('API Error received:', errResponse);
+          this.isLoading = false;
+          this.isError = true;
+          
           switch (errResponse.status) {
             case 401:
               this.errMsg = 'Email or password is incorrect';
               break;
             case 404:
               this.errMsg = 'Service not found';
+              break;
             case 408:
-              this.errMsg = 'Request Timedout';
+              this.errMsg = 'Request timeout';
+              break;
             case 500:
-              this.errMsg = 'Internal Server Error';
+              this.errMsg = 'Internal server error';
+              break;
+            case 0:
+              this.errMsg = 'Network error - please check your connection';
+              break;
             default:
-              this.errMsg = 'Server Error';
+              this.errMsg = 'An error occurred. Please try again.';
           }
         }
       );
-
   }
   goaccount(){
   }
@@ -104,5 +154,17 @@ export class LoginPageComponent implements OnInit {
     this.router.navigate(["../forgotpass"], { relativeTo: this.route });
   }
 
+  // Clear error when user starts typing
+  clearError() {
+    if (this.isError) {
+      this.isError = false;
+      this.errMsg = '';
+    }
+  }
+
+  // Toggle password visibility
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
 }

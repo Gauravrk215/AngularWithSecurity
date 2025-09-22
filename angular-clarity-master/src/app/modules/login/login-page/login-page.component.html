@@ -1,39 +1,155 @@
-<!-- <router-outlet></router-outlet> -->
+<!-- Modern AI-Inspired Login Page -->
+<div class="modern-login-container" *ngIf="showLogin2">
+  <!-- Background Elements -->
+  <div class="login-background">
+    <div class="gradient-overlay"></div>
+    <div class="floating-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+      <div class="shape shape-4"></div>
+    </div>
+  </div>
 
-<!-- <div class="login-wrapper" *ngIf="showLogin2 && loginEnvironment.templateNo == 'Template 1'" [style.backgroundImage]="'url(' + loginEnvironment.imagePath + ')'">
-    <form class="login">
-      <section class="title">
-        <h3 class="welcome">Welcome to</h3>
-        {{ loginEnvironment.companyName }}
-        <h5 class="hint">Use your  ID to sign in OR  <a [routerLink]="['/email-verification']" class="signup">create one now </a> </h5>
-      </section>
-      <div class="login-group">
-        <clr-input-container>
-          <label class="clr-sr-only">Username</label>
-          <input type="text" name="username" clrInput autocomplete="off" [(ngModel)]="model.email"
-          placeholder="Username (sysadmin)"/>
-      </clr-input-container>
-      <clr-password-container>
-          <label class="clr-sr-only">Password</label>
-          <input type="password" name="password" clrPassword id="login_password" autocomplete="off" [(ngModel)]="model.password"
-          placeholder="Password (test3)"/>
-      </clr-password-container>
-        <clr-checkbox-wrapper>
-          <input clrCheckbox type="checkbox" id="rememberme">
-          <label for="rememberme"> Remember me </label>
-        </clr-checkbox-wrapper>
-  
-        <div class="error active" *ngIf="isError">
-          Invalid user name or password
+  <!-- Main Login Content -->
+  <div class="login-content">
+    <!-- Left Side - Branding -->
+    <div class="login-branding">
+      <div class="brand-content">
+        <div class="logo-section">
+          <div class="logo-container">
+            <img class="logo-img" src="assets/images/icon/micrologo.png" alt="CloudnSure Logo">
+            <div class="logo-glow"></div>
+          </div>
+          <h1 class="brand-title">
+            <ng-container *ngIf="loginEnvironment?.companyName; else defaultTitle">
+              {{ loginEnvironment.companyName }}
+            </ng-container>
+            <ng-template #defaultTitle>
+              CloudnSure
+            </ng-template>
+          </h1>
+          <p class="brand-subtitle">Enterprise Platform</p>
         </div>
-        
-        <button  [disabled]="!model.email || !model.password" type="submit" class="btn btn-primary"
-          (click)="onLogin()">Login</button>
-        <a (click)="goforgotpass()" class="signup">{{ loginEnvironment.forgotpassword }}</a>
-      </div>
-    </form>
-  </div> -->
 
+        <div class="brand-features">
+          <div class="feature-item">
+            <clr-icon shape="shield" class="feature-icon"></clr-icon>
+            <span>Secure & Reliable</span>
+          </div>
+          <div class="feature-item">
+            <clr-icon shape="analytics" class="feature-icon"></clr-icon>
+            <span>Advanced Analytics</span>
+          </div>
+          <div class="feature-item">
+            <clr-icon shape="cog" class="feature-icon"></clr-icon>
+            <span>Customizable</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side - Login Form -->
+    <div class="login-form-section">
+      <div class="form-container">
+        <div class="form-header">
+          <h2 class="form-title">Welcome Back</h2>
+          <p class="form-subtitle">Sign in to your account to continue</p>
+        </div>
+
+        <form class="modern-login-form" (ngSubmit)="onLogin()">
+          <!-- Username Field -->
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <div class="input-container">
+              <clr-icon shape="user" class="input-icon"></clr-icon>
+              <input type="text" name="username" class="modern-input" autocomplete="username" [(ngModel)]="model.email"
+                (input)="clearError()" placeholder="Enter your username" required>
+            </div>
+          </div>
+
+          <!-- Password Field -->
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-container">
+              <clr-icon shape="lock" class="input-icon"></clr-icon>
+              <input [type]="showPassword ? 'text' : 'password'" name="password" class="modern-input"
+                autocomplete="current-password" [(ngModel)]="model.password" (input)="clearError()"
+                placeholder="Enter your password" required>
+              <button type="button" class="password-toggle" (click)="togglePasswordVisibility()"
+                [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+                <span class="toggle-text">{{ showPassword ? 'Hide' : 'Show' }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Remember Me & Forgot Password -->
+          <div class="form-options">
+            <label class="checkbox-container">
+              <input type="checkbox" id="rememberme" class="modern-checkbox">
+              <span class="checkmark"></span>
+              <span class="checkbox-label">Remember me</span>
+            </label>
+            <a href="javascript://" class="forgot-link" (click)="goforgotpass()">
+              Forgot password?
+            </a>
+          </div>
+
+          <!-- Error Message -->
+          <div class="error-message" *ngIf="isError">
+            <clr-icon shape="exclamation-triangle"></clr-icon>
+            <span>{{ errMsg || 'Invalid username or password' }}</span>
+          </div>
+
+          <!-- Login Button -->
+          <button type="submit" class="modern-login-btn" [disabled]="isLoading" [class.loading]="isLoading">
+            <span class="btn-content" *ngIf="!isLoading">
+              <clr-icon shape="login"></clr-icon>
+              Sign In
+            </span>
+            <span class="btn-loading" *ngIf="isLoading">
+              <div class="spinner"></div>
+              Signing In...
+            </span>
+          </button>
+
+          <!-- Sign Up Link -->
+          <div class="signup-section" *ngIf="loginEnvironment?.isSignup === 'true'">
+            <p class="signup-text">
+              Don't have an account?
+              <a [routerLink]="['/email-verification']" class="signup-link">
+                Create one now
+              </a>
+            </p>
+          </div>
+        </form>
+
+        <!-- Social Login (Optional) -->
+        <div class="social-login">
+          <div class="divider">
+            <span>Or continue with</span>
+          </div>
+          <div class="social-buttons">
+            <button class="social-btn google-btn" type="button">
+              <clr-icon shape="world"></clr-icon>
+              <span>Google</span>
+            </button>
+            <button class="social-btn microsoft-btn" type="button">
+              <clr-icon shape="world"></clr-icon>
+              <span>Microsoft</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- 
   <div [class]="getWrapperClass()" *ngIf="showLogin2 && loginEnvironment.templateNo == '<templateNo>'" [style.backgroundImage]="'url(' + ('../../../../assets/images/new.png') + ')'">
     <form class="login">
       <section class="title">
@@ -108,7 +224,7 @@
 
   
 
-  <!-- <div class="login-wrapper"> -->
+
     <div [class]="getWrapperClass()" *ngIf="showLogin2 && loginEnvironment.templateNo == 'Template 2'" [style.backgroundImage]="'url(' + (loginEnvironment.loginImageURL !== 'null' || null ? loginEnvironment.loginImageURL : '../../../../assets/images/new.png') + ')'">
         <form class="login">
           <section class="title">
@@ -143,4 +259,4 @@
           </div>
         </form>
     </div>
-      
+       -->

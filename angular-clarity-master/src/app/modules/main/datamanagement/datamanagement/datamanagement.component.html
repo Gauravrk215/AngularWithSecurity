@@ -1,0 +1,176 @@
+<ol class="breadcrumb breadcrumb-arrow font-trirong">
+  <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"><clr-icon shape="home"></clr-icon></a></li>
+  <li><a href="">Data Management</a></li>
+  <li><a href=""> Data Management</a></li>
+</ol>
+
+<div class="dg-wrapper">
+  <div class="clr-row">
+    <div class="clr-col-4">
+      <h3>Data Management </h3>
+    </div>
+    <div class="clr-col-8" style="text-align: right;">
+
+      <button class="btn btn-outline" (click)="getall()">
+        <clr-icon shape="refresh"></clr-icon> Reload
+      </button>
+      <button class="btn btn-outline" (click)="onExport()">
+        <clr-icon shape="export"></clr-icon> xlsx
+      </button>
+      <button id="add" class="btn btn-primary" (click)="goToAdd()">
+        <clr-icon shape="plus"></clr-icon>ADD
+      </button>
+    </div>
+  </div>
+  <clr-datagrid [clrDgLoading]="loading">
+    <clr-dg-placeholder><ng-template #loadingSpinner><clr-spinner>Loading ... </clr-spinner></ng-template>
+      <div *ngIf="error;else loadingSpinner">{{error}}</div>
+    </clr-dg-placeholder>
+
+    <clr-dg-column [clrDgField]="''"><ng-container *clrDgHideableColumn="{hidden: false}">
+        Go To
+      </ng-container></clr-dg-column>
+    <!-- <clr-dg-column [clrDgField]="'name'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+     User Name
+    </ng-container></clr-dg-column> -->
+    <clr-dg-column [clrDgField]="'entityName'">
+      <ng-container *clrDgHideableColumn="{hidden: false}">
+        Entity Name
+      </ng-container>
+    </clr-dg-column>
+    <clr-dg-column [clrDgField]="'subject'"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        File Name
+      </ng-container></clr-dg-column>
+    <clr-dg-column [clrDgField]="''" style="width: 220px;"> <ng-container *clrDgHideableColumn="{hidden: false}">
+        Action
+      </ng-container></clr-dg-column>
+    <clr-dg-row *clrDgItems="let user of data?.reverse()?.slice();" [clrDgItem]="user">
+      <clr-dg-cell><span class="label label-light-blue" style="display: inline;margin-left: 10px; cursor: pointer;"
+          (click)="work(user.id)">Workflow</span></clr-dg-cell>
+      <clr-dg-cell>{{user.entity_name}}</clr-dg-cell>
+      <clr-dg-cell>{{user.file_name}}</clr-dg-cell>
+      <clr-dg-cell>
+        <a href="javascript:void(0)" role="tooltip" aria-haspopup="true" class="tooltip tooltip-sm tooltip-top-left">
+          <span style="cursor: pointer;"><clr-icon shape="trash" (click)="onDelete(user)" class="red is-error"
+              style="color: red;"></clr-icon></span>
+          <span class="tooltip-content">Delete</span>
+        </a>
+      </clr-dg-cell>
+      <clr-dg-action-overflow>
+        <button class="action-item" (click)="onEdit(user)">Edit</button>
+      </clr-dg-action-overflow>
+
+
+    </clr-dg-row>
+
+    <clr-dg-footer>
+      <clr-dg-pagination #pagination [clrDgPageSize]="10">
+        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{pagination.totalItems}} users
+      </clr-dg-pagination>
+    </clr-dg-footer>
+  </clr-datagrid>
+</div>
+
+<clr-modal [(clrModalOpen)]="modalEdit" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title"> Edit data</h3>
+  <div class="modal-body" *ngIf="rowSelected.id">
+    <h2 class="heading">{{rowSelected.id}}</h2>
+
+    <form (ngSubmit)="onUpdate(rowSelected.id)">
+      <div class="clr-row">
+        <!-- <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="name"> User Name</label>
+          <select name="user_id" [(ngModel)]="rowSelected.user_id">
+            <option *ngFor="let data of udata" [value]="data.userId">{{data.username}}</option>
+          </select>
+   </div> -->
+        <!-- <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="email">Entity Name</label>
+          <input type="text" list="config" class="clr-dropdown" name="entity_name"  [(ngModel)]="rowSelected.entity_name">
+          <datalist id="config">
+          <option *ngFor="let item of entitydata" [ngValue]="item">{{item}}</option>
+      </datalist>
+
+        </div> -->
+        <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="email">Entity Name</label>
+          <!-- <input type="text" list="config" class="clr-dropdown" name="file_type"  [(ngModel)]="rowSelected.file_type"> -->
+          <select name="entityName" [(ngModel)]="rowSelected.entityName" class="clr-dropdown">
+            <option *ngFor="let data of tableList" [value]="data.entity_name">{{data.entity_name}}</option>
+          </select>
+        </div>
+        <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="email">File Name</label>
+          <input type="file" (change)="onFileChanged($event)" name="file_name">{{rowSelected.file_name}}
+        </div>
+
+
+      </div>
+      <br>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="modalEdit = false">Cancel</button>
+        <button type="submit" class="btn btn-primary">UPDATE</button>
+      </div>
+    </form>
+  </div>
+</clr-modal>
+
+
+<clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+
+  <div class="modal-body" *ngIf="rowSelected.id">
+    <h1 class="delete">Are You Sure Want to delete?</h1>
+    <h2 class="heading">{{rowSelected.id}}</h2>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="modaldelete = false">Cancel</button>
+      <button type="button" (click)="delete(rowSelected.id)" class="btn btn-primary">Delete</button>
+    </div>
+  </div>
+</clr-modal>
+
+
+<clr-modal [(clrModalOpen)]="modalAdd" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <h3 class="modal-title"> ENTRY FORM</h3>
+  <div class="modal-body">
+
+    <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+      <div class="clr-row" style="height: fit-content;">
+        <!-- <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="name"> User Name</label>
+          <select formControlName="user_id">
+            <option *ngFor="let data of udata" [value]="data.userId">{{data.username}}</option>
+          </select>
+   </div> -->
+        <!-- <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="email">Entity Name</label>
+          <input type="text" list="config" class="clr-dropdown" formControlName="entity_name">
+                    <datalist id="config">
+                    <option *ngFor="let item of entitydata" [ngValue]="item">{{item}}</option>
+                </datalist>
+
+        </div> -->
+        <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="email">Entity Name</label>
+          <!-- <input type="text" list="config" class="clr-dropdown" formControlName="file_type"> -->
+          <select formControlName="entityName" class="clr-dropdown">
+            <option *ngFor="let data of tableList" [value]="data.entity_name">{{data.entity_name}}</option>
+          </select>
+        </div>
+        <div class="clr-col-md-4 clr-col-sm-12">
+          <label for="email">File</label>
+          <input type="file" (change)="onFileChanged($event)" formControlName="file_name">
+        </div>
+      </div>
+      <br>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-outline" (click)="modalAdd = false">Cancel</button>
+        <button type="submit" class="btn btn-primary">ADD</button>
+      </div>
+
+    </form>
+  </div>
+
+</clr-modal>
