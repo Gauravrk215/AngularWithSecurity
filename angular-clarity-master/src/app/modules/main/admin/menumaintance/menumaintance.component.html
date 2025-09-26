@@ -1,11 +1,39 @@
-
-<ol class="breadcrumb breadcrumb-arrow font-trirong">
+<ol class="breadcrumb breadcrumb-arrow font-trirong mm-breadcrumb">
   <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"><clr-icon shape="home"></clr-icon></a></li>
   <li><a href="javascript://"><clr-icon shape="lock"></clr-icon>{{ 'SECURITY' | translate }}</a></li>
   <li><a href="javascript://">{{ 'MENU_MAINTENANCE' | translate }}</a></li>
 </ol>
 
-
+<div class="mm-container">
+  <section class="mm-hero">
+    <div class="mm-hero__content">
+      <div class="mm-hero__icon">
+        <clr-icon shape="organization"></clr-icon>
+      </div>
+      <div>
+        <h2 class="mm-hero__title">{{ 'MENU_MAINTENANCE' | translate }}</h2>
+        <p class="mm-hero__subtitle">{{ 'MAIN_MENU' | translate }}</p>
+      </div>
+    </div>
+    <div class="mm-hero__actions">
+      <button class="btn btn-outline mm-btn-outline" (click)="onExport()">
+        <clr-icon shape="export"></clr-icon>
+        <span class="mm-btn-text">{{ 'EXPORT_XLSX' | translate }}</span>
+      </button>
+      <button class="btn btn-primary mm-btn-primary" (click)="csvImport()">
+        <clr-icon shape="import"></clr-icon>
+        <span class="mm-btn-text">{{ 'IMPORT' | translate }}</span>
+      </button>
+      <button id="add" class="btn btn-primary mm-btn-primary" (click)="goToAdd()">
+        <clr-icon shape="plus"></clr-icon>
+        <span class="mm-btn-text">{{ 'ADD' | translate }}</span>
+      </button>
+      <button class="btn mm-btn-secondary" (click)="downloadFiles()">
+        <clr-icon shape="download"></clr-icon>
+        <span class="mm-btn-text">{{ 'DOWNLOAD_TEMPLATE' | translate }}</span>
+      </button>
+    </div>
+  </section>
   <!-- <div class="clr-row">
     <div class="clr-col-12" style="text-align: right;">
       <button id="add" *ngIf="mcreate == 'true'"  class="btn btn-primary" (click)="goToAdd()">
@@ -13,29 +41,44 @@
       </button>
     </div>
   </div> -->
-  <div class="clr-row" style="margin-top: 15px;">
-    <div class="clr-col">
-      <h3 style="font-weight: 300;display: inline;">{{ 'MENU_MAINTENANCE' | translate }} </h3>
-    <span class="label label-light-blue" style="display: inline;margin-left: 30px;">{{ 'MAIN_MENU' | translate }}</span><br>
-
+  <div class="mm-stats">
+    <div class="mm-stat">
+      <div class="mm-stat__value">{{ totalMenus }}</div>
+      <div class="mm-stat__label">{{ 'TOTAL_MENUS' | translate }}</div>
     </div>
-
-    <div class="clr-col" style="text-align: right;">
-      <div class="btn-group">
-        <button class="btn text-dark" (click)="downloadFiles()"><b>{{ 'DOWNLOAD_TEMPLATE' | translate }}</b></button>
-
+    <div class="mm-stat">
+      <div class="mm-stat__value">{{ enabledMenusCount }}</div>
+      <div class="mm-stat__label">{{ 'ENABLED' | translate }}</div>
     </div>
-    
-    <button class="btn btn-primary" (click)="csvImport()">{{ 'IMPORT' | translate }}</button>
+    <div class="mm-stat">
+      <div class="mm-stat__value">{{ disabledMenusCount }}</div>
+      <div class="mm-stat__label">{{ 'DISABLED' | translate }}</div>
+    </div>
+  </div>
 
-    <button class="btn btn-outline" (click)="onExport()">
-      <clr-icon shape="export"></clr-icon> {{ 'EXPORT_XLSX' | translate }}
-    </button>
-        <button id="add"  class="btn btn-primary"  (click)="goToAdd()">
-            <clr-icon shape="plus"></clr-icon> {{ 'ADD' | translate }}
+  <div class="mm-toolbar">
+    <div class="mm-toolbar__left">
+      <div class="mm-search">
+        <clr-icon shape="search"></clr-icon>
+        <input class="mm-search__input" type="text" [placeholder]="'SEARCH' | translate" [(ngModel)]="filterText" />
+      </div>
+    </div>
+    <div class="mm-toolbar__right">
+      <select class="mm-select" [(ngModel)]="statusFilter">
+        <option value="All">{{ 'ALL' | translate }}</option>
+        <option value="Enable">{{ 'ENABLED' | translate }}</option>
+        <option value="Disable">{{ 'DISABLED' | translate }}</option>
+      </select>
+      <div class="mm-view-toggle">
+        <button class="btn btn-sm" [class.btn-primary]="viewMode==='cards'" (click)="setViewMode('cards')">
+          <clr-icon shape="view-cards"></clr-icon>
         </button>
+        <button class="btn btn-sm" [class.btn-primary]="viewMode==='table'" (click)="setViewMode('table')">
+          <clr-icon shape="table"></clr-icon>
+        </button>
+      </div>
     </div>
-</div>
+  </div>
   <!-- <table class="table">
     <thead>
       <tr>
@@ -144,173 +187,253 @@
 
     </tbody>
   </table> -->
-  <clr-datagrid [clrDgLoading]="loading"  [(clrDgSelected)]="selected">
-    <clr-dg-placeholder><ng-template #loadingSpinner><clr-spinner>{{'LOADING'|translate}} ... </clr-spinner></ng-template>
-      <div *ngIf="error;else loadingSpinner">{{error}}</div></clr-dg-placeholder>
-      <clr-dg-column [clrDgField]="''" style="max-width: 40px;">
+
+  <div class="mm-skeleton-list" *ngIf="loading">
+    <div class="mm-skeleton-item" *ngFor="let i of [1,2,3,4,5,6]">
+      <div class="mm-skel mm-skel--icon"></div>
+      <div class="mm-skel mm-skel--title"></div>
+      <div class="mm-skel mm-skel--meta"></div>
+      <div class="mm-skel mm-skel--chip"></div>
+      <div class="mm-skel mm-skel--link"></div>
+      <div class="mm-skel mm-skel--badge"></div>
+      <div class="mm-skel mm-skel--actions"></div>
+    </div>
+  </div>
+  <div class="mm-card" *ngIf="viewMode==='table'">
+    <clr-datagrid class="mm-grid mm-grid--modern" [clrDgLoading]="loading" [(clrDgSelected)]="selected">
+      <clr-dg-placeholder><ng-template #loadingSpinner><clr-spinner>{{'LOADING'|translate}} ...
+          </clr-spinner></ng-template>
+        <div class="mm-empty" *ngIf="error;else loadingSpinner">
+          <clr-icon shape="warning-standard"></clr-icon>
+          <div class="mm-empty__title">{{ 'NO_DATA' | translate }}</div>
+          <div class="mm-empty__subtitle">{{ error }}</div>
+        </div>
+      </clr-dg-placeholder>
+      <clr-dg-column [clrDgField]="''" class="mm-col mm-col--icon">
         <ng-container *clrDgHideableColumn="{hidden: false}"></ng-container>
       </clr-dg-column>
-      
-      <clr-dg-column>
+
+      <clr-dg-column class="mm-col mm-col--no">
         <ng-container *clrDgHideableColumn="{hidden: false}">
-          {{'NO' | translate}}
+          <span class="mm-col-title"><clr-icon shape="hashtag"></clr-icon> {{'NO' | translate}}</span>
         </ng-container>
       </clr-dg-column>
-      
-      <clr-dg-column>
+
+      <clr-dg-column class="mm-col mm-col--name">
         <ng-container *clrDgHideableColumn="{hidden: false}">
-          {{'MENU_ITEM_NAME' | translate}}
+          <span class="mm-col-title"><clr-icon shape="tag"></clr-icon> {{'MENU_ITEM_NAME' | translate}}</span>
         </ng-container>
       </clr-dg-column>
-      
-      <clr-dg-column>
+
+      <clr-dg-column class="mm-col mm-col--id">
         <ng-container *clrDgHideableColumn="{hidden: false}">
-          {{'ID' | translate}}
+          <span class="mm-col-title"><clr-icon shape="id-badge"></clr-icon> {{'ID' | translate}}</span>
         </ng-container>
       </clr-dg-column>
-      
-      <clr-dg-column>
+
+      <clr-dg-column class="mm-col mm-col--seq">
         <ng-container *clrDgHideableColumn="{hidden: false}">
-          {{'SEQUENCE' | translate}}
+          <span class="mm-col-title"><clr-icon shape="number-list"></clr-icon> {{'SEQUENCE' | translate}}</span>
         </ng-container>
       </clr-dg-column>
-      
-      <clr-dg-column>
+
+      <clr-dg-column class="mm-col mm-col--module">
         <ng-container *clrDgHideableColumn="{hidden: false}">
-          {{'MODULE_NAME' | translate}}
+          <span class="mm-col-title"><clr-icon shape="application"></clr-icon> {{'MODULE_NAME' | translate}}</span>
         </ng-container>
       </clr-dg-column>
-      
-      <clr-dg-column>
+
+      <clr-dg-column class="mm-col mm-col--link">
         <ng-container *clrDgHideableColumn="{hidden: false}">
-          {{'MENU_ACTION_LINK' | translate}}
+          <span class="mm-col-title"><clr-icon shape="link"></clr-icon> {{'MENU_ACTION_LINK' | translate}}</span>
         </ng-container>
       </clr-dg-column>
-      
-      <clr-dg-column>
+
+      <clr-dg-column class="mm-col mm-col--status">
         <ng-container *clrDgHideableColumn="{hidden: false}">
-          {{'STATUS' | translate}}
+          <span class="mm-col-title"><clr-icon shape="shield-check"></clr-icon> {{'STATUS' | translate}}</span>
         </ng-container>
       </clr-dg-column>
-      
-      <clr-dg-column>
+
+      <clr-dg-column class="mm-col mm-col--submenu">
         <ng-container *clrDgHideableColumn="{hidden: false}">
           {{'SUB_MENU' | translate}}
         </ng-container>
       </clr-dg-column>
-      
-      <clr-dg-column>
+
+      <clr-dg-column class="mm-col mm-col--action">
         <ng-container *clrDgHideableColumn="{hidden: false}">
           <clr-icon shape="bars"></clr-icon>
           {{'ACTION' | translate}}
         </ng-container>
       </clr-dg-column>
-      
 
-    <clr-dg-row *clrDgItems="let user of menus;let i = index" [clrDgItem]="user">
-      <clr-dg-cell style="max-width: 40px;">
-        <span style="cursor: pointer;"><clr-icon shape="edit" (click)="goToEdit(user)" class="red is-error" style="color:red;"></clr-icon></span>
-      </clr-dg-cell>
-      <clr-dg-cell >{{i+1}}</clr-dg-cell>
-      <clr-dg-cell>{{user.menuItemDesc}}</clr-dg-cell>
-      <clr-dg-cell >{{user.menuId}}</clr-dg-cell>
-      <clr-dg-cell >{{user.itemSeq}}</clr-dg-cell>
-      <clr-dg-cell > {{user.moduleName}} </clr-dg-cell>
-      <clr-dg-cell > {{user.main_menu_action_name}}</clr-dg-cell>
-      <clr-dg-cell >{{user.status}} </clr-dg-cell>
-      <clr-dg-cell ><clr-icon shape="bullet-list" (click)="submenu(user.menuItemId)" style="color: rgb(108, 108, 194);"></clr-icon> </clr-dg-cell>
-      <clr-dg-cell>
-        <span style="cursor: pointer;padding: 10px; "><clr-icon shape="trash"  (click)="onDelete(user)" class="red is-error" style="color: red;"></clr-icon></span>
-        <clr-signpost>
-          <span style="cursor: pointer;" clrSignpostTrigger><clr-icon shape="help" class="success" style="color: rgb(0, 130, 236);"></clr-icon></span>
-          <clr-signpost-content [clrPosition]="'left-middle'" *clrIfOpen>
-            <h5 style="margin-top: 0">{{'WHO_COLUMN'|translate}} </h5>
-                  <div>{{'ACCOUNT_ID'|translate}} <code class="clr-code">{{user.accountId}}</code></div>
-                  <div>{{'CREATED_AT'|translate}}  <code class="clr-code">{{user.createdAt| date}}</code></div>
-                  <div>{{'CREATED_BY'|translate}}  <code class="clr-code">{{user.createdBy}}</code></div>
-                  <div>{{'UPDATED_AT'|translate}} <code class="clr-code">{{user.updatedAt | date}}</code></div>
-                  <div>{{'UPDATED_BY'|translate}} <code class="clr-code">{{user.updatedBy}}</code></div>
-          </clr-signpost-content>
-        </clr-signpost>
-      </clr-dg-cell>
-      <!-- <clr-dg-action-overflow>
+
+      <clr-dg-row class="mm-row" *clrDgItems="let user of filteredMenus;let i = index" [clrDgItem]="user">
+        <clr-dg-cell class="mm-cell mm-cell--icon">
+          <span class="mm-icon-action"><clr-icon shape="edit" (click)="goToEdit(user)"
+              class="is-error mm-icon-edit"></clr-icon></span>
+        </clr-dg-cell>
+        <clr-dg-cell class="mm-cell mm-cell--no">{{i+1}}</clr-dg-cell>
+        <clr-dg-cell class="mm-cell mm-cell--name">
+          <div class="mm-item">
+            <div class="mm-item__avatar"><clr-icon shape="bookmark"></clr-icon></div>
+            <div class="mm-item__text">
+              <div class="mm-item__title">{{user.menuItemDesc}}</div>
+              <div class="mm-item__meta">ID: {{user.menuId}} â¢ Seq: {{user.itemSeq}}</div>
+            </div>
+          </div>
+        </clr-dg-cell>
+        <clr-dg-cell class="mm-cell mm-cell--id">{{user.menuId}}</clr-dg-cell>
+        <clr-dg-cell class="mm-cell mm-cell--seq">{{user.itemSeq}}</clr-dg-cell>
+        <clr-dg-cell class="mm-cell mm-cell--module">
+          <div class="mm-chip mm-chip--module">
+            <clr-icon shape="application"></clr-icon>
+            <span>{{user.moduleName}}</span>
+          </div>
+        </clr-dg-cell>
+        <clr-dg-cell class="mm-cell mm-cell--link">
+          <div class="mm-link">
+            <clr-icon shape="link"></clr-icon>
+            <span>{{user.main_menu_action_name}}</span>
+          </div>
+        </clr-dg-cell>
+        <clr-dg-cell class="mm-cell mm-cell--status">
+          <span class="mm-badge" [class.mm-badge--success]="user.status==='Enable'"
+            [class.mm-badge--muted]="user.status!=='Enable'">{{user.status}}</span>
+        </clr-dg-cell>
+        <clr-dg-cell class="mm-cell mm-cell--submenu"><clr-icon shape="bullet-list" (click)="submenu(user.menuItemId)"
+            class="mm-icon-link"></clr-icon> </clr-dg-cell>
+        <clr-dg-cell class="mm-cell mm-cell--action">
+          <div class="mm-actions-inline">
+            <button class="btn btn-sm btn-outline" (click)="goToEdit(user)"><clr-icon shape="edit"></clr-icon></button>
+            <button class="btn btn-sm btn-outline" (click)="onDelete(user)"><clr-icon shape="trash"></clr-icon></button>
+          </div>
+          <clr-signpost>
+            <span class="mm-icon-action" clrSignpostTrigger><clr-icon shape="help"
+                class="mm-icon-help"></clr-icon></span>
+            <clr-signpost-content [clrPosition]="'left-middle'" *clrIfOpen>
+              <h5 style="margin-top: 0">{{'WHO_COLUMN'|translate}} </h5>
+              <div>{{'ACCOUNT_ID'|translate}} <code class="clr-code">{{user.accountId}}</code></div>
+              <div>{{'CREATED_AT'|translate}} <code class="clr-code">{{user.createdAt| date}}</code></div>
+              <div>{{'CREATED_BY'|translate}} <code class="clr-code">{{user.createdBy}}</code></div>
+              <div>{{'UPDATED_AT'|translate}} <code class="clr-code">{{user.updatedAt | date}}</code></div>
+              <div>{{'UPDATED_BY'|translate}} <code class="clr-code">{{user.updatedBy}}</code></div>
+            </clr-signpost-content>
+          </clr-signpost>
+        </clr-dg-cell>
+        <!-- <clr-dg-action-overflow>
         <button class="action-item" *ngIf="medit == 'true'"  (click)="goToEdit(user)">Edit <clr-icon shape="edit" class="is-error"></clr-icon></button>
         <button class="action-item" *ngIf="mdelete == 'true'"  (click)="onDelete(user)">Delete<clr-icon shape="trash" class="is-error"></clr-icon></button>
       </clr-dg-action-overflow> -->
 
-                <clr-dg-row-detail *clrIfExpanded >
-                  <table class="table">
-                    <tr>
-                      <td class="td-title">Menu Name: </td>
-                      <td class="td-content">{{user.menuItemDesc}}</td>
-                    </tr>
-                  </table>
-                </clr-dg-row-detail>
-    </clr-dg-row>
+        <clr-dg-row-detail *clrIfExpanded>
+          <div class="mm-detail">
+            <div class="mm-detail__row"><span>Menu Name</span><strong>{{user.menuItemDesc}}</strong></div>
+            <div class="mm-detail__row"><span>Action Link</span><strong>{{user.main_menu_action_name}}</strong></div>
+            <div class="mm-detail__row"><span>Module</span><strong>{{user.moduleName}}</strong></div>
+          </div>
+        </clr-dg-row-detail>
+      </clr-dg-row>
 
-    <clr-dg-footer>
-      <clr-dg-pagination #pagination [clrDgPageSize]="10">
-        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
-        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-        of {{pagination.totalItems}} users
-      </clr-dg-pagination>
-    </clr-dg-footer>
-  </clr-datagrid>
+      <clr-dg-footer class="mm-grid-footer">
+        <clr-dg-pagination #pagination [clrDgPageSize]="10">
+          <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+          of {{pagination.totalItems}} users
+        </clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
+  </div>
 
-  <clr-modal [(clrModalOpen)]="modalAdd" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
+  <div *ngIf="viewMode==='cards'">
+    <div class="mm-cards">
+      <div class="mm-card-item" *ngFor="let user of filteredMenus; let i = index">
+        <div class="mm-card-item__header">
+          <!-- <div class="mm-card-item__icon"><clr-icon [shape]="getIconShape(user)"></clr-icon></div> -->
+          <div class="mm-card-item__title">{{user.menuItemDesc}}</div>
+          <div class="mm-card-item__badge" [class.mm-badge--success]="user.status==='Enable'"
+            [class.mm-badge--muted]="user.status!=='Enable'">{{user.status}}</div>
+        </div>
+        <div class="mm-card-item__body">
+          <div class="mm-kv"><span>ID</span><strong>{{user.menuId}}</strong></div>
+          <div class="mm-kv"><span>Sequence</span><strong>{{user.itemSeq}}</strong></div>
+          <div class="mm-kv"><span>Module</span><strong>{{user.moduleName}}</strong></div>
+          <div class="mm-kv mm-link"><clr-icon shape="link"></clr-icon><strong>{{user.main_menu_action_name}}</strong>
+          </div>
+        </div>
+        <div class="mm-card-item__footer">
+          <button class="btn btn-sm btn-outline" (click)="goToEdit(user)"><clr-icon shape="edit"></clr-icon>
+            Edit</button>
+          <button class="btn btn-sm btn-outline" (click)="onDelete(user)"><clr-icon shape="trash"></clr-icon>
+            Delete</button>
+          <button class="btn btn-sm" (click)="submenu(user.menuItemId)"><clr-icon shape="bullet-list"></clr-icon>
+            Submenu</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <clr-modal class="mm-modal" [(clrModalOpen)]="modalAdd" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
     <h3 class="modal-title">Add Menu Maintenance</h3>
     <div class="modal-body">
-          <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
         <div class="clr-row">
-           <!-- <div class="clr-col-sm-12">
+          <!-- <div class="clr-col-sm-12">
             <label for="name">Menu Item ID<span class="required-field">*</span></label>
            <input type="text" class="clr-input" formControlName="menuItemId">
           </div> -->
           <div class="clr-col-sm-12">
             <label for="name">Menu ID<span class="required-field">*</span></label>
-           <input type="text" class="clr-input" formControlName="menuId" name="menuId" [(ngModel)]="mainid" readonly>
+            <input type="text" class="clr-input" formControlName="menuId" name="menuId" [(ngModel)]="mainid" readonly>
           </div>
           <div class="clr-col-sm-12">
             <label for="name">Menu Item Name<span class="required-field">*</span></label>
-           <input type="text" class="clr-input" formControlName="menuItemDesc">
-           <div *ngIf="submitted && entryForm.controls.menuItemDesc.errors" class="error_mess">
-            <div *ngIf="submitted && entryForm.controls.menuItemDesc.errors.required" class="error_mess">*This field is Required</div>
-        </div>
+            <input type="text" class="clr-input" formControlName="menuItemDesc">
+            <div *ngIf="submitted && entryForm.controls.menuItemDesc.errors" class="error_mess">
+              <div *ngIf="submitted && entryForm.controls.menuItemDesc.errors.required" class="error_mess">*This field
+                is Required</div>
+            </div>
           </div>
           <div class="clr-col-sm-12">
             <label for="tags">Sequence</label>
             <input type="text" class="clr-input" formControlName="itemSeq">
             <div *ngIf="submitted && entryForm.controls.itemSeq.errors" class="error_mess">
-              <div *ngIf="submitted && entryForm.controls.itemSeq.errors.required" class="error_mess">*This field is Required</div>
+              <div *ngIf="submitted && entryForm.controls.itemSeq.errors.required" class="error_mess">*This field is
+                Required</div>
+            </div>
+            <div *ngIf="submitted && entryForm.controls.itemSeq.errors" class="error_mess">
+              <div *ngIf="submitted && entryForm.controls.itemSeq.errors.pattern" class="error_mess">*Required Only
+                Number</div>
+            </div>
           </div>
-          <div *ngIf="submitted && entryForm.controls.itemSeq.errors" class="error_mess">
-            <div *ngIf="submitted && entryForm.controls.itemSeq.errors.pattern" class="error_mess">*Required Only Number</div>
-        </div>
+          <div class="clr-col-sm-12">
+            <label for="tags">Module Name</label>
+            <input type="text" class="clr-input" formControlName="moduleName">
+            <div *ngIf="submitted && entryForm.controls.moduleName.errors" class="error_mess">
+              <div *ngIf="submitted && entryForm.controls.moduleName.errors.required" class="error_mess">*This field is
+                Required</div>
             </div>
-            <div class="clr-col-sm-12">
-              <label for="tags">Module Name</label>
-              <input type="text" class="clr-input" formControlName="moduleName">
-              <div *ngIf="submitted && entryForm.controls.moduleName.errors" class="error_mess">
-                <div *ngIf="submitted && entryForm.controls.moduleName.errors.required" class="error_mess">*This field is Required</div>
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="tags">Status</label>
+            <select id="" formControlName="status">
+              <option value="Enable">Enable</option>
+              <option value="Disable">Disable</option>
+            </select>
+            <div *ngIf="submitted && entryForm.controls.status.errors" class="error_mess">
+              <div *ngIf="submitted && entryForm.controls.status.errors.required" class="error_mess">*This field is
+                Required</div>
             </div>
-              </div>
-            <div class="clr-col-sm-12">
-              <label for="tags">Status</label>
-              <select  id="" formControlName="status">
-                <option value="Enable">Enable</option>
-                <option value="Disable">Disable</option>
-                </select>
-                <div *ngIf="submitted && entryForm.controls.status.errors" class="error_mess">
-                  <div *ngIf="submitted && entryForm.controls.status.errors.required" class="error_mess">*This field is Required</div>
-              </div>
-              </div>
-              <div class="clr-col-sm-12">
-                <label for="tags">Menu Action Link</label>
-                <input type="text" class="clr-input" formControlName="main_menu_action_name">
-                <div *ngIf="submitted && entryForm.controls.main_menu_action_name.errors" class="error_mess">
-                  <div *ngIf="submitted && entryForm.controls.main_menu_action_name.errors.required" class="error_mess">*This field is Required</div>
-              </div>
-                <!-- <select NAME="menu_id" >
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="tags">Menu Action Link</label>
+            <input type="text" class="clr-input" formControlName="main_menu_action_name">
+            <div *ngIf="submitted && entryForm.controls.main_menu_action_name.errors" class="error_mess">
+              <div *ngIf="submitted && entryForm.controls.main_menu_action_name.errors.required" class="error_mess">
+                *This field is Required</div>
+            </div>
+            <!-- <select NAME="menu_id" >
                   <option SELECTED >Home Menu
                           <OPTION >Home
       <OPTION >Job
@@ -348,94 +471,99 @@
 
 
       </select> -->
-                </div>
-                <div class="clr-col-sm-12">
-                  <label for="tags">Menu Icon Name</label>
-                  <input type="text" class="clr-input" formControlName="main_menu_icon_name">
-                  <div *ngIf="submitted && entryForm.controls.main_menu_icon_name.errors" class="error_mess">
-                    <div *ngIf="submitted && entryForm.controls.main_menu_icon_name.errors.required" class="error_mess">*This field is Required</div>
-                </div>
-                    </div>
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="tags">Menu Icon Name</label>
+            <input type="text" class="clr-input" formControlName="main_menu_icon_name">
+            <div *ngIf="submitted && entryForm.controls.main_menu_icon_name.errors" class="error_mess">
+              <div *ngIf="submitted && entryForm.controls.main_menu_icon_name.errors.required" class="error_mess">*This
+                field is Required</div>
+            </div>
+          </div>
         </div>
         <br>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline" (click)="modalAdd = false">Cancel</button>
-          <button type="submit" class="btn btn-primary" >ADD</button>
+          <button type="submit" class="btn btn-primary">ADD</button>
         </div>
-  </form>
+      </form>
     </div>
 
   </clr-modal>
 
-  <clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <clr-modal class="mm-modal" [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
 
     <div class="modal-body" *ngIf="rowSelected.menuItemId">
       <h1 class="delete">Are You Sure Want to delete?</h1>
       <h2 class="heading">{{rowSelected.menuItemId}}</h2>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline" (click)="modaldelete = false">Cancel</button>
-      <button type="submit" (click)="delete(rowSelected.menuItemId)" class="btn btn-primary" >Delete</button>
+        <button type="submit" (click)="delete(rowSelected.menuItemId)" class="btn btn-primary">Delete</button>
       </div>
     </div>
   </clr-modal>
 
 
-  <clr-modal [(clrModalOpen)]="modaledit" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
+  <clr-modal class="mm-modal" [(clrModalOpen)]="modaledit" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
     <h3 class="modal-title">Update Menu Maintenance</h3>
     <div class="modal-body" *ngIf="rowSelected.menuItemId">
       <h2 class="heading">{{rowSelected.menuItemId}}</h2>
-          <form (ngSubmit)="onUpdate(rowSelected.menuItemId)">
+      <form (ngSubmit)="onUpdate(rowSelected.menuItemId)">
         <div class="clr-row">
 
           <div class="clr-col-sm-12">
             <label for="name">Menu ID<span class="required-field">*</span></label>
-           <input type="text" class="clr-input" name="menuId" [(ngModel)]="rowSelected.menuId" readonly>
+            <input type="text" class="clr-input" name="menuId" [(ngModel)]="rowSelected.menuId" readonly>
           </div>
           <div class="clr-col-sm-12">
             <label for="name">Menu Item Name<span class="required-field">*</span></label>
-           <input type="text" class="clr-input" name="menuItemDesc" [(ngModel)]="rowSelected.menuItemDesc">
+            <input type="text" class="clr-input" name="menuItemDesc" [(ngModel)]="rowSelected.menuItemDesc">
           </div>
           <div class="clr-col-sm-12">
             <label for="tags">Sequence</label>
             <input type="text" class="clr-input" name="itemSeq" [(ngModel)]="rowSelected.itemSeq">
-            </div>
-            <div class="clr-col-sm-12">
-              <label for="tags">Module Name</label>
-              <input type="text" class="clr-input" name="moduleName" [(ngModel)]="rowSelected.moduleName">
-              </div>
-            <div class="clr-col-sm-12">
-              <label for="tags">Status</label>
-              <select  id="" name="status" [(ngModel)]="rowSelected.status">
-                <option value="Enable">Enable</option>
-                <option value="Disable">Disable</option>
-                </select>
-              </div>
-              <div class="clr-col-sm-12">
-                <label for="tags">Menu Action Link</label>
-                <input type="text" class="clr-input" name="main_menu_action_name" [(ngModel)]="rowSelected.main_menu_action_name">
-                </div>
-                <div class="clr-col-sm-12">
-                  <label for="tags">Menu Icon Name </label>
-                  <input type="text" class="clr-input" name="main_menu_icon_name" [(ngModel)]="rowSelected.main_menu_icon_name">
-                  </div>
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="tags">Module Name</label>
+            <input type="text" class="clr-input" name="moduleName" [(ngModel)]="rowSelected.moduleName">
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="tags">Status</label>
+            <select id="" name="status" [(ngModel)]="rowSelected.status">
+              <option value="Enable">Enable</option>
+              <option value="Disable">Disable</option>
+            </select>
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="tags">Menu Action Link</label>
+            <input type="text" class="clr-input" name="main_menu_action_name"
+              [(ngModel)]="rowSelected.main_menu_action_name">
+          </div>
+          <div class="clr-col-sm-12">
+            <label for="tags">Menu Icon Name </label>
+            <input type="text" class="clr-input" name="main_menu_icon_name"
+              [(ngModel)]="rowSelected.main_menu_icon_name">
+          </div>
         </div>
         <br>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline" (click)="modaledit = false">Cancel</button>
-          <button type="submit" class="btn btn-primary" >Update</button>
-          </div>
-  </form>
+          <button type="submit" class="btn btn-primary">Update</button>
+        </div>
+      </form>
     </div>
 
   </clr-modal>
 
 
-  <clr-modal [(clrModalOpen)]="modalCsv" [clrModalSize]="'sm'" [clrModalStaticBackdrop]="false">
+  <clr-modal class="mm-modal" [(clrModalOpen)]="modalCsv" [clrModalSize]="'sm'" [clrModalStaticBackdrop]="false">
     <h3 class="modal-title">Import File</h3>
     <div class="modal-body">
-        <input type="file" name="file" class="file" (change)="selectFile($event)" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+      <input type="file" name="file" class="file" (change)="selectFile($event)"
+        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" [disabled]="!selectedFiles" (click)="saveCsv()">Import</button>
+      <button class="btn btn-primary" type="button" [disabled]="!selectedFiles" (click)="saveCsv()">Import</button>
     </div>
   </clr-modal>
+</div>
