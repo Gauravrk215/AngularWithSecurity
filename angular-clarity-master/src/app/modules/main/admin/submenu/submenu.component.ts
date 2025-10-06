@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemeService } from 'src/app/services/theme.service';
 import { MenumaintanceService } from '../../../../services/admin/menumaintance.service';
 import { Rn_Main_Menu } from '../../../../models/builder/Rn_Main_Menu';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -30,13 +31,22 @@ export class SubmenuComponent implements OnInit {
   mainid;
   submitted = false;
   public entryForm: FormGroup;
+  // UI filter/view state
+  filterText = '';
+  statusFilter: 'All' | 'Enable' | 'Disable' | '' = 'All';
+  viewMode: 'cards' | 'table' = 'cards';
+
   constructor(private menuservice: MenumaintanceService,
     private toastr: ToastrService,
     private _fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router,) { }
+    private router: Router,
+    private themeService: ThemeService) { }
 
   ngOnInit(): void {
+    this.themeService.currentTheme$.subscribe(() => {
+      // Theme CSS variables applied globally
+    });
     this.id = this.route.snapshot.params["id"];
     console.log("project mainmenu with id = ", this.id);
     this.getById(this.id);
@@ -54,6 +64,34 @@ export class SubmenuComponent implements OnInit {
     });
 
     // this.getdata();
+  }
+
+  // Derived/filtered list for view
+  get filteredSubMenus(): any[] {
+    const items: any[] = (this.sub as unknown as any[]) || [];
+    const text = (this.filterText || '').toLowerCase();
+    const status = this.statusFilter;
+    return items.filter(m => {
+      const matchText = !text || (
+        (m.menuItemDesc || '').toLowerCase().includes(text) ||
+        (m.moduleName || '').toLowerCase().includes(text) ||
+        (m.main_menu_action_name || '').toLowerCase().includes(text)
+      );
+      const matchStatus = !status || status === 'All' || m.status === status;
+      return matchText && matchStatus;
+    });
+  }
+
+  setViewMode(mode: 'cards' | 'table') { this.viewMode = mode; }
+
+  // Resolve a safe icon
+  getIconShape(menu: any): string {
+    const raw = (menu?.main_menu_icon_name ?? menu?.mainMenuIconName ?? '').toString().trim();
+    const name = raw.toLowerCase();
+    const invalid = !name || name === 'undefined' || name === 'null' || name === '-' || name === 'na' || name === 'n/a';
+    if (invalid) return 'file';
+    const alias: Record<string, string> = { application:'application', applications:'applications', settings:'cog', config:'cog', user:'user', users:'users', folder:'folder', file:'file', tag:'tag', bookmark:'bookmark', home:'home', dashboard:'dashboard', menu:'list', list:'list', link:'link', module:'application' };
+    return alias[name] ?? name;
   }
   getById(id: any) {
     this.menuservice.getbyid(id).subscribe((data) => {

@@ -9,6 +9,7 @@ import { CsvService } from 'src/app/services/csv.service';
 import { ExcelService } from 'src/app/services/excel.service';
 import * as moment from 'moment';
 import { TranslateService } from '@ngx-translate/core';
+import { ThemeService } from 'src/app/services/theme.service';
 @Component({
   selector: 'app-menumaintance',
   templateUrl: './menumaintance.component.html',
@@ -31,6 +32,10 @@ export class MenumaintanceComponent implements OnInit {
   showdata;
   error;
   submitted = false;
+  // Quick filter UI state (no API/logic changes)
+  filterText = '';
+  statusFilter: 'All' | 'Enable' | 'Disable' | '' = 'All';
+  viewMode: 'cards' | 'table' = 'cards';
   constructor(private menuservice: MenumaintanceService,
     private toastr: ToastrService,
     private excel: ExcelService,
@@ -39,9 +44,14 @@ export class MenumaintanceComponent implements OnInit {
     private menuGroupService: MenuGroupService,
     private csvService: CsvService,
     private translate: TranslateService,
-    private router: Router,) { }
+    private router: Router,
+    private themeService: ThemeService) { }
 
   ngOnInit(): void {
+    // Ensure theme variables are applied; subscription keeps this view reactive to theme changes
+    this.themeService.currentTheme$.subscribe(() => {
+      // Theme applied globally via CSS variables; no additional handling needed here
+    });
     this.showdata = this.menuGroupService.getdata();
     console.log(this.showdata);
     this.mcreate = this.showdata.mcreate;
@@ -67,6 +77,71 @@ export class MenumaintanceComponent implements OnInit {
       main_menu_icon_name: ['', [Validators.required]]
     });
     this.getdata();
+  }
+
+  // Stats for UI (template-safe, no inline arrow functions)
+  get totalMenus(): number {
+    return this.menus ? this.menus.length : 0;
+  }
+
+  get enabledMenusCount(): number {
+    const list: any[] = (this.menus as unknown as any[]) || [];
+    return list.filter(menu => menu && menu.status === 'Enable').length;
+  }
+
+  get disabledMenusCount(): number {
+    const list: any[] = (this.menus as unknown as any[]) || [];
+    return list.filter(menu => menu && menu.status === 'Disable').length;
+  }
+
+  // Filtered list for view
+  get filteredMenus(): Rn_Main_Menu[] {
+    const items: any[] = (this.menus as unknown as any[]) || [];
+    const text = (this.filterText || '').toLowerCase();
+    const status = this.statusFilter;
+    return items.filter(m => {
+      const matchText = !text || (
+        (m.menuItemDesc || '').toLowerCase().includes(text) ||
+        (m.moduleName || '').toLowerCase().includes(text) ||
+        (m.main_menu_action_name || '').toLowerCase().includes(text)
+      );
+      const matchStatus = !status || status === 'All' || m.status === status;
+      return matchText && matchStatus;
+    });
+  }
+
+  setViewMode(mode: 'cards' | 'table') {
+    this.viewMode = mode;
+  }
+
+  // Resolve a safe Clarity icon shape for a menu item
+  getIconShape(menu: any): string {
+    const raw = (menu?.main_menu_icon_name ?? menu?.mainMenuIconName ?? '').toString().trim();
+    const name = raw.toLowerCase();
+    const invalid = !name || name === 'undefined' || name === 'null' || name === '-' || name === 'na' || name === 'n/a';
+    if (invalid) {
+      return 'file'; // universal fallback icon
+    }
+    // Optional alias normalization
+    const aliasMap: Record<string, string> = {
+      'home': 'home',
+      'dashboard': 'dashboard',
+      'menu': 'list',
+      'list': 'list',
+      'link': 'link',
+      'application': 'application',
+      'applications': 'applications',
+      'module': 'application',
+      'settings': 'cog',
+      'config': 'cog',
+      'user': 'user',
+      'users': 'users',
+      'folder': 'folder',
+      'file': 'file',
+      'tag': 'tag',
+      'bookmark': 'bookmark'
+    };
+    return aliasMap[name] ?? name;
   }
 
   switchLanguage(language: string) {

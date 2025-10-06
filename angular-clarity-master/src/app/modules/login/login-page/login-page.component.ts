@@ -97,6 +97,7 @@ export class LoginPageComponent implements OnInit {
       .subscribe(
         resp => {
           console.log('API Response received:', resp);
+          // Always reset loading state when response is received
           this.isLoading = false;
           
           // Handle different response formats
@@ -106,7 +107,7 @@ export class LoginPageComponent implements OnInit {
             return;
           }
           // Handle different response formats
-          if (resp.success === 'false') {
+          if (resp.success === 'false' || resp.success === false) {
             this.isError = true;
             this.errMsg = resp.message || 'Login failed';
             return;
@@ -123,6 +124,7 @@ export class LoginPageComponent implements OnInit {
         },
         (errResponse: HttpErrorResponse) => {
           console.log('API Error received:', errResponse);
+          // Always reset loading state when error occurs
           this.isLoading = false;
           this.isError = true;
           

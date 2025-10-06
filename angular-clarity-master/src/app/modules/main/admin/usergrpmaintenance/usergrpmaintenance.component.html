@@ -1,224 +1,320 @@
-
-<ol class="breadcrumb breadcrumb-arrow font-trirong">
+<ol class="breadcrumb breadcrumb-arrow font-trirong mm-breadcrumb">
   <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"><clr-icon shape="home"></clr-icon></a></li>
   <li><a href="javascript://"><clr-icon shape="lock"></clr-icon>{{ 'SECURITY' | translate }}</a></li>
   <li><a href="javascript://">{{'USER_GROUP_MAINTENANCE' | translate}}</a></li>
-
 </ol>
 
-
-<div class="dg-wrapper">
-  <div class="clr-row">
-    <div class="clr-col">
-      <h3>{{'USER_GROUP_MAINTENANCE' | translate}}</h3>
+<section class="ug-hero">
+  <div class="ug-hero__content">
+    <div class="ug-hero__icon"><clr-icon shape="users"></clr-icon></div>
+    <div>
+      <h2 class="ug-hero__title">{{'USER_GROUP_MAINTENANCE' | translate}}</h2>
+      <p class="ug-hero__subtitle">{{ 'SECURITY' | translate }}</p>
+    </div>
   </div>
-    <div class="clr-col" style="text-align: right;">
-      <div class="btn-group">
-        <button class="btn text-dark" (click)="downloadFiles()"><b>{{ 'DOWNLOAD_TEMPLATE' | translate }}</b></button>
+  <div class="ug-hero__actions">
+    <button class="ug-btn ug-btn-secondary" (click)="downloadFiles()">
+      <clr-icon shape="download"></clr-icon>
+      <span class="ug-btn-text">{{ 'DOWNLOAD_TEMPLATE' | translate }}</span>
+    </button>
+    <button class="ug-btn ug-btn-secondary" (click)="csvImport()">
+      <clr-icon shape="import"></clr-icon>
+      <span class="ug-btn-text">{{ 'IMPORT' | translate }}</span>
+    </button>
+    <button class="ug-btn ug-btn-secondary" (click)="onExport()">
+      <clr-icon shape="export"></clr-icon>
+      <span class="ug-btn-text">{{ 'EXPORT_XLSX' | translate }}</span>
+    </button>
+    <button id="add" class="ug-btn ug-btn-primary" (click)="goToAdd()">
+      <clr-icon shape="plus"></clr-icon>
+      <span class="ug-btn-text">{{ 'ADD' | translate }}</span>
+    </button>
+   
+  </div>
+</section>
 
-      </div>
-      <button class="btn btn-primary" (click)="csvImport()">{{ 'IMPORT' | translate }}</button>
-        <button class="btn btn-outline" (click)="onExport()">
-          <clr-icon shape="export"></clr-icon> {{ 'EXPORT_XLSX' | translate }}
-        </button>
-        <button id="add"  class="btn btn-primary" *ngIf="mcreate == 'true'" (click)="goToAdd()">
-          <clr-icon shape="plus"></clr-icon> {{ 'ADD' | translate }}
+<div class="ug-toolbar">
+  <div class="ug-toolbar__left">
+    <div class="ug-search">
+      <clr-icon shape="search"></clr-icon>
+      <input class="ug-search__input" type="text" [placeholder]="'SEARCH' | translate" [(ngModel)]="filterText" />
+    </div>
+  </div>
+  <div class="ug-toolbar__right">
+    <div class="ug-view-toggle">
+      <button class="ug-btn ug-btn-sm" [class.ug-btn-primary]="viewMode==='cards'" (click)="setViewMode('cards')">
+        <clr-icon shape="view-cards"></clr-icon>
+      </button>
+      <button class="ug-btn ug-btn-sm" [class.ug-btn-primary]="viewMode==='table'" (click)="setViewMode('table')">
+        <clr-icon shape="table"></clr-icon>
       </button>
     </div>
   </div>
+</div>
 
+<clr-datagrid class="ug-grid" [clrDgLoading]="loading" *ngIf="viewMode==='table'">
+  <clr-dg-placeholder>
+    <ng-template #loadingSpinner>
+      <clr-spinner>{{'LOADING' | translate}} ... </clr-spinner>
+    </ng-template>
+    <div *ngIf="error;else loadingSpinner">{{error}}</div>
+  </clr-dg-placeholder>
 
+  <clr-dg-column [clrDgField]="'usrGrp'">
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      {{'USERGROUP_NO' | translate}}
+    </ng-container>
+  </clr-dg-column>
 
+  <clr-dg-column [clrDgField]="'groupName'">
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      {{'GROUP_NAME' | translate}}
+    </ng-container>
+  </clr-dg-column>
+  <clr-dg-column [clrDgField]="'groupDesc'">
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      {{'GROUP_DESC' | translate}}
+    </ng-container>
+  </clr-dg-column>
+  <clr-dg-column [clrDgField]="'groupLevel'">
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      {{'GROUP_LEVEL' | translate}}
+    </ng-container>
+  </clr-dg-column>
+  <clr-dg-column [clrDgField]="'status'">
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      {{'STATUS' | translate}}
+    </ng-container>
+  </clr-dg-column>
+  <clr-dg-column [clrDgField]="'updateDateFormated'">
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      {{'UPDATED_DATE' | translate}}
+    </ng-container>
+  </clr-dg-column>
 
+  <clr-dg-row *clrDgItems="let user of filteredGroups;let i = index" [clrDgItem]="user">
+    <clr-dg-cell>{{user.usrGrp}}</clr-dg-cell>
+    <clr-dg-cell>{{user.groupName}}</clr-dg-cell>
+    <clr-dg-cell>{{user.groupDesc}}</clr-dg-cell>
+    <clr-dg-cell>{{user.groupLevel}}</clr-dg-cell>
+    <clr-dg-cell>
+      <span class="ug-status-badge" [class.ug-status-enabled]="user.status === 'E'"
+        [class.ug-status-disabled]="user.status === 'D'">
+        {{user.status === 'E' ? 'Enabled' : 'Disabled'}}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>{{user.updateDateFormated}}</clr-dg-cell>
 
+    <clr-dg-action-overflow>
+      <!-- <button class="ug-action-item" *ngIf="medit == 'true' || medit == true" (click)="goToEdit(user)">
+        <clr-icon shape="edit"></clr-icon>
+        {{'EDIT' | translate}}
+      </button> -->
+      <button class="ug-action-item" (click)="goToEdit(user)">
+        <clr-icon shape="edit"></clr-icon>
+        {{'EDIT' | translate}}
+      </button>
+      <button class="ug-action-item ug-btn-error" (click)="onDelete(user)">
+        <clr-icon shape="trash"></clr-icon>
+        {{'DELETE'|translate}}
+      </button>
+    </clr-dg-action-overflow>
 
+    <clr-dg-row-detail *clrIfExpanded>
+      <table class="table">
+        <tr>
+          <td class="td-title">username</td>
+          <td class="td-content">{{user.groupName}}</td>
+        </tr>
+      </table>
+    </clr-dg-row-detail>
+  </clr-dg-row>
 
-  <clr-datagrid [clrDgLoading]="loading">
-    <clr-dg-placeholder> <ng-template #loadingSpinner><clr-spinner>{{'LOADING' | translate}} ... </clr-spinner></ng-template>
-      <div *ngIf="error;else loadingSpinner">{{error}}</div></clr-dg-placeholder>
+  <clr-dg-footer class="ug-grid-footer">
+    <clr-dg-pagination #pagination [clrDgPageSize]="10">
+      <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Record per page</clr-dg-page-size>
+      {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+      of {{pagination.totalItems}} Records
+    </clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
 
-      <clr-dg-column [clrDgField]="'usrGrp'">
-        <ng-container *clrDgHideableColumn="{hidden: false}">
-          {{'USERGROUP_NO' | translate}}
-        </ng-container>
-      </clr-dg-column>
-      <clr-dg-column [clrDgField]="'groupName'">
-        <ng-container *clrDgHideableColumn="{hidden: false}">
-          {{'GROUP_NAME' | translate}}
-        </ng-container>
-      </clr-dg-column>
-      <clr-dg-column [clrDgField]="'groupDesc'">
-        <ng-container *clrDgHideableColumn="{hidden: false}">
-          {{'GROUP_DESC' | translate}}
-        </ng-container>
-      </clr-dg-column>
-      <clr-dg-column [clrDgField]="'groupLevel'">
-        <ng-container *clrDgHideableColumn="{hidden: false}">
-          {{'GROUP_LEVEL' | translate}}
-        </ng-container>
-      </clr-dg-column>
-      <clr-dg-column [clrDgField]="'status'">
-        <ng-container *clrDgHideableColumn="{hidden: false}">
-          {{'STATUS' | translate}}
-        </ng-container>
-      </clr-dg-column>
-      <clr-dg-column [clrDgField]="'updateDateFormated'">
-        <ng-container *clrDgHideableColumn="{hidden: false}">
-          {{'UPDATED_DATE' | translate}}
-        </ng-container>
-      </clr-dg-column>
-
-    <clr-dg-row *clrDgItems="let user of givendata;let i = index" [clrDgItem]="user">
-      <clr-dg-cell>{{user.usrGrp}}</clr-dg-cell>
-      <clr-dg-cell>{{user.groupName}}</clr-dg-cell>
-      <clr-dg-cell >{{user.groupDesc}}</clr-dg-cell>
-      <clr-dg-cell>{{user.groupLevel}}</clr-dg-cell>
-      <clr-dg-cell>{{user.status}}</clr-dg-cell>
-      <!-- <clr-dg-cell>{{user.usrGrp}}</clr-dg-cell> -->
-      <clr-dg-cell>{{user.updateDateFormated}}</clr-dg-cell>
-
-      <clr-dg-action-overflow>
-
-        <button class="action-item" *ngIf="medit == 'true'"  (click)="goToEdit(user)">   {{'EDIT' | translate}}</button>
-        <button class="action-item" (click)="onDelete(user)">{{'DELETE'|translate}}<clr-icon shape="trash" class="is-error"></clr-icon></button>
-      </clr-dg-action-overflow>
-
-      <clr-dg-row-detail *clrIfExpanded>
-        <table class="table">
-          <tr>
-            <td class="td-title">username</td>
-            <td class="td-content">{{user.groupName}}</td>
-          </tr>
-
-
-        </table>
-      </clr-dg-row-detail>
-    </clr-dg-row>
-
-    <clr-dg-footer>
-      <clr-dg-pagination #pagination [clrDgPageSize]="10">
-        <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Record per page</clr-dg-page-size>
-        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
-        of {{pagination.totalItems}} Records
-      </clr-dg-pagination>
-    </clr-dg-footer>
-  </clr-datagrid>
+<div class="ug-cards" *ngIf="viewMode==='cards'">
+  <div class="ug-card-item" *ngFor="let user of filteredGroups; let i = index">
+    <div class="ug-card-item__header">
+      <div class="ug-card-item__icon"><clr-icon shape="users"></clr-icon></div>
+     
+      <div class="ug-card-item__title">{{user.groupName}}</div>
+      <div class="ug-card-item__badge" [class.ug-status-enabled]="user.status === 'E'"
+        [class.ug-status-disabled]="user.status === 'D'">
+        {{user.status === 'E' ? 'Enabled' : 'Disabled'}}
+      </div>
+    </div>
+    <div class="ug-card-item__body">
+      <div class="ug-kv"><span>ID</span><strong>{{user.usrGrp}}</strong></div>
+      <div class="ug-kv"><span>Desc</span><strong>{{user.groupDesc}}</strong></div>
+      <div class="ug-kv"><span>Level</span><strong>{{user.groupLevel}}</strong></div>
+      <div class="ug-kv"><span>Updated</span><strong>{{user.updateDateFormated}}</strong></div>
+    </div>
+    <div class="ug-card-item__footer">
+      <!-- <button class="ug-btn ug-btn-sm ug-btn-outline" *ngIf="medit == 'true' || medit == true" (click)="goToEdit(user)">
+        <clr-icon shape="edit"></clr-icon> Edit
+      </button> -->
+      <button class="ug-btn ug-btn-sm ug-btn-outline" (click)="goToEdit(user)">
+        <clr-icon shape="edit"></clr-icon> Edit
+      </button>
+      <button class="ug-btn ug-btn-sm ug-btn-error" (click)="onDelete(user)">
+        <clr-icon shape="trash"></clr-icon> Delete
+      </button>
+    </div>
+  </div>
 </div>
 
 <clr-modal [(clrModalOpen)]="modalAdd" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
   <h3 class="modal-title">Add User Group Maintenance</h3>
   <div class="modal-body">
-        <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
-      <div class="clr-row">
-        <div class="clr-col-sm-12">
-          <label for="name">User Group<span class="required-field">*</span></label>
-         <input type="text" class="clr-input" formControlName="groupName">
-         <div *ngIf="submitted && entryForm.controls.groupName.errors" class="error_mess">
-          <div *ngIf="submitted && entryForm.controls.groupName.errors.required" class="error_mess">*This field is Required</div>
-      </div>
-        </div>
-        <div class="clr-col-sm-12">
-          <label for="name">Description<span class="required-field">*</span></label>
-         <input type="text" class="clr-input" formControlName="groupDesc">
-         <div *ngIf="submitted && entryForm.controls.groupDesc.errors" class="error_mess">
-          <div *ngIf="submitted && entryForm.controls.groupDesc.errors.required" class="error_mess">*This field is Required</div>
-      </div>
-        </div>
-        <div class="clr-col-sm-12">
-          <label for="tags">Status<span class="required-field">*</span></label>
-          <select  id="" formControlName="status">
-            <option value="E">Enable</option>
-              <option  value="D">Disable</option></select>
-              <div *ngIf="submitted && entryForm.controls.status.errors" class="error_mess">
-                <div *ngIf="submitted && entryForm.controls.status.errors.required" class="error_mess">*This field is Required</div>
-            </div>
-          </div>
-          <div class="clr-col-sm-12">
-            <label for="tags">Group Level<span class="required-field">*</span></label>
-            <select  id="" formControlName="groupLevel">
-              <option >10</option>
-              <option >20</option>
-             <option >30</option>
-             <option >40</option>
-             <option>50</option>
-            </select>
-            <div *ngIf="submitted && entryForm.controls.groupLevel.errors" class="error_mess">
-              <div *ngIf="submitted && entryForm.controls.groupLevel.errors.required" class="error_mess">*This field is Required</div>
-          </div>
-            </div>
-      </div>
-      <br>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline" (click)="modalAdd = false">Cancel</button>
-        <button type="submit" class="btn btn-primary" >ADD</button>
-        </div>
-</form>
-  </div>
+    <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
 
+      <div class="ug-form-group">
+        <label for="groupName" class="ug-form-label">User Group<span class="required-field">*</span></label>
+        <input type="text" id="groupName" class="ug-form-input" formControlName="groupName">
+        <div *ngIf="submitted && entryForm.controls.groupName.errors" class="ug-form-error">
+          <div *ngIf="submitted && entryForm.controls.groupName.errors.required">*This field is Required</div>
+        </div>
+      </div>
+
+      <div class="ug-form-group">
+        <label for="groupDesc" class="ug-form-label">Description<span class="required-field">*</span></label>
+        <input type="text" id="groupDesc" class="ug-form-input" formControlName="groupDesc">
+        <div *ngIf="submitted && entryForm.controls.groupDesc.errors" class="ug-form-error">
+          <div *ngIf="submitted && entryForm.controls.groupDesc.errors.required">*This field is Required</div>
+        </div>
+      </div>
+
+      <div class="ug-form-group">
+        <label for="status" class="ug-form-label">Status<span class="required-field">*</span></label>
+        <select id="status" class="ug-form-select" formControlName="status">
+          <option value="">Select Status</option>
+          <option value="E">Enable</option>
+          <option value="D">Disable</option>
+        </select>
+        <div *ngIf="submitted && entryForm.controls.status.errors" class="ug-form-error">
+          <div *ngIf="submitted && entryForm.controls.status.errors.required">*This field is Required</div>
+        </div>
+      </div>
+
+      <div class="ug-form-group">
+        <label for="groupLevel" class="ug-form-label">Group Level<span class="required-field">*</span></label>
+        <select id="groupLevel" class="ug-form-select" formControlName="groupLevel">
+          <option value="">Select Level</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
+        </select>
+        <div *ngIf="submitted && entryForm.controls.groupLevel.errors" class="ug-form-error">
+          <div *ngIf="submitted && entryForm.controls.groupLevel.errors.required">*This field is Required</div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="ug-btn ug-btn-outline" (click)="modalAdd = false">Cancel</button>
+        <button type="submit" class="ug-btn ug-btn-primary">ADD</button>
+      </div>
+    </form>
+  </div>
 </clr-modal>
 
 <clr-modal [(clrModalOpen)]="modaledit" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
   <h3 class="modal-title">Update User Group Maintenance</h3>
-
-
   <div class="modal-body" *ngIf="rowSelected.usrGrp">
-    <h2 class="heading">{{rowSelected.usrGrp}}</h2>
-        <form (ngSubmit)="onUpdate(rowSelected.usrGrp)">
-      <div class="clr-row">
-        <div class="clr-col-sm-12">
-          <label for="name">User Group<span class="required-field">*</span></label>
-         <input type="text" class="clr-input" [(ngModel)]="rowSelected.groupName" name="groupName">
-        </div>
-        <div class="clr-col-sm-12">
-          <label for="name">Description<span class="required-field">*</span></label>
-         <input type="text" class="clr-input" [(ngModel)]="rowSelected.groupDesc" name="groupDesc">
-        </div>
-        <div class="clr-col-sm-12">
-          <label for="tags">Status<span class="required-field">*</span></label>
-          <select  id="" [(ngModel)]="rowSelected.status" name="status">
-            <option value="E">Enable</option>
-              <option  value="D">Disable</option></select>
-          </div>
-          <div class="clr-col-sm-12">
-            <label for="tags">Group Level<span class="required-field">*</span></label>
-            <select  id="" [(ngModel)]="rowSelected.groupLevel" name="groupLevel">
-              <option >10</option>
-              <option >20</option>
-             <option >30</option>
-             <option >40</option>
-             <option>50</option>
-            </select>
-            </div>
-      </div>
-      <br>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline" (click)="modaledit = false">Cancel</button>
-        <button type="submit" class="btn btn-primary" >Update</button>
-        </div>
-</form>
-  </div>
 
-</clr-modal>
-<clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+    <div class="ug-form-group">
+      <label for="editUsrGrp" class="ug-form-label">User Group ID</label>
+      <input type="text" id="editUsrGrp" class="ug-form-input" [(ngModel)]="rowSelected.usrGrp" name="usrGrp" disabled>
+    </div>
 
-  <div class="modal-body" *ngIf="rowSelected.usrGrp">
-    <h1 class="delete">Are You Sure Want to delete?</h1>
-    <h2 class="heading">{{rowSelected.usrGrp}}</h2>
+    <div class="ug-form-group">
+      <label for="editGroupName" class="ug-form-label">User Group<span class="required-field">*</span></label>
+      <input type="text" id="editGroupName" class="ug-form-input" [(ngModel)]="rowSelected.groupName" name="groupName">
+    </div>
+
+    <div class="ug-form-group">
+      <label for="editGroupDesc" class="ug-form-label">Description<span class="required-field">*</span></label>
+      <input type="text" id="editGroupDesc" class="ug-form-input" [(ngModel)]="rowSelected.groupDesc" name="groupDesc">
+    </div>
+
+    <div class="ug-form-group">
+      <label for="editStatus" class="ug-form-label">Status<span class="required-field">*</span></label>
+      <select id="editStatus" class="ug-form-select" [(ngModel)]="rowSelected.status" name="status">
+        <option value="E">Enable</option>
+        <option value="D">Disable</option>
+      </select>
+    </div>
+
+    <div class="ug-form-group">
+      <label for="editGroupLevel" class="ug-form-label">Group Level<span class="required-field">*</span></label>
+      <select id="editGroupLevel" class="ug-form-select" [(ngModel)]="rowSelected.groupLevel" name="groupLevel">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+      </select>
+    </div>
+
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline" (click)="modaldelete = false">Cancel</button>
-    <button type="submit" (click)="delete(rowSelected.usrGrp)" class="btn btn-primary" >Delete</button>
+      <button type="button" class="ug-btn ug-btn-outline" (click)="modaledit = false">Cancel</button>
+      <button type="submit" (click)="onUpdate(rowSelected.usrGrp)" class="ug-btn ug-btn-primary">Update</button>
     </div>
   </div>
 </clr-modal>
 
+<clr-modal [(clrModalOpen)]="modaldelete" [clrModalSize]="'lg'" [clrModalStaticBackdrop]="true">
+  <div class="modal-body" *ngIf="rowSelected.usrGrp">
+    <div class="ug-delete-header">
+      <div class="ug-delete-icon">
+        <clr-icon shape="exclamation-triangle" size="48"></clr-icon>
+      </div>
+      <h1 class="ug-delete-title">Are You Sure Want to Delete?</h1>
+      <p class="ug-delete-subtitle">This action cannot be undone</p>
+    </div>
 
+    <div class="ug-delete-details">
+      <div class="ug-delete-detail-item">
+        <span class="ug-delete-detail-label">User Group ID:</span>
+        <span class="ug-delete-detail-value">{{rowSelected.usrGrp}}</span>
+      </div>
+      <div class="ug-delete-detail-item">
+        <span class="ug-delete-detail-label">Group Name:</span>
+        <span class="ug-delete-detail-value">{{rowSelected.groupName}}</span>
+      </div>
+      <div class="ug-delete-detail-item">
+        <span class="ug-delete-detail-label">Description:</span>
+        <span class="ug-delete-detail-value">{{rowSelected.groupDesc}}</span>
+      </div>
+      
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="ug-btn ug-btn-outline" (click)="modaldelete = false">Cancel</button>
+      <button type="submit" (click)="delete(rowSelected.usrGrp)" class="ug-btn ug-btn-error">Delete</button>
+    </div>
+  </div>
+</clr-modal>
 
 <clr-modal [(clrModalOpen)]="modalCsv" [clrModalSize]="'sm'" [clrModalStaticBackdrop]="false">
   <h3 class="modal-title">Import File</h3>
   <div class="modal-body">
-      <input type="file" name="file" class="file" (change)="selectFile($event)" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+    <div class="ug-form-group">
+      <label class="ug-form-label">Select CSV File</label>
+      <input type="file" name="file" class="ug-file-input" (change)="selectFile($event)"
+        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+    </div>
   </div>
   <div class="modal-footer">
-      <button class="btn btn-primary" type="button" [disabled]="!selectedFiles" (click)="saveCsv()">Import</button>
+    <button class="ug-btn ug-btn-outline" type="button" (click)="modalCsv = false">Cancel</button>
+    <button class="ug-btn ug-btn-primary" type="button" [disabled]="!selectedFiles" (click)="saveCsv()">Import</button>
   </div>
 </clr-modal>

@@ -1,5 +1,5 @@
 
-<ol class="breadcrumb breadcrumb-arrow font-trirong">
+<ol class="breadcrumb breadcrumb-arrow font-trirong mm-breadcrumb">
   <li><a href="javascript://" [routerLink]="['/cns-portal/dashboard/order']"><clr-icon shape="home"></clr-icon></a></li>
   <li><a href="javascript://"><clr-icon shape="lock"></clr-icon>Security</a></li>
   <li><a href="javascript://">Menu Maintenance</a></li>
@@ -9,22 +9,50 @@
 <span class="label label-light-blue" style="display: inline;margin-left: 30px;">Sub Menu</span><br> -->
 
 
-<div class="clr-row" style="margin-top: 15px;">
-  <div class="clr-col-8">
-    <h3 style="font-weight: 300;display: inline;">Sub-Menu Maintenance </h3>
-    <span class="label label-light-blue" style="display: inline;margin-left: 30px;">Sub Menu</span><br>
-
-</div>
-  <div class="clr-col-4" style="text-align: right;">
-    <button id="add" class="btn btn-primary" (click)="goToAdd()">
-      <clr-icon shape="plus"></clr-icon>ADD New
+<section class="mm-hero">
+  <div class="mm-hero__content">
+    <div class="mm-hero__icon"><clr-icon shape="organization"></clr-icon></div>
+    <div>
+      <h2 class="mm-hero__title">Sub-Menu Maintenance</h2>
+      <p class="mm-hero__subtitle">Sub Menu</p>
+    </div>
+  </div>
+  <div class="mm-hero__actions">
+    <button id="add" class="btn btn-primary mm-btn-primary" (click)="goToAdd()">
+      <clr-icon shape="plus"></clr-icon>
+      <span class="mm-btn-text">Add</span>
     </button>
+  </div>
+</section>
+
+<div class="mm-toolbar">
+  <div class="mm-toolbar__left">
+    <div class="mm-search">
+      <clr-icon shape="search"></clr-icon>
+      <input class="mm-search__input" type="text" placeholder="Search" [(ngModel)]="filterText" />
+    </div>
+  </div>
+  <div class="mm-toolbar__right">
+    <select class="mm-select" [(ngModel)]="statusFilter">
+      <option value="All">All</option>
+      <option value="Enable">Enabled</option>
+      <option value="Disable">Disabled</option>
+    </select>
+    <div class="mm-view-toggle">
+      <button class="btn btn-sm" [class.btn-primary]="viewMode==='cards'" (click)="setViewMode('cards')">
+        <clr-icon shape="view-cards"></clr-icon>
+      </button>
+      <button class="btn btn-sm" [class.btn-primary]="viewMode==='table'" (click)="setViewMode('table')">
+        <clr-icon shape="table"></clr-icon>
+      </button>
+    </div>
   </div>
 </div>
 
 
 
-  <clr-datagrid [clrDgLoading]="loading"  >
+  <div class="mm-card" *ngIf="viewMode==='table'">
+  <clr-datagrid class="mm-grid mm-grid--modern" [clrDgLoading]="loading">
     <clr-dg-placeholder><clr-spinner [clrMedium]="true">Loading ...</clr-spinner></clr-dg-placeholder>
 
     <clr-dg-column > <ng-container *clrDgHideableColumn="{hidden: false}">
@@ -49,19 +77,29 @@
       Status
     </ng-container></clr-dg-column>
 
-    <clr-dg-row *clrDgItems="let user of sub;let i = index" [clrDgItem]="user">
+    <clr-dg-row class="mm-row" *clrDgItems="let user of filteredSubMenus;let i = index" [clrDgItem]="user">
       <clr-dg-cell >{{i+1}}</clr-dg-cell>
-      <clr-dg-cell>{{user.menuItemDesc}}</clr-dg-cell>
+      <clr-dg-cell>
+        <div class="mm-item">
+          <!-- <div class="mm-item__avatar"><clr-icon [shape]="getIconShape(user)"></clr-icon></div> -->
+          <div class="mm-item__text">
+            <div class="mm-item__title">{{user.menuItemDesc}}</div>
+            <div class="mm-item__meta">ID: {{ user.menuId || 'â' }} | Seq: {{ (user.itemSeq === 0 || user.itemSeq) ? user.itemSeq : 'â' }}</div>
+          </div>
+        </div>
+      </clr-dg-cell>
       <clr-dg-cell >{{user.menuId}}</clr-dg-cell>
       <clr-dg-cell >{{user.itemSeq}}</clr-dg-cell>
       <clr-dg-cell > {{user.moduleName}} </clr-dg-cell>
       <clr-dg-cell > {{user.main_menu_action_name}}</clr-dg-cell>
       <clr-dg-cell >{{user.status}} </clr-dg-cell>
 
-      <clr-dg-action-overflow>
-        <button class="action-item" (click)="goToEdit(user)">Edit <clr-icon shape="edit" class="is-error"></clr-icon></button>
-        <button class="action-item" (click)="onDelete(user)">Delete<clr-icon shape="trash" class="is-error"></clr-icon></button>
-                </clr-dg-action-overflow>
+      <clr-dg-cell class="mm-cell mm-cell--action">
+        <div class="mm-actions-inline">
+          <button class="btn btn-sm btn-outline mm-btn-edit" (click)="goToEdit(user)"><clr-icon shape="edit"></clr-icon></button>
+          <button class="btn btn-sm btn-outline mm-btn-delete" (click)="onDelete(user)"><clr-icon shape="trash"></clr-icon></button>
+        </div>
+      </clr-dg-cell>
 
                 <clr-dg-row-detail *clrIfExpanded >
                   <table class="table">
@@ -73,7 +111,7 @@
                 </clr-dg-row-detail>
         </clr-dg-row>
 
-    <clr-dg-footer>
+    <clr-dg-footer class="mm-grid-footer">
       <clr-dg-pagination #pagination [clrDgPageSize]="10">
         <clr-dg-page-size [clrPageSizeOptions]="[10,20,50,100]">Users per page</clr-dg-page-size>
         {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
@@ -81,8 +119,31 @@
       </clr-dg-pagination>
     </clr-dg-footer>
   </clr-datagrid>
+  </div>
 
-  <clr-modal [(clrModalOpen)]="modalAdd" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
+  <div *ngIf="viewMode==='cards'">
+    <div class="mm-cards">
+      <div class="mm-card-item" *ngFor="let user of filteredSubMenus; let i = index">
+        <div class="mm-card-item__header">
+          <!-- <div class="mm-card-item__icon"><clr-icon [shape]="getIconShape(user)"></clr-icon></div> -->
+          <div class="mm-card-item__title">{{user.menuItemDesc}}</div>
+          <div class="mm-card-item__badge" [class.mm-badge--success]="user.status==='Enable'" [class.mm-badge--muted]="user.status!=='Enable'">{{user.status}}</div>
+        </div>
+        <div class="mm-card-item__body">
+          <div class="mm-kv"><span>ID</span><strong>{{ user.menuId || 'â' }}</strong></div>
+          <div class="mm-kv"><span>Sequence</span><strong>{{ (user.itemSeq === 0 || user.itemSeq) ? user.itemSeq : 'â' }}</strong></div>
+          <div class="mm-kv"><span>Module</span><strong class="mm-ellipsis">{{ user.moduleName || 'â' }}</strong></div>
+          <div class="mm-kv mm-link"><clr-icon shape="link"></clr-icon><strong class="mm-ellipsis">{{ user.main_menu_action_name || 'â' }}</strong></div>
+        </div>
+        <div class="mm-card-item__footer">
+          <button class="btn btn-sm btn-outline mm-btn-edit" (click)="goToEdit(user)"><clr-icon shape="edit"></clr-icon> Edit</button>
+          <button class="btn btn-sm btn-outline mm-btn-delete" (click)="onDelete(user)"><clr-icon shape="trash"></clr-icon> Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <clr-modal class="mm-modal" [(clrModalOpen)]="modalAdd" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
     <h3 class="modal-title">Add Sub Menu Maintenance</h3>
     <div class="modal-body">
           <form [formGroup]="entryForm" (ngSubmit)="onSubmit()">
@@ -181,7 +242,7 @@
         <br>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline" (click)="modalAdd = false">Cancel</button>
-          <button type="submit" class="btn btn-primary" >ADD</button>
+          <button type="submit" class="btn btn-primary">ADD</button>
           </div>
   </form>
     </div>
@@ -201,7 +262,7 @@
   </clr-modal>
 
 
-  <clr-modal [(clrModalOpen)]="modaledit" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
+  <clr-modal class="mm-modal" [(clrModalOpen)]="modaledit" [clrModalSize]="'md'" [clrModalStaticBackdrop]="true">
     <h3 class="modal-title">Update Sub Menu Maintenance</h3>
     <div class="modal-body" *ngIf="rowSelected.menuItemId">
       <h2 class="heading">{{rowSelected.menuItemId}}</h2>
@@ -240,7 +301,7 @@
         <br>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline" (click)="modaledit = false">Cancel</button>
-          <button type="submit" class="btn btn-primary" >Update</button>
+          <button type="submit" class="btn btn-primary">Update</button>
           </div>
   </form>
     </div>
