@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExcelService } from '../../../../services/excel.service';
@@ -8,12 +8,15 @@ import { ToastrService } from 'ngx-toastr';
 import { MenuGroupService } from 'src/app/services/admin/menu-group.service';
 import { CsvService } from 'src/app/services/csv.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ThemeService } from 'src/app/services/theme.service';
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-usergrpmaintenance',
   templateUrl: './usergrpmaintenance.component.html',
   styleUrls: ['./usergrpmaintenance.component.scss']
 })
-export class UsergrpmaintenanceComponent implements OnInit {
+export class UsergrpmaintenanceComponent implements OnInit, OnDestroy {
   loading = false;
   public entryForm: FormGroup;
   givendata;
@@ -23,10 +26,13 @@ export class UsergrpmaintenanceComponent implements OnInit {
   modaledit=false;
   modaldelete=false;
   rowSelected :any= {};
-  mcreate;
-  medit;
-  showdata;
+  mcreate: string | boolean = false;
+  medit: string | boolean = false;
+  showdata: any;
   submitted=false;
+  filterText: string = '';
+  viewMode: 'table' | 'cards' = 'cards';
+  private themeSubscription: Subscription;
 
   constructor(
     private excel: ExcelService,
@@ -38,21 +44,32 @@ export class UsergrpmaintenanceComponent implements OnInit {
     private mainservice:UsergrpmaintainceService,
     private csvService: CsvService,
     private translate: TranslateService,
+    private themeService: ThemeService,
   ) { }
+  
   switchLanguage(language: string) {
     this.translate.use(language);
   }
+  
   ngOnInit(): void {
+    this.themeSubscription = this.themeService.currentTheme$.subscribe(() => {
+      // Theme changes will automatically update CSS variables
+      // This triggers a re-render of themed elements
+    });
+    
     this.showdata = this.menuGroupService.getdata();
-    console.log(this.showdata);
-      this.mcreate=this.showdata.mcreate;
-      console.log(this.mcreate);
-      this.medit=this.showdata.medit
-      console.log(this.medit);
+    console.log('Showdata:', this.showdata);
+    if (this.showdata) {
+      // Handle both string and boolean values
+      this.mcreate = this.showdata.mcreate === 'true' || this.showdata.mcreate === true ? true : false;
+      this.medit = this.showdata.medit === 'true' || this.showdata.medit === true ? true : false;
+      console.log('MCREATE:', this.mcreate);
+      console.log('MEDIT:', this.medit);
+    }
 
     this.mainservice.getAll().subscribe((data) => {
-      console.log(data);
-      this.givendata = data;
+      console.log('Data received:', data);
+      this.givendata = data || [];
       if(this.givendata.length==0){
         this.error="No data Available";
         console.log(this.error)
@@ -72,6 +89,30 @@ export class UsergrpmaintenanceComponent implements OnInit {
 
       });
   }
+  
+  ngOnDestroy(): void {
+    if (this.themeSubscription) {
+      this.themeSubscription.unsubscribe();
+    }
+  }
+  
+  get totalGroups(): number {
+    const list: any[] = (this.givendata as unknown as any[]) || [];
+    return list.length;
+  }
+
+  
+  get filteredGroups(): any[] {
+    const items: any[] = (this.givendata as unknown as any[]) || [];
+    const text = (this.filterText || '').toLowerCase();
+    if (!text) { return items; }
+    return items.filter(g => (
+      (g?.groupName || '').toLowerCase().includes(text) ||
+      (g?.groupDesc || '').toLowerCase().includes(text)
+    ));
+  }
+
+  setViewMode(mode: 'table' | 'cards') { this.viewMode = mode; }
   onExport() {
     this.excel.exportAsExcelFile(this.givendata, 'user_',
       moment().format('YYYYMMDD_HHmmss'))
@@ -81,7 +122,8 @@ export class UsergrpmaintenanceComponent implements OnInit {
     //this.router.navigate(["../usermaintanceadd"],{relativeTo:this.route});
     }
   goToEdit(row){
-    this.rowSelected = row;
+    console.log('Edit clicked for row:', row);
+    this.rowSelected = {...row}; // Create a copy to avoid reference issues
     this.modaledit=true;
         //this.router.navigate(["../usermaintanceedit/"+ id], { relativeTo: this.route });
       }
@@ -135,7 +177,8 @@ export class UsergrpmaintenanceComponent implements OnInit {
       //  }
      }
      onDelete(row) {
-      this.rowSelected = row;
+      console.log('Delete clicked for row:', row);
+      this.rowSelected = {...row}; // Create a copy to avoid reference issues
        this.modaldelete=true;
     }
 

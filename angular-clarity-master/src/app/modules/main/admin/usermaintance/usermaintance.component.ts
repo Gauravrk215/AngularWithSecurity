@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ExcelService } from '../../../../services/excel.service';
@@ -8,12 +8,15 @@ import { MenuGroupService } from 'src/app/services/admin/menu-group.service';
 import { ToastrService } from 'ngx-toastr';
 import { CsvService } from 'src/app/services/csv.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ThemeService } from 'src/app/services/theme.service';
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-usermaintance',
   templateUrl: './usermaintance.component.html',
   styleUrls: ['./usermaintance.component.scss']
 })
-export class UsermaintanceComponent implements OnInit {
+export class UsermaintanceComponent implements OnInit, OnDestroy {
   loading = false;
   loading1=false;
   public entryForm: FormGroup;
@@ -21,13 +24,18 @@ export class UsermaintanceComponent implements OnInit {
   orders;
   modalAdd= false;
   modaledit=false;
-mcreate;
-medit;
-mdelete;
-showdata;
-error;
-modaldelete=false;
-rowSelected :any= {};
+  mcreate: string | boolean = false;
+  medit: string | boolean = false;
+  mdelete;
+  showdata;
+  error;
+  modaldelete=false;
+  rowSelected :any= {};
+  // UI-only state
+  filterText: string = '';
+  viewMode: 'table' | 'cards' = 'cards';
+  private themeSubscription: Subscription;
+  
   constructor(private excel: ExcelService,
     private _fb: FormBuilder,
     private router: Router, private toastr:ToastrService,
@@ -36,25 +44,41 @@ rowSelected :any= {};
     private mainservice:UsermaintanceService,
     private csvService: CsvService,
     private translate: TranslateService,
+    private themeService: ThemeService,
     ) {this.loading1 = true;
       setTimeout(() => {
         this.loading1 = false;
       }, 1000); }
-      switchLanguage(language: string) {
-        this.translate.use(language);
-      }
+      
+  switchLanguage(language: string) {
+    this.translate.use(language);
+  }
+  
   ngOnInit(): void {
+    this.themeSubscription = this.themeService.currentTheme$.subscribe(() => {
+      // Theme changes will automatically update CSS variables
+      // This triggers a re-render of themed elements
+    });
+    
     this.showdata = this.menuGroupService.getdata();
     console.log(this.showdata);
-      this.mcreate=this.showdata.mcreate;
+    if (this.showdata) {
+      this.mcreate = this.showdata.mcreate === 'true' || this.showdata.mcreate === true ? true : false;
       console.log(this.mcreate);
       this.mdelete=this.showdata.mdelete
       console.log(this.mdelete);
-      this.medit=this.showdata.medit
+      this.medit = this.showdata.medit === 'true' || this.showdata.medit === true ? true : false;
       console.log(this.medit);
+    }
     this.getData();
-
-     }
+  }
+  
+  ngOnDestroy(): void {
+    if (this.themeSubscription) {
+      this.themeSubscription.unsubscribe();
+    }
+  }
+  
   getData(){
     this.mainservice.getAll().subscribe((data) => {
       console.log(data);
@@ -78,6 +102,23 @@ rowSelected :any= {};
      }
     });
   }
+
+  // UI helpers
+  get totalUsers(): number {
+    const list: any[] = (this.givendata as unknown as any[]) || [];
+    return list.length;
+  }
+  get filteredUsers(): any[] {
+    const items: any[] = (this.givendata as unknown as any[]) || [];
+    const text = (this.filterText || '').toLowerCase();
+    if (!text) { return items; }
+    return items.filter(u => (
+      (u?.fullName || '').toLowerCase().includes(text) ||
+      (u?.email || '').toLowerCase().includes(text) ||
+      (u?.usrGrpName || '').toLowerCase().includes(text)
+    ));
+  }
+  setViewMode(mode: 'table' | 'cards') { this.viewMode = mode; }
 
 
   // csv
@@ -129,7 +170,7 @@ rowSelected :any= {};
         this.router.navigate(["../usermaintancedit/"+ id], { relativeTo: this.route });
       }
       onDelete(row) {
-        this.rowSelected = row;
+        this.rowSelected = {...row}; // Create a copy to avoid reference issues
          this.modaldelete=true;
       }
 
